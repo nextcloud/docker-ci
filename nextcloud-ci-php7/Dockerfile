@@ -1,10 +1,10 @@
 FROM debian
 RUN apt-get update && apt-get install -y php5-intl php5-gd git curl \
-	php5-cli php5-curl php5-imagick php5-pgsql php5-mcrypt php5-ldap \
-	php5-apcu php5-redis php5-sqlite
+    php5-cli php5-curl php5-imagick php5-pgsql php5-mcrypt php5-ldap \
+    php5-apcu php5-redis php5-sqlite
 RUN php5enmod zip intl gd
 RUN curl -O -L https://phar.phpunit.de/phpunit-4.8.24.phar \
-	&& chmod +x phpunit-4.8.24.phar \
-	&& mv phpunit-4.8.24.phar /usr/local/bin/phpunit
+    && chmod +x phpunit-4.8.24.phar \
+    && mv phpunit-4.8.24.phar /usr/local/bin/phpunit
 
 ADD nextcloud.ini /usr/local/etc/php/conf.d/nextcloud.ini
