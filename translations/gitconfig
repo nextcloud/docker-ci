@@ -1,0 +1,6 @@
+[user]
+    name = Nextcloud bot
+    email = bot@nextcloud.com
+    signingkey = 130DAB86D3FB356C
+[commit]
+    gpgsign = true
