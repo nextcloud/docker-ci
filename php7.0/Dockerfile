@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y php7.0-intl php7.0-gd git curl \
     php7.0-apcu php7.0-redis php7.0-sqlite php7.0-mysql php7.0-zip php7.0-xml \
     php7.0-mbstring php7.0-xdebug
 RUN phpenmod zip intl gd xdebug
-RUN curl -O -L https://phar.phpunit.de/phpunit-5.4.6.phar \
-    && chmod +x phpunit-5.4.6.phar \
-    && mv phpunit-5.4.6.phar /usr/local/bin/phpunit
+RUN curl -O -L https://phar.phpunit.de/phpunit-5.3.5.phar \
+    && chmod +x phpunit-5.3.5.phar \
+    && mv phpunit-5.3.5.phar /usr/local/bin/phpunit
 RUN curl -O -L https://getcomposer.org/download/1.1.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
