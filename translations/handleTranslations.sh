@@ -18,8 +18,8 @@ perl ./l10n.pl read
 # push sources
 tx push -s
 
-# pull translations
-tx pull -a --minimum-perc=75
+# pull translations - force pull because a fresh clone has newer time stamps
+tx pull -f -a --minimum-perc=75
 
 # build JS/JSON based on translations
 perl ./l10n.pl write
