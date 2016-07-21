@@ -3,7 +3,7 @@ FROM alpine
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
 # Install python and perl
-RUN apk update && apk add python3 py-pip perl gettext make gnupg git openssh
+RUN apk update && apk add python3 py-pip perl gettext make gnupg git openssh wget
 
 # Install Transifex client
 RUN pip install transifex-client
