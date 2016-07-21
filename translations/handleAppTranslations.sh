@@ -25,6 +25,7 @@ tx pull -f -a --minimum-perc=75
 # build JS/JSON based on translations
 perl ./l10n.pl $1 write
 
+rm l10n.pl
 cd ..
 
 # remove tests/
