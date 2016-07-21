@@ -33,7 +33,7 @@ rm -rf tests
 git checkout -- tests/
 
 # create git commit and push it
-git add .
+git add l10n/*.js l10n/*.json
 git commit -am "[tx-robot] updated from transifex" || true
 git push origin master
 echo "done"
