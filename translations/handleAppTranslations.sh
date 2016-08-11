@@ -28,9 +28,11 @@ perl ./l10n.pl $1 write
 rm l10n.pl
 cd ..
 
-# remove tests/
-rm -rf tests
-git checkout -- tests/
+if [ -d tests ]; then
+  # remove tests/
+  rm -rf tests
+  git checkout -- tests/
+fi
 
 # create git commit and push it
 git add l10n/*.js l10n/*.json
