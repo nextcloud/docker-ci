@@ -11,9 +11,32 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/server /app
 
-# build PO file
+versions='stable9 stable10 master'
+
+# build POT files for all versions
 cd l10n
-perl ./l10n.pl read
+mkdir stable-templates
+for version in $versions
+do
+  git checkout $version
+  perl ./l10n.pl read > /dev/null
+  cd templates
+  for file in $(ls)
+  do
+    mv $file ../stable-templates/$version.$file
+  done
+  cd ..
+done
+
+# merge POT files into one
+for file in $(ls stable-templates/master.*)
+do
+  name=$(echo $file | cut -b 25- )
+  msgcat --use-first stable-templates/*.$name > templates/$name
+done
+
+# remove intermediate POT files
+rm -rf stable-templates
 
 # push sources
 tx push -s
