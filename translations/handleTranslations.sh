@@ -44,17 +44,27 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=75
 
-# build JS/JSON based on translations
-perl ./l10n.pl write
-
 cd ..
 
-# remove tests/
-rm -rf tests
-git checkout -- tests/
+backportVersions='master stable10'
+for version in $backportVersions
+do
+  git checkout $version
+  cd l10n
 
-# create git commit and push it
-git add .
-git commit -am "[tx-robot] updated from transifex" || true
-git push origin master
-echo "done"
+  # build JS/JSON based on translations
+  perl ./l10n.pl write
+
+  cd ..
+
+  # remove tests/
+  rm -rf tests
+  git checkout -- tests/
+
+  # create git commit and push it
+  git add .
+  git commit -am "[tx-robot] updated from transifex" || true
+  git push origin $version
+
+  echo "done with $version"
+done
