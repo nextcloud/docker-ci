@@ -10,4 +10,4 @@ RUN curl -O -L https://getcomposer.org/download/1.1.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
-ADD nextcloud.ini /usr/local/etc/php/conf.d/nextcloud.ini
+ADD nextcloud.ini /etc/php5/cli/conf.d/nextcloud.ini
