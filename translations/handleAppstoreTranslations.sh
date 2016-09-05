@@ -25,7 +25,6 @@ tx pull -f -a --minimum-perc=75
 
 # create git commit and push it
 git add locale/
-git checkout test-it
 git commit -am "[tx-robot] updated from transifex" || true
-git push origin test-it
+git push origin master
 echo "done"
