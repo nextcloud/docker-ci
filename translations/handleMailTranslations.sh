@@ -12,7 +12,7 @@ gpg --list-keys
 git clone git@github.com:nextcloud/$1 /app
 
 # mail specific code
-php translation-extractor.php
+php build/translation-extractor.php
 
 # build PO file
 cd l10n
