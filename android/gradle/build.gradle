@@ -17,7 +17,7 @@ buildscript {
 apply plugin: 'com.android.application'
 
 ext {
-    supportLibraryVersion = '23.4.0'
+    supportLibraryVersion = '24.2.0'
 }
 
 repositories {
@@ -71,8 +71,8 @@ tasks.withType(Test) {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
