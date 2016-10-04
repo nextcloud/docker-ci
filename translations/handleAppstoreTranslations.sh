@@ -23,6 +23,9 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=75
 
+# don't add de_DE translation
+rm -rf locale/de_DE/
+
 # create git commit and push it
 git add locale/
 git commit -am "[tx-robot] updated from transifex" || true
