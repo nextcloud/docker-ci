@@ -9,7 +9,7 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/$1 /app
+git clone git@github.com:$1/$2 /app
 
 # build PO file
 if [ ! -d l10n ]; then
@@ -17,7 +17,7 @@ if [ ! -d l10n ]; then
 fi
 cd l10n
 wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
-perl ./l10n.pl $1 read
+perl ./l10n.pl $2 read
 
 # push sources
 tx push -s
@@ -26,7 +26,7 @@ tx push -s
 tx pull -f -a --minimum-perc=75
 
 # build JS/JSON based on translations
-perl ./l10n.pl $1 write
+perl ./l10n.pl $2 write
 
 rm l10n.pl
 cd ..
