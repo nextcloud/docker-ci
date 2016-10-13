@@ -15,6 +15,9 @@ git clone git@github.com:nextcloud/$1 /app
 php build/translation-extractor.php
 
 # build PO file
+if [ ! -d l10n ]; then
+  mkdir l10n
+fi
 cd l10n
 wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
 perl ./l10n.pl $1 read
