@@ -5,7 +5,7 @@ RUN yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 RUN yum install -y yum-utils
 RUN yum-config-manager --enable remi-php71
 RUN yum -y update
-RUN yum install -y php71.x86_64 php71-php-intl.x86_64 php71-php-gd.x86_64 php71-php-cli.x86_64 php71-php-pecl-imagick.x86_64 php71-php-pgsql.x86_64 php71-php-mcrypt.x86_64 php71-php-ldap.x86_64 php71-php-pecl-apcu.x86_64 php71-php-pecl-redis.x86_64  php71-php-pecl-mysql.x86_64 php71-php-pecl-zip.x86_64 php71-php-xml.x86_64 php71-php-mbstring.x86_64 php71-php-process.x86_64 php71-php-pecl-xdebug.x86_64 git curl which
+RUN yum install -y php71.x86_64 php71-php-intl.x86_64 php71-php-gd.x86_64 php71-php-cli.x86_64 php71-php-pecl-imagick.x86_64 php71-php-pgsql.x86_64 php71-php-mcrypt.x86_64 php71-php-ldap.x86_64 php71-php-pecl-apcu.x86_64 php71-php-pecl-redis.x86_64  php71-php-pecl-mysql.x86_64 php71-php-pecl-zip.x86_64 php71-php-xml.x86_64 php71-php-mbstring.x86_64 php71-php-process.x86_64 php71-php-pecl-xdebug.x86_64 git curl which make
 RUN ln -s /usr/bin/php71 /usr/bin/php
 RUN curl -O -L https://phar.phpunit.de/phpunit-5.5.4.phar \
     && chmod +x phpunit-5.5.4.phar \
