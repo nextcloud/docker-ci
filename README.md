@@ -11,3 +11,4 @@ To trigger a build of a specific container the tag needs to be named like the fo
 Other example:
 
 - git tag `php7.1-5` will only build `nextcloudci/php7.1:php7.1-5`
+
