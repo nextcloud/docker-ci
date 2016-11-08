@@ -1,7 +1,9 @@
 FROM debian:oldstable
 RUN apt-get update && apt-get install -y php5-intl php5-gd git curl \
     php5-cli php5-curl php5-imagick php5-mcrypt php5-ldap php5-sqlite \
-    make libmagickcore5-extra
+    make libmagickcore5-extra && \
+    apt-get autoremove -y && apt-get autoclean && apt-get clean && \
+    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 RUN php5enmod zip intl gd
 RUN curl -O -L https://phar.phpunit.de/phpunit-4.8.24.phar \
     && chmod +x phpunit-4.8.24.phar \
