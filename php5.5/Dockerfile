@@ -1,12 +1,14 @@
 FROM debian:oldstable
-RUN apt-get update && apt-get install -y wget
-RUN wget http://www.dotdeb.org/dotdeb.gpg && \
-    apt-key add dotdeb.gpg
-RUN echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
-RUN echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
-RUN apt-get update && apt-get install -y php5-intl php5-gd git curl \
+RUN apt-get update && apt-get install -y wget && \
+    wget http://www.dotdeb.org/dotdeb.gpg && \
+    apt-key add dotdeb.gpg && \
+    echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
+    echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list && \
+    apt-get update && apt-get install -y php5-intl php5-gd git curl \
     php5-cli php5-curl php5-imagick php5-mcrypt php5-ldap \
-    php5-apcu php5-redis php5-sqlite make libmagickcore5-extra
+    php5-apcu php5-redis php5-sqlite make libmagickcore5-extra && \
+    apt-get autoremove -y && apt-get autoclean && apt-get clean && \
+    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 RUN php5enmod zip intl gd
 RUN curl -O -L https://phar.phpunit.de/phpunit-4.8.24.phar \
     && chmod +x phpunit-4.8.24.phar \
