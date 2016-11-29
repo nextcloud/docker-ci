@@ -43,6 +43,8 @@ tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=75
+# pull all settings for language name
+tx pull -a -f -r nextcloud.settings-1 --minimum-perc=10
 
 cd ..
 
