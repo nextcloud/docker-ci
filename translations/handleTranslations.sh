@@ -44,7 +44,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=75
 # pull all settings for language name
-tx pull -a -f -r nextcloud.settings-1 --minimum-perc=10
+tx pull -a -f -r nextcloud.settings-1 --minimum-perc=1
 
 cd ..
 
@@ -52,6 +52,12 @@ backportVersions='master stable10'
 for version in $backportVersions
 do
   git checkout $version
+
+  # delete removed l10n files that are used for language detection (they will be recreated during the write)
+  find core/l10n -type f -delete
+  find lib/l10n -type f -delete
+  find settings/l10n -type f -delete
+
   cd l10n
 
   # build JS/JSON based on translations
