@@ -20,4 +20,4 @@ EXPOSE 137/udp 138/udp 139 445
 
 COPY smb.conf /etc/samba/smb.conf
 
-CMD ["/usr/sbin/smbd", "-FSD -d 1"]
+CMD ["/usr/sbin/smbd", "-FSD", "-d 1"]
