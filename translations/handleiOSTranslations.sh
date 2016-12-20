@@ -9,7 +9,12 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/ios-translations /app
+git clone git@github.com:nextcloud/ios /app
+cd iOSClient
+
+# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
+rm -r *.lproj
+git checkout -- .
 
 # push sources
 tx push -s
