@@ -14,7 +14,7 @@ cd iOSClient
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
 rm -r *.lproj
-git checkout -- .
+git checkout -- en.lproj
 
 # push sources
 tx push -s
