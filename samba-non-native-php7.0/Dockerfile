@@ -1,12 +1,12 @@
 # Based upon https://hub.docker.com/r/silvershell/samba/
-From ubuntu:16.04
+From nextcloudci/php7.0:php7.0-6 
 
 ENV SMB_USER smbuser
 ENV SMB_PASSWORD smbpassword
 
 RUN apt-get update
 
-RUN apt-get install -y samba
+RUN apt-get install -y samba smbclient
 RUN mkdir -p /opt/samba/share
 RUN chmod 777 /opt/samba/share
 
@@ -20,4 +20,3 @@ EXPOSE 137/udp 138/udp 139 445
 
 COPY smb.conf /etc/samba/smb.conf
 
-CMD ["/usr/sbin/smbd", "-FSD", "-d 1"]
