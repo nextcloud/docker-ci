@@ -33,6 +33,8 @@ for folder in $l10nFolder; do
     fi
 done
 
+rm -rf ./de_DE.lproj
+
 # create git commit and push it
 git add .
 git commit -am "[tx-robot] updated from transifex" || true
