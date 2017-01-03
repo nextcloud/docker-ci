@@ -33,7 +33,8 @@ for folder in $l10nFolder; do
     fi
 done
 
-rm -rf ./de_DE.lproj
+rm -rf ./de.lproj
+mv de_DE.lproj de.lproj
 
 # create git commit and push it
 git add .
