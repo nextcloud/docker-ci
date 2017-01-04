@@ -24,13 +24,9 @@ RUN yum -y install rh-php56 rh-php56-php rh-php56-php-gd rh-php56-php-mbstring r
 RUN scl enable rh-php56 bash
 RUN yum -y install https://www.softwarecollections.org/en/scls/remi/php56more/epel-7-x86_64/download/remi-php56more-epel-7-x86_64.noarch.rpm
 RUN yum -y install more-php56-php-mcrypt.x86_64
-RUN echo "LoadModule php5_module /opt/rh/httpd24/root/usr/lib64/httpd/modules/librh-php56-php5.so" >> /etc/httpd/conf/httpd.conf
-RUN echo "<FilesMatch \.php$>" >> /etc/httpd/conf/httpd.conf
-RUN echo "SetHandler application/x-httpd-php" >> /etc/httpd/conf/httpd.conf
-RUN echo "</FilesMatch>" >> /etc/httpd/conf/httpd.conf
 RUN chmod -R 777 /opt/
 RUN rm -f /etc/httpd/conf.d/nss.conf
-RUN sed -i '/	DirectoryIndex index.html/c\	DirectoryIndex index.php' /etc/httpd/conf/httpd.conf
+ADD apache/httpd.conf /etc/httpd/conf/httpd.conf
 
 # Add the startup file
 ADD start.sh /start.sh
