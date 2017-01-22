@@ -79,7 +79,7 @@ foreach ($files as $file) {
 	}
 
 	$info = [
-        'logLines' => str_replace('"', '\"', implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0)))),
+        'logLines' => htmlentities(implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0)))),
         'status' => $result->errorMessage === '' ? 'success' : 'error',
         'duration' => $diff->format($format),
         'start' => $result->startDate->format('Y-m-d H:i:s'),
@@ -142,8 +142,8 @@ foreach ($files as $file) {
 					        if($i >= 5) { continue; } $i++;
 					    ?>
 
-                        <td class="status <?php echo $element['status']; ?>" title="<?php echo $element['start']; ?>" onmouseover='showDetails("<?php echo $element['logLines']; ?>")'
-                            onclick='showDetails("<?php echo $element['logLines']; ?>")' onmouseout="hideDetails()">
+                        <td class="status <?php echo $element['status']; ?>" title="<?php echo $element['start']; ?>" onmouseover="showDetails('<?php echo $element['logLines']; ?>')"
+                            onclick="showDetails('<?php echo $element['logLines']; ?>')" onmouseout="hideDetails()">
                             <img src="static/img/<?php echo $element['status']; ?>.svg">
 							<?php if($element['duration'] !== '') { ?>
                                 <span class="time"><?php echo $element['duration']; ?></span>
