@@ -67,7 +67,7 @@
       ]
     },
     {
-      "name": "windowsphone",
+      "name": "windowsphoneapp",
       "arguments": [
         "windows-universal"
       ]
