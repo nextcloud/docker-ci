@@ -1,0 +1,77 @@
+body {
+  padding: 1em;
+
+  max-width: 1024px;
+  margin: auto;
+}
+body * {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: lighter;
+}
+
+h1, h2, h3, h4 {
+  font-weight: lighter;
+  text-align: center;
+}
+
+.overview {
+  width: 100%;
+  border-left: 0;
+  border-right: 0;
+}
+
+.overview thead {
+  background-color: #fff;
+  color: #AAA;
+}
+
+.overview th.status {
+  text-align: center;
+}
+
+.overview .status {
+  padding: 8px;
+}
+
+.overview .status img {
+  padding: 3px 0;
+}
+
+.overview td.status {
+  opacity: .6;
+}
+
+.overview .status .time {
+  float: right;
+}
+
+.overview .status.success {
+  color: green;
+}
+.overview .status.error {
+  color: red;
+}
+.overview .status.unknown img {
+  margin: auto;
+  display: block;
+}
+
+.footer {
+  text-align: center;
+  opacity: .3;
+  font-size: 10pt;
+}
+
+.details-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.details-bar pre {
+  background-color: #e0e0e0;
+  display: block;
+  padding: 5px 10px;
+  margin-bottom: 0;
+}

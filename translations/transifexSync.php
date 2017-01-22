@@ -4,13 +4,32 @@ declare(strict_types=1);
 
 $logPath = '/var/log/cronie/';
 $dataPath = '/srv/cronie-data';
+$triggerPath = '/var/log/cronie/trigger';
 
 if (gethostname() !== 'transifex-sync') {
-	$logPath = __DIR__ . '/log/';
+	$logPath = __DIR__ . '/status/log/';
 	$dataPath = __DIR__ . '/data/';
+	$triggerPath = __DIR__ . '/status/trigger';
+}
+
+$triggerContent = '';
+if ($argc === 2 && $argv[1] === 'trigger') {
+	if (file_exists($triggerPath)){
+		$triggerContent = file_get_contents($triggerPath);
+		if($triggerContent === '') {
+			die();
+		}
+		file_put_contents($triggerPath, '');
+	} else {
+		die();
+	}
 }
 
 class ResultInfo {
+	/** @var string */
+	public $name;
+	/** @var string */
+	public $arguments;
 	/** @var DateTime */
 	public $startDate;
 	/** @var DateTime */
@@ -20,6 +39,8 @@ class ResultInfo {
 
 	public function getJson(): string {
 		$data = [
+			'name' => $this->name,
+			'arguments' => $this->arguments,
 			'start' => $this->startDate->format(\DateTime::ISO8601),
 			'end' => $this->endDate->format(\DateTime::ISO8601),
 			'error' => $this->errorMessage
@@ -38,13 +59,14 @@ function runJob(string $name, string $arguments, string $dataPath, string $logPa
 
 	$result = new ResultInfo();
 
+	$result->name = $name;
+	$result->arguments = $arguments;
 	$result->startDate = new DateTime();
 
 	print('  Pulling container' . PHP_EOL);
 	shell_exec('docker pull nextcloudci/translations' . $imageName);
 	print('  Running container' . PHP_EOL);
 	exec('docker run -v ' . $dataPath . 'transifexrc:/root/.transifexrc -v ' . $dataPath . 'gpg:/gpg -v ' . $dataPath . 'ssh/id_rsa:/root/.ssh/id_rsa --rm -i nextcloudci/translations' . $imageName . ' ' . $arguments . ' 2>&1', $output, $returnValue);
-
 
 	$result->endDate = new DateTime();
 
@@ -112,7 +134,8 @@ foreach ($jobs as $job) {
 	foreach ($argumentsList as $arguments) {
 		print('  Arguments: ' . $arguments . PHP_EOL);
 
-		if ($arguments !== 'password_policy') {
+		// if trigger call then skip all except the one to be triggered
+		if ($triggerContent !== '' && $triggerContent !== trim($name . ' ' . $arguments)) {
 			continue;
 		}
 		$result = runJob($name, $arguments, $dataPath, $logPath);
