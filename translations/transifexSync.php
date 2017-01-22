@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $logPath = '/var/log/cronie/';
-$dataPath = '/srv/cronie-data';
+$dataPath = '/srv/cronie-data/';
 $triggerPath = '/var/log/cronie/trigger';
 
 if (gethostname() !== 'transifex-sync') {
