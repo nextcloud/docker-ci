@@ -79,7 +79,7 @@ foreach ($files as $file) {
 	}
 
 	$info = [
-        'logLines' => implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0))),
+        'logLines' => str_replace('"', '\"', implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0)))),
         'status' => $result->errorMessage === '' ? 'success' : 'error',
         'duration' => $diff->format($format),
         'start' => $result->startDate->format('Y-m-d H:i:s'),
