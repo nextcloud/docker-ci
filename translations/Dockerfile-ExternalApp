@@ -1,0 +1,5 @@
+FROM nextcloudci/translations:translation-8
+
+MAINTAINER Morris Jobke <hey@morrisjobke.de>
+
+ADD handleExternalAppTranslations.sh /handleTranslations.sh
