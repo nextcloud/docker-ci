@@ -27,4 +27,4 @@ docker run \
   nextcloudci/translations:1.0.8
 ```
 
-This will run the `handleTranslations.sh` on current master of nextcloud/server. This will get expanded to handle also translations for other apps.
+This will run the `handleTranslations.sh` on current master of nextcloud/server.
