@@ -55,6 +55,12 @@
       ]
     },
     {
+      "name": "externalandroid",
+      "arguments": [
+        "stefan-niedermann nextcloud-notes"
+      ]
+    },
+    {
       "name": "mail",
       "arguments": [
         "mail"
