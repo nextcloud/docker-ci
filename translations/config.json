@@ -1,0 +1,76 @@
+{
+  "jobs": [
+    {
+      "name": "server",
+      "arguments": [
+        ""
+      ]
+    },
+    {
+      "name": "app",
+      "arguments": [
+        "announcementcenter",
+        "activity",
+        "calendar",
+        "contacts",
+        "files_automatedtagging",
+        "files_accesscontrol",
+        "firstrunwizard",
+        "gallery",
+        "maps",
+        "news",
+        "nextant",
+        "nextcloud_announcements",
+        "notes",
+        "notifications",
+        "passman",
+        "password_policy",
+        "richdocuments",
+        "serverinfo",
+        "spreed",
+        "tasks",
+        "twofactor_sms",
+        "twofactor_totp",
+        "twofactor_u2f",
+        "user_saml"
+      ]
+    },
+    {
+      "name": "externalapp",
+      "arguments": [
+        "janis91 nextnotes",
+        "janis91 ocr"
+      ]
+    },
+    {
+      "name": "ios",
+      "arguments": [
+        ""
+      ]
+    },
+    {
+      "name": "android",
+      "arguments": [
+        ""
+      ]
+    },
+    {
+      "name": "mail",
+      "arguments": [
+        "mail"
+      ]
+    },
+    {
+      "name": "appstore",
+      "arguments": [
+        "appstore"
+      ]
+    },
+    {
+      "name": "windowsphoneapp",
+      "arguments": [
+        "windows-universal"
+      ]
+    }
+  ]
+}
