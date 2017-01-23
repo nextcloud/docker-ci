@@ -41,6 +41,16 @@ h1, h2, h3, h4 {
   opacity: .6;
 }
 
+.overview td a {
+  color: black;
+  text-decoration: none;
+}
+.overview td a:hover,
+.overview td a:focus {
+  color: black;
+  text-decoration: underline;
+}
+
 .overview .status .time {
   float: right;
 }

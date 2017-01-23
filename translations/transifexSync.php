@@ -15,7 +15,7 @@ if (gethostname() !== 'transifex-sync') {
 $triggerContent = '';
 if ($argc === 2 && $argv[1] === 'trigger') {
 	if (file_exists($triggerPath)){
-		$triggerContent = file_get_contents($triggerPath);
+		$triggerContent = trim(file_get_contents($triggerPath));
 		if($triggerContent === '') {
 			die();
 		}

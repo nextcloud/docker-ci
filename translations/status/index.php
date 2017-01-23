@@ -1,11 +1,11 @@
 <?php
 
 $logPath = '/var/log/cronie/';
-$androidTriggered =	file_exists('/var/log/cronie/trigger') ? trim(file_get_contents('/var/log/cronie/trigger')) === 'android' : false;
+$triggeredName =	file_exists('/var/log/cronie/trigger') ? trim(file_get_contents('/var/log/cronie/trigger')) : false;
 
 if (gethostname() !== 'transifex-sync') {
-	$logPath = __DIR__ .  '/logs/';
-	$androidTriggered =	file_exists(__DIR__. '/trigger') ? trim(file_get_contents(__DIR__. '/trigger')) === 'android' : false;
+	$logPath = __DIR__ .  '/log/';
+	$triggeredName =	file_exists(__DIR__. '/trigger') ? trim(file_get_contents(__DIR__. '/trigger')) : false;
 }
 
 class ResultInfo {
@@ -79,7 +79,7 @@ foreach ($files as $file) {
 	}
 
 	$info = [
-        'logLines' => htmlentities(implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0)))),
+        'logLines' => str_replace(['"', '\''], ['\"', '\\\''], htmlentities(implode('\n', array_slice($logLines, max(sizeof($logLines) - 10, 0))))),
         'status' => $result->errorMessage === '' ? 'success' : 'error',
         'duration' => $diff->format($format),
         'start' => $result->startDate->format('Y-m-d H:i:s'),
@@ -127,13 +127,9 @@ foreach ($files as $file) {
             <?php foreach ($runs as $name => $list) { ?>
                 <tr>
                     <td><?php
-                    if ($name === 'android ') {
-                        echo '<a href="/trigger.php">' . trim($name) . '</a>';
-                        if ($androidTriggered) {
-                            echo ' (triggered)';
-                        }
-                    } else {
-                        echo $name;
+                    echo '<a href="/trigger.php?j=' . trim($name) . '">' . trim($name) . '</a>';
+                    if ($triggeredName === trim($name)) {
+                        echo ' (triggered)';
                     }
                     ?></td>
 					<?php
@@ -175,12 +171,12 @@ foreach ($files as $file) {
 <script>
     var detailsNode = document.getElementById('details');
     function showDetails(logs) {
-        console.log('abc', logs)
+        console.log('show', logs);
         detailsNode.innerHTML = logs;
         detailsNode.parentNode.parentNode.classList.remove('hidden');
     }
     function hideDetails() {
-        console.log('hide')
+        console.log('hide');
         detailsNode.parentNode.parentNode.classList.add('hidden');
     }
 </script>
