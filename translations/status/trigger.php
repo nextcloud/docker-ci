@@ -5,7 +5,7 @@ if(isset($_GET['j'])) {
 	$job = $_GET['j'];
 }
 
-if (preg_match('/^[a-z0-9 _-]+$/', $job) !== 1) {
+if (preg_match('/^[a-zA-Z0-9 _-]+$/', $job) !== 1) {
 	print('Invalid job id');
 	die();
 }
