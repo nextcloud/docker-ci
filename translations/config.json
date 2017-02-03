@@ -58,6 +58,7 @@
     {
       "name": "externalandroid",
       "arguments": [
+        "nerzhul ownCloud-SMS-App",
         "stefan-niedermann nextcloud-notes"
       ]
     },
