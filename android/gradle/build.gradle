@@ -8,9 +8,12 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
 
@@ -20,12 +23,15 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 
 ext {
-    supportLibraryVersion = '24.2.1'
+    supportLibraryVersion = '25.0.0'
 }
 
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 
     flatDir {
         dirs 'libs'
@@ -34,14 +40,19 @@ repositories {
 
 dependencies {
     /// dependencies for app building
+    compile 'com.android.support:multidex:1.0.1'
 
+    compile 'com.github.nextcloud:android-library:1.0.11'
     compile "com.android.support:support-v4:${supportLibraryVersion}"
     compile "com.android.support:design:${supportLibraryVersion}"
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${supportLibraryVersion}"
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
+    compile 'com.google.code.findbugs:annotations:2.0.1'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile 'com.google.android.gms:play-services:10.2.0'
+    compile 'com.evernote:android-job:1.1.7-SNAPSHOT'
 
     /// dependencies for local unit tests
     testCompile 'junit:junit:4.12'
