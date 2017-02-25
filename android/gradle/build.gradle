@@ -8,12 +8,10 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
@@ -23,24 +21,137 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 
 ext {
-    supportLibraryVersion = '25.0.0'
+    supportLibraryVersion = '24.2.1'
+
+    travisBuild = System.getenv("TRAVIS") == "true"
+
+    // allows for -Dpre-dex=false to be set
+    preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 }
 
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
 
     flatDir {
         dirs 'libs'
     }
 }
 
+android {
+    lintOptions {
+        abortOnError true
+        lintConfig file("${project.rootDir}/lint.xml")
+        htmlReport true
+        htmlOutput file("$project.buildDir/reports/lint/lint.html")
+    }
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // arguments to be passed to functional tests
+        testInstrumentationRunnerArgument "TEST_USER", "\"$System.env.OCTEST_APP_USERNAME\""
+        testInstrumentationRunnerArgument "TEST_PASSWORD", "\"$System.env.OCTEST_APP_PASSWORD\""
+        testInstrumentationRunnerArgument "TEST_SERVER_URL", "\"$System.env.OCTEST_SERVER_BASE_URL\""
+
+
+        productFlavors{
+            generic {
+                applicationId 'com.nextcloud.client'
+            }
+
+            custom {
+                // structure is:
+                // domain tld
+                // domain name
+                // .client
+                applicationId 'com.custom.client'
+            }
+        }
+
+        configurations {
+            customCompile
+        }
+    }
+
+    // adapt structure from Eclipse to Gradle/Android Studio expectations;
+    // see http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Configuring-the-Structure
+
+    dexOptions {
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        preDexLibraries = preDexEnabled && !travisBuild
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+    }
+    task checkstyle(type: Checkstyle) {
+        configFile = file("${rootProject.projectDir}/checkstyle.xml")
+        configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+        classpath = files()
+    }
+
+    task pmd(type: Pmd) {
+        ruleSetFiles = files("${project.rootDir}/pmd-ruleset.xml")
+        ignoreFailures = false
+        ruleSets = []
+
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            xml {
+                destination "$project.buildDir/reports/pmd/pmd.xml"
+            }
+            html {
+                destination "$project.buildDir/reports/pmd/pmd.html"
+            }
+        }
+    }
+
+    task findbugs(type: FindBugs) {
+        ignoreFailures = false
+        effort = "max"
+        reportLevel = "high"
+        classes = files("$project.buildDir/intermediates/classes")
+        excludeFilter = new File("${project.rootDir}/findbugs-filter.xml")
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            html {
+                destination "$project.buildDir/reports/findbugs/findbugs.html"
+            }
+        }
+        classpath = files()
+    }
+    check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+
+}
+
 dependencies {
     /// dependencies for app building
-    compile 'com.android.support:multidex:1.0.1'
+    compile name: 'touch-image-view'
 
     compile 'com.github.nextcloud:android-library:1.0.11'
     compile "com.android.support:support-v4:${supportLibraryVersion}"
@@ -48,16 +159,13 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile 'com.getbase:floatingactionbutton:1.10.1'
-
     compile 'com.google.code.findbugs:annotations:2.0.1'
-    compile group: 'commons-io', name: 'commons-io', version: '2.4'
-    compile 'com.google.android.gms:play-services:10.2.0'
-    compile 'com.evernote:android-job:1.1.7-SNAPSHOT'
+
+    customCompile 'com.google.firebase:firebase-core:10.2.0'
 
     /// dependencies for local unit tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-
 
     /// dependencies for instrumented tests
     // JUnit4 Rules
@@ -73,7 +181,10 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 
     // UIAutomator - for cross-app UI tests, and to grant screen is turned on in Espresso tests
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    //androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    // fix conflict in dependencies; see http://g.co/androidstudio/app-test-app-conflict for details
+    //androidTestCompile "com.android.support:support-annotations:${supportLibraryVersion}"
+
 }
 
 tasks.withType(Test) {
@@ -83,20 +194,4 @@ tasks.withType(Test) {
     }
 }
 
-android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-    }
-}
+apply plugin: 'com.google.gms.google-services'
