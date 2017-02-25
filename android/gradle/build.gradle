@@ -157,7 +157,6 @@ android {
 
 dependencies {
     /// dependencies for app building
-    compile name: 'touch-image-view'
     compile 'com.android.support:multidex:1.0.1'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
