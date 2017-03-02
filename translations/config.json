@@ -40,7 +40,6 @@
     {
       "name": "externalapp",
       "arguments": [
-        "janis91 nextnotes",
         "janis91 ocr"
       ]
     },
