@@ -29,7 +29,7 @@ l10nFolder=$(ls -1 | grep lproj)
 
 for folder in $l10nFolder; do
     count=$(ls -1 $folder | wc -l)
-    if [ $count != "6" ]; then
+    if [ $count != "7" ]; then
         echo remove $folder
         rm -rf ./$folder
     fi
