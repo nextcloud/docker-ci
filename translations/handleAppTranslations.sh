@@ -20,7 +20,10 @@ perl ./l10n.pl $1 read
 tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
-tx pull -f -a --minimum-perc=75
+tx pull -f -a --minimum-perc=25
+
+# delete removed l10n files that are used for language detection (they will be recreated during the write)
+rm -f *.js *.json
 
 # build JS/JSON based on translations
 perl ./l10n.pl $1 write
