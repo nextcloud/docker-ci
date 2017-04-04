@@ -11,6 +11,7 @@
       "arguments": [
         "announcementcenter",
         "activity",
+        "bruteforcesettings",
         "calendar",
         "circles",
         "contacts",
