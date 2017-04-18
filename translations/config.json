@@ -61,8 +61,13 @@
     {
       "name": "externalandroid",
       "arguments": [
-        "nerzhul ownCloud-SMS-App",
-        "stefan-niedermann nextcloud-notes"
+        "nerzhul ownCloud-SMS-App"
+      ]
+    },
+    {
+      "name": "externalandroid-branched",
+      "arguments": [
+        "stefan-niedermann nextcloud-notes transifex"
       ]
     },
     {
