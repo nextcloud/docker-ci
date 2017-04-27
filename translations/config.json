@@ -43,6 +43,12 @@
       ]
     },
     {
+      "name": "apps",
+      "arguments": [
+        "socialsharing"
+      ]
+    },
+    {
       "name": "externalapp",
       "arguments": [
         "janis91 ocr"
