@@ -24,11 +24,13 @@ do
   wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
   perl ./l10n.pl $app read
 
-  # push sources
-  tx push -s
+  if [ -d "templates" ]; then
+    # push sources
+    tx push -s
 
-  # pull translations - force pull because a fresh clone has newer time stamps
-  tx pull -f -a --minimum-perc=25
+    # pull translations - force pull because a fresh clone has newer time stamps
+    tx pull -f -a --minimum-perc=25
+  done
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f *.js *.json
