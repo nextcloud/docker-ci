@@ -30,7 +30,7 @@ do
 
     # pull translations - force pull because a fresh clone has newer time stamps
     tx pull -f -a --minimum-perc=25
-  done
+  fi
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f *.js *.json
