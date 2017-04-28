@@ -19,6 +19,7 @@
         "external",
         "files_automatedtagging",
         "files_accesscontrol",
+        "files_downloadactivity",
         "firstrunwizard",
         "gallery",
         "guests",
