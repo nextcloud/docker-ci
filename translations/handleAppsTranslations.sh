@@ -24,7 +24,7 @@ do
   wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
   perl ./l10n.pl $app read
 
-  if [ -d "templates" ]; then
+  if [ -e "templates/*.pot" ]; then
     # push sources
     tx push -s
 
@@ -48,9 +48,9 @@ do
   fi
 
   # create git commit and push it
-  git add l10n/*.js l10n/*.json
+  git add l10n/*.js l10n/*.json || true
 
-  cd ../..
+  cd ..
 done
 
 git commit -am "[tx-robot] updated from transifex" || true
