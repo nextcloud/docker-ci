@@ -10,6 +10,7 @@ gpg --list-keys
 
 # fetch git repo
 git clone git@github.com:nextcloud/ios /app
+git checkout -b develop origin/develop
 cd iOSClient
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
@@ -44,5 +45,5 @@ cd ..
 # create git commit and push it
 git add .
 git commit -am "[tx-robot] updated from transifex" || true
-git push origin master
+git push origin develop
 echo "done"
