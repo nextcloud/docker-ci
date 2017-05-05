@@ -5,4 +5,6 @@ RUN apt-get update && apt-get install -y libxdamage1 libxfixes3 libpulse0 && apt
 ENV SHELL /bin/bash
 
 ADD gradle /gradle
+ADD licenses /opt/android-sdk-linux/licenses/
+
 RUN cd /gradle && ./gradlew clean
