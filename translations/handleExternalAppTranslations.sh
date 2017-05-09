@@ -13,7 +13,7 @@ git clone git@github.com:$1/$2 /app
 
 # build PO file
 cd l10n
-wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
+wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
 perl ./l10n.pl $2 read
 
 # push sources

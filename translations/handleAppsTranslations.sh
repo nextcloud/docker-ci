@@ -21,7 +21,7 @@ do
   cd "$app/l10n"
     
   # build PO file
-  wget https://raw.githubusercontent.com/owncloud/administration/master/jenkins/translation_sync/l10n.pl
+  wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
   perl ./l10n.pl $app read
 
   if [ -e "templates/*.pot" ]; then
