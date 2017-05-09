@@ -17,6 +17,7 @@ php build/translation-extractor.php
 # build PO file
 cd l10n
 wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
+wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
 perl ./l10n.pl $1 read
 
 # push sources
@@ -29,6 +30,7 @@ tx pull -f -a --minimum-perc=75
 perl ./l10n.pl $1 write
 
 rm l10n.pl
+rm l10nParseAppInfo.php
 cd ..
 
 if [ -d tests ]; then

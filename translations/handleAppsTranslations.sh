@@ -22,6 +22,7 @@ do
     
   # build PO file
   wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
+  wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
   perl ./l10n.pl $app read
 
   if [ -e "templates/*.pot" ]; then
@@ -39,6 +40,7 @@ do
   perl ./l10n.pl $app write
 
   rm l10n.pl
+  rm l10nParseAppInfo.php
   cd ..
 
   if [ -d tests ]; then
