@@ -71,6 +71,7 @@
     {
       "name": "externalandroid",
       "arguments": [
+        "nextcloud passman-android",
         "nextcloud passman-webextension",
         "nerzhul ownCloud-SMS-App"
       ]
