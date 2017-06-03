@@ -24,7 +24,7 @@ mkdir stable-templates
 for version in $versions
 do
   # skip if the branch doesn't exist
-  if git branch | egrep "^  remotes/origin/$version$" ; then
+  if git branch -r | egrep "^\W*origin/$version$" ; then
     echo "Valid branch"
   else
     echo "Invalid branch"
@@ -67,7 +67,7 @@ backportVersions='master stable12 stable11'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
-  if git branch | egrep "^  remotes/origin/$version$" ; then
+  if git branch -r | egrep "^\W*origin/$version$" ; then
     echo "Valid branch"
   else
     echo "Invalid branch"
@@ -96,4 +96,4 @@ do
   echo "done with $version"
 done
 
-rm l10n.pl
+rm l10n/l10n.pl
