@@ -17,7 +17,7 @@ wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l
 wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
 perl ./l10n.pl $1 read
 
-versions='stable11 stable12 master abc'
+versions='stable11 stable12 master'
 
 # build POT files for all versions
 mkdir stable-templates
