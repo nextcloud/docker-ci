@@ -20,6 +20,7 @@
         "files_automatedtagging",
         "files_accesscontrol",
         "files_downloadactivity",
+        "files_filter",
         "files_texteditor",
         "firstrunwizard",
         "gallery",
@@ -55,7 +56,6 @@
     {
       "name": "externalapp",
       "arguments": [
-        "icewind1991 files_filter",
         "janis91 ocr"
       ]
     },
