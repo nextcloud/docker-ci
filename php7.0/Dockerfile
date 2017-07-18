@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y wget && \
     apt-get update && apt-get install -y php7.0-intl php7.0-gd git curl \
     php7.0-cli php7.0-curl php7.0-imagick php7.0-pgsql php7.0-mcrypt php7.0-ldap \
     php7.0-apcu php7.0-redis php7.0-sqlite php7.0-mysql php7.0-zip php7.0-xml \
-    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra unzip && \
+    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra unzip gnupg2 && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
