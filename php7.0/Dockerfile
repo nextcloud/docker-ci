@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:jessie
 RUN apt-get update && apt-get install -y wget gnupg2 libzip2 && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg && \
