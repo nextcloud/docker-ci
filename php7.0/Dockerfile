@@ -7,10 +7,13 @@ RUN apt-get update && apt-get install -y wget && \
     apt-get update && apt-get install -y php7.0-intl php7.0-gd git curl \
     php7.0-cli php7.0-curl php7.0-imagick php7.0-pgsql php7.0-mcrypt php7.0-ldap \
     php7.0-apcu php7.0-redis php7.0-sqlite php7.0-mysql php7.0-zip php7.0-xml \
-    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra && \
+    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra unzip && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
+RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
+RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
+RUN echo "extension=ast.so" >> /etc/php/7.0/cli/conf.d/20-ast.ini
 RUN phpenmod zip intl gd xdebug
 RUN curl -O -L https://phar.phpunit.de/phpunit-5.5.4.phar \
     && chmod +x phpunit-5.5.4.phar \
