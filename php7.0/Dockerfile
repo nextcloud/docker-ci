@@ -1,5 +1,5 @@
 FROM debian
-RUN apt-get update && apt-get install -y wget && \
+RUN apt-get update && apt-get install -y wget gnupg2 && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y wget && \
     apt-get update && apt-get install -y php7.0-intl php7.0-gd git curl \
     php7.0-cli php7.0-curl php7.0-imagick php7.0-pgsql php7.0-mcrypt php7.0-ldap \
     php7.0-apcu php7.0-redis php7.0-sqlite php7.0-mysql php7.0-zip php7.0-xml \
-    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra unzip gnupg2 && \
+    php7.0-mbstring php7.0-xdebug php7.0-dev make libmagickcore-6.q16-2-extra unzip && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
