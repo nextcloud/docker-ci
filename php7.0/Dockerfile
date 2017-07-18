@@ -1,5 +1,5 @@
 FROM debian
-RUN apt-get update && apt-get install -y wget gnupg2 && \
+RUN apt-get update && apt-get install -y wget gnupg2 libzip2 && \
     wget http://www.dotdeb.org/dotdeb.gpg && \
     apt-key add dotdeb.gpg && \
     echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
