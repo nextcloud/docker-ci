@@ -1,25 +1,18 @@
-FROM centos
+FROM debian:jessie
+RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https lsb-release ca-certificates && \
+    wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
+    apt-get update && apt-get install -y php7.1-intl php7.1-gd git curl \
+    php7.1-cli php7.1-curl php7.1-imagick php7.1-pgsql php7.1-mcrypt php7.1-ldap \
+    php7.1-apcu php7.1-redis php7.1-sqlite php7.1-mysql php7.1-zip php7.1-xml \
+    php7.1-mbstring php7.1-xdebug php7.1-dev make libmagickcore-6.q16-2-extra unzip && \
+    apt-get autoremove -y && apt-get autoclean && apt-get clean && \
+    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-RUN yum install -y \
-      https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-      http://rpms.remirepo.net/enterprise/remi-release-7.rpm \
-      yum-utils \
-    && rm -rf /var/cache/yum/* \
-    && yum clean all \
-    && yum-config-manager --enable remi-php71 \
-    && yum -y update \
-    && yum install -y \
-      php71.x86_64 php71-php-intl.x86_64 php71-php-gd.x86_64 \
-      php71-php-cli.x86_64 php71-php-pecl-imagick.x86_64 \
-      php71-php-pgsql.x86_64 php71-php-mcrypt.x86_64 \
-      php71-php-ldap.x86_64 php71-php-pecl-apcu.x86_64 \
-      php71-php-pecl-redis.x86_64  php71-php-pecl-mysql.x86_64 \
-      php71-php-pecl-zip.x86_64 php71-php-xml.x86_64 \
-      php71-php-mbstring.x86_64 php71-php-process.x86_64 \
-      php71-php-pecl-xdebug.x86_64 git curl which make \
-    && rm -rf /var/cache/yum/* \
-    && yum clean all
-RUN ln -s /usr/bin/php71 /usr/bin/php
+RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
+RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
+RUN echo "extension=ast.so" >> /etc/php/7.1/cli/conf.d/20-ast.ini
+RUN phpenmod zip intl gd xdebug
 RUN curl -O -L https://phar.phpunit.de/phpunit-5.5.4.phar \
     && chmod +x phpunit-5.5.4.phar \
     && mv phpunit-5.5.4.phar /usr/local/bin/phpunit
@@ -27,4 +20,4 @@ RUN curl -O -L https://getcomposer.org/download/1.1.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
-ADD nextcloud.ini /etc/opt/remi/php71/php.d/nextcloud.ini
+ADD nextcloud.ini /etc/php/7.1/cli/conf.d/nextcloud.ini
