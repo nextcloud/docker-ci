@@ -10,3 +10,4 @@ RUN add-apt-repository -y ppa:beineri/opt-qt562-trusty && \
     apt-get update && \
     apt-get install -y qt56base qt56tools
 
+RUN echo "source /opt/qt56/bin/qt56-env.sh" >> ~/.bashrc
