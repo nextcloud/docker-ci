@@ -10,9 +10,3 @@ RUN add-apt-repository -y ppa:beineri/opt-qt562-trusty && \
     apt-get update && \
     apt-get install -y qt56base qt56tools
 
-
-RUN addgroup --gid 1000 builder && \
-    adduser --uid 1000 --gid 1000 --disabled-login --disabled-password \
-    --gecos "" builder
-
-USER 1000
