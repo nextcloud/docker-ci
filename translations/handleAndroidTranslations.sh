@@ -11,11 +11,14 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/android /app
 
+# remove existing translations to cleanup not maintained languages
+rm -rf src/main/res/values-*/strings.xml
+
 # push sources
 tx push -s
 
 # pull translations
-tx pull -f -a --minimum-perc=75
+tx pull -f -a --minimum-perc=50
 
 # create git commit and push it
 git add .
