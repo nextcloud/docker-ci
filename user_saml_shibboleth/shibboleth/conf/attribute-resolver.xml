@@ -137,6 +137,12 @@
         <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:givenName" encodeType="false" />
         <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:2.5.4.42" friendlyName="givenName" encodeType="false" />
     </resolver:AttributeDefinition>
+
+    <resolver:AttributeDefinition xsi:type="ad:Simple" id="quota" sourceAttributeID="quota">
+        <resolver:Dependency ref="myLDAP" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:quota" encodeType="false" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:quota" friendlyName="quota" encodeType="false" />
+    </resolver:AttributeDefinition>
 <!--
     <resolver:AttributeDefinition xsi:type="ad:Simple" id="initials" sourceAttributeID="initials">
         <resolver:Dependency ref="myLDAP" />

@@ -5,7 +5,6 @@ cn: admin
 userPassword: password
 description: LDAP administrator
 
-
 dn: uid=student1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
@@ -17,6 +16,20 @@ sn: Ent
 cn: Stud Ent
 mail: student1@idptestbed.edu
 userPassword: password
+quota: 200 MB
+
+dn: uid=student2,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetOrgPerson
+givenName: Stud
+uid: student2
+sn: Ent2
+cn: Stud Ent2
+mail: student2@idptestbed.edu
+userPassword: password
+quota: 1 GB
 
 dn: uid=staff1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
