@@ -5,7 +5,7 @@ MAINTAINER lukas@statuscode.ch
 ADD shibboleth/ /opt/shibboleth-idp/
 
 # Install the LDAP server
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm 
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-10.noarch.rpm 
 RUN yum install -y --enablerepo=centosplus 389-ds
 RUN rm -fr /var/lock /usr/lib/systemd/system
 ADD ldap/ds-setup.inf /ds-setup.inf
