@@ -10,6 +10,7 @@ objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: ownCloud
 givenName: Stud
 uid: student1
 sn: Ent
@@ -23,6 +24,7 @@ objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: ownCloud
 givenName: Stud
 uid: student2
 sn: Ent2
@@ -36,6 +38,7 @@ objectClass: organizationalPerson
 objectClass: person
 objectClass: top
 objectClass: inetOrgPerson
+objectClass: ownCloud
 givenName: St
 uid: staff1
 sn: aff
