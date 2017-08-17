@@ -47,7 +47,8 @@
         "twofactor_totp",
         "twofactor_u2f",
         "ocsms",
-        "user_saml"
+        "user_saml",
+        "weather"
       ]
     },
     {
