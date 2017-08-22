@@ -15,8 +15,6 @@ ADD licenses /opt/android-sdk-linux/licenses/
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
-    sed -i 's/annotationProcessor/implementation/g' build.gradle && \
-    sed -i 's/testImplementation/implementation/g' build.gradle && \
-    sed -i 's/androidTestImplementation/implementation/g' build.gradle
+    sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle
 
-RUN cd /gradle && ./gradlew clean
+RUN cd /gradle && ./gradlew assembleGenericDebug assembleGenericDebugAndroidTest

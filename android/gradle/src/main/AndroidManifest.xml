@@ -4,4 +4,9 @@
         android:allowBackup="true"
         android:label="dependencies">
     </application>
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="25" />
+
 </manifest>
