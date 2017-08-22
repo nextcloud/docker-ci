@@ -14,6 +14,9 @@ ADD licenses /opt/android-sdk-linux/licenses/
 
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle && \
-    sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle
+    sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
+    sed -i 's/annotationProcessor/implementation/g' build.gradle && \
+    sed -i 's/testImplementation/implementation/g' build.gradle && \
+    sed -i 's/androidTestImplementation/implementation/g' build.gradle
 
 RUN cd /gradle && ./gradlew clean
