@@ -1,5 +1,5 @@
 # Based upon https://hub.docker.com/r/silvershell/samba/
-FROM nextcloudci/php7.0:php7.0-15
+FROM nextcloudci/php7.0:php7.0-16
 
 ENV SMB_USER smbuser
 ENV SMB_PASSWORD smbpassword

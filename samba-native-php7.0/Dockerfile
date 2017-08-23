@@ -1,4 +1,4 @@
-FROM nextcloudci/samba-non-native-php7.0:samba-non-native-php7.0-3
+FROM nextcloudci/samba-non-native-php7.0:samba-non-native-php7.0-4
 
 RUN apt update
 RUN apt-get install -y php7.0-dev libsmbclient-dev git
