@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:jessie
 RUN apt-get update && apt-get install -y php5-intl php5-gd git curl \
     php5-cli php5-curl php5-imagick php5-pgsql php5-mcrypt php5-ldap \
     php5-apcu php5-redis php5-sqlite php5-mysql wget make libmagickcore-6.q16-2-extra \
