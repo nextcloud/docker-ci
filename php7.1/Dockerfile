@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https
 RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
 RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
 RUN echo "extension=ast.so" >> /etc/php/7.1/cli/conf.d/20-ast.ini
-RUN phpenmod zip intl gd xdebug
+RUN phpenmod zip intl gd
 RUN curl -O -L https://phar.phpunit.de/phpunit-5.5.4.phar \
     && chmod +x phpunit-5.5.4.phar \
     && mv phpunit-5.5.4.phar /usr/local/bin/phpunit
