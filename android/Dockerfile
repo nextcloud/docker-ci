@@ -17,4 +17,4 @@ RUN cd /gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
     sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle
 
-RUN cd /gradle && ./gradlew assembleGenericDebug assembleGenericDebugAndroidTest
+RUN cd /gradle && ./gradlew assembleGenericDebug assembleGenericDebugAndroidTest lintGenericDebug
