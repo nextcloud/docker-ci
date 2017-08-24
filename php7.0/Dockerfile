@@ -11,6 +11,17 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip2 && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
+RUN cd /tmp/ && \
+    git clone https://github.com/phpredis/phpredis.git && \
+    cd phpredis && \
+    git checkout 3.1.3 && \
+    phpize && \
+    ./configure && \
+    make && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/phpredis
+
 RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
 RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
 RUN echo "extension=ast.so" >> /etc/php/7.0/cli/conf.d/20-ast.ini
