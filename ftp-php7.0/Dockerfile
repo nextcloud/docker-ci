@@ -1,5 +1,5 @@
 # Based upon https://github.com/MorrisJobke/docker-proftpd
-From nextcloudci/php7.0:php7.0-6 
+From nextcloudci/php7.0:php7.0-16
 
 RUN apt-get update
 RUN apt-get -y install debconf-utils

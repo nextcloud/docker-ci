@@ -1,4 +1,4 @@
-FROM nextcloudci/php7.0:php7.0-6
+FROM nextcloudci/php7.0:php7.0-16
 RUN apt-get update && apt-get install -y gcc realpath make python && \
     mkdir -p /tmp/litmus && \
     wget -O /tmp/litmus/litmus-0.13.tar.gz http://www.webdav.org/neon/litmus/litmus-0.13.tar.gz && \

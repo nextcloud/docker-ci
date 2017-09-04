@@ -1,4 +1,4 @@
-FROM nextcloudci/php7.0:php7.0-6
+FROM nextcloudci/php7.0:php7.0-16
 RUN apt-get update && \
     apt-get purge -y php7.0-apcu && \
     apt-get install -y php7.0-memcached memcached && \

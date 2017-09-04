@@ -31,7 +31,19 @@ do
     continue
   fi
   git checkout $version
+
+  # ignore build folder for groupfolders and logreader
+  if [ "$1" == "groupfolders" -o "$1" == "logreader" ] ; then
+      rm -rf ../build
+  fi
+
   perl ./l10n.pl $1 read > /dev/null
+
+  # ignore build folder for groupfolders and logreader
+  if [ "$1" == "groupfolders" -o "$1" == "logreader" ] ; then
+      git checkout -- ../build
+  fi
+
   cd templates
   for file in $(ls)
   do
