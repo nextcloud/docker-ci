@@ -79,6 +79,7 @@
     {
       "name": "externalandroid",
       "arguments": [
+        "linfaservice cloudgallery",
         "nextcloud passman-android",
         "nextcloud passman-webextension",
         "nerzhul ownCloud-SMS-App"
