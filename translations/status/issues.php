@@ -12,7 +12,7 @@ $elements = array_map(function($line) {
 <html lang="de">
     <head>
         <meta charset="utf-8">
-        <title>Untriaged issues</title>
+        <title><?php echo $elements[count($elements)-1][1]; ?> untriaged issues</title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +30,7 @@ $elements = array_map(function($line) {
     </head>
     <body>
         <div class="page">
-            <h1>Untriaged issues</h1>
+            <h1><?php echo $elements[count($elements)-1][1]; ?> untriaged issues</h1>
             <p>The total number of untriaged issues needs to be close to 0. <a href="https://github.com/nextcloud/server/issues?utf8=✓&amp;q=is%3Aissue%20is%3Aopen%20-label%3Aenhancement%20-label%3Aspec%20-label%3Asecurity%20-label%3Abug%20-label%3Apapercut%20-label%3Aoverview%20%20-label%3A%22technical%20debt%22%20">Triage issues on Github.</a></p>
             <canvas id="myChart"></canvas>
         </div>
