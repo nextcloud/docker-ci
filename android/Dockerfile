@@ -6,7 +6,6 @@ RUN cd /opt && wget --output-document=android-sdk.zip https://dl.google.com/andr
     unzip android-sdk.zip && \
     rm -f android-sdk.zip
 
-    
 ENV SHELL /bin/bash
 ENV ANDROID_HOME=/opt/android-sdk-linux/
 
@@ -14,9 +13,8 @@ RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 ADD gradle /gradle
-ADD licenses /opt/android-sdk-linux/licenses/
 
-RUN yes | /opt/tools/bin/sdkmanager --licenses
+RUN yes | /opt/tools/bin/sdkmanager --sdk_root=/opt/android-sdk-linux/ --licenses
 
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle && \
