@@ -16,6 +16,8 @@ ENV LANG=en_US.UTF-8
 ADD gradle /gradle
 ADD licenses /opt/android-sdk-linux/licenses/
 
+RUN yes | /opt/tools/bin/sdkmanager --licenses
+
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
