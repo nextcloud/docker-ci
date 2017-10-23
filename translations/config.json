@@ -38,6 +38,7 @@
         "notifications",
         "passman",
         "password_policy",
+        "polls",
         "quota_warning",
         "richdocuments",
         "serverinfo",
