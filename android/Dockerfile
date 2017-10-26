@@ -22,3 +22,5 @@ RUN cd /gradle && \
     sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle
 
 RUN cd /gradle && ./gradlew clean assembleGenericDebug assembleGenericDebugAndroidTest lintGenericDebug
+
+RUN gem install xml-simple
