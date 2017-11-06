@@ -20,6 +20,9 @@ tx push -s
 # pull translations
 tx pull -f -a --minimum-perc=50
 
+# copy transifex strings to fastlane
+app/scripts/metadata/generate_metadata.py
+
 # create git commit and push it
 git add .
 git commit -am "[tx-robot] updated from transifex" || true
