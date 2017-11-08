@@ -21,7 +21,7 @@ tx push -s
 tx pull -f -a --minimum-perc=50
 
 # copy transifex strings to fastlane
-app/scripts/metadata/generate_metadata.py
+scripts/metadata/generate_metadata.py
 
 # create git commit and push it
 git add .
