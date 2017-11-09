@@ -29,6 +29,7 @@
         "guests",
         "groupfolders",
         "impersonate",
+		"limit_login_to_ip",
         "logreader",
         "maps",
         "news",
