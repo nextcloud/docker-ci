@@ -17,7 +17,12 @@ ADD gradle /gradle
 RUN yes | /opt/tools/bin/sdkmanager --sdk_root=/opt/android-sdk-linux/ --licenses
 
 RUN cd /gradle && \
-    wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle -O android.gradle && \
+    wget https://raw.githubusercontent.com/nextcloud/android-library/master/build.gradle -O android-library.gradle && \
+    sed '/^dependencies/Q' android.gradle >> build.gradle && \
+    echo "dependencies {" >> build.gradle && \
+    sed -n '/dependencies/,/\}/p' android-library.gradle | grep -v dep | grep -v "}" >> build.gradle && \
+    grep -A 999 "^dependencies" android.gradle | grep -v "dependencies" >> build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
     sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle
 
