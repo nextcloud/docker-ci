@@ -13,6 +13,7 @@ RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 ADD gradle /gradle
+ADD .gradle /root/
 
 RUN yes | /opt/tools/bin/sdkmanager --sdk_root=/opt/android-sdk-linux/ --licenses
 
