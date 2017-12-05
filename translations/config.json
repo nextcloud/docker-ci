@@ -65,7 +65,8 @@
     {
       "name": "externalapp",
       "arguments": [
-        "janis91 ocr"
+        "janis91 ocr",
+        "juliushaertl apporder"
       ]
     },
     {
