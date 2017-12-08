@@ -1,5 +1,0 @@
-FROM nextcloudci/translations:latest
-
-MAINTAINER Morris Jobke <hey@morrisjobke.de>
-
-ADD handleAndroidTranslations.sh /handleTranslations.sh
