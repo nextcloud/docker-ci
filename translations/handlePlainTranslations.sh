@@ -15,6 +15,9 @@ git clone git@github.com:$1/$2 /app
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+if [ -d News-Android-App/src/main/res ]; then
+  rm -rf News-Android-App/src/main/res/values-*/strings.xml
+fi
 
 # push sources
 tx push -s
