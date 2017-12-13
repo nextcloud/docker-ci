@@ -12,11 +12,17 @@ gpg --list-keys
 git clone git@github.com:$1/$2 /app
 
 # remove existing translations to cleanup not maintained languages
+# default Android app
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+# Android news app
 if [ -d News-Android-App/src/main/res ]; then
   rm -rf News-Android-App/src/main/res/values-*/strings.xml
+fi
+# Android talk app
+if [ -d app/src/main/res ]; then
+  rm -rf app/src/main/res/values-*/strings.xml
 fi
 
 # push sources
