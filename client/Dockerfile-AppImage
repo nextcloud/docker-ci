@@ -6,6 +6,6 @@ RUN apt-get update && \
     apt-get install -y wget libsqlite3-dev libssl-dev cmake git \
         software-properties-common build-essential mesa-common-dev fuse rsync
 
-RUN add-apt-repository -y ppa:beineri/opt-qt592-trusty && \
+RUN add-apt-repository -y ppa:beineri/opt-qt593-trusty && \
     apt-get update && \
-    apt-get install -y qt59base qt59tools
+    apt-get install -y qt59base qt59tools qt59webengine
