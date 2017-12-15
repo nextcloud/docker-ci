@@ -9,8 +9,8 @@
     {
       "name": "app",
       "arguments": [
-        "announcementcenter",
         "activity",
+        "announcementcenter",
         "bruteforcesettings",
         "calendar",
         "caniupdate",
@@ -21,15 +21,15 @@
         "deck",
         "end_to_end_encryption",
         "external",
-        "files_automatedtagging",
         "files_accesscontrol",
+        "files_automatedtagging",
         "files_downloadactivity",
         "files_filter",
         "files_texteditor",
         "firstrunwizard",
         "gallery",
-        "guests",
         "groupfolders",
+        "guests",
         "impersonate",
         "limit_login_to_ip",
         "logreader",
@@ -39,6 +39,7 @@
         "nextcloud_announcements",
         "notes",
         "notifications",
+        "ocsms",
         "passman",
         "password_policy",
         "polls",
@@ -52,7 +53,6 @@
         "twofactor_sms",
         "twofactor_totp",
         "twofactor_u2f",
-        "ocsms",
         "user_saml",
         "weather"
       ]
