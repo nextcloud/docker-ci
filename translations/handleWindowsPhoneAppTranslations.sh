@@ -18,6 +18,8 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=75
 
+mv src/main/res/values-es_419 src/main/res/values-es-rUS
+
 # create git commit and push it
 git add .
 git commit -am "[tx-robot] updated from transifex" || true
