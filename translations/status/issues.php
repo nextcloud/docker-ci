@@ -67,7 +67,7 @@ $elements = array_map(function($line) {
                             ticks: {
                                 callback: function(dataLabel, index) {
                                     // Hide the label of every 7th dataset. stats start at august 30 -> move it to only show mondays
-                                    return (index + 5) % 7 === 0 ? dataLabel : '';
+                                    return (index + 2) % 7 === 0 ? dataLabel : '';
                                 }
                             }
                         }],
