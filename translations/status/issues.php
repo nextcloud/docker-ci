@@ -66,8 +66,8 @@ $elements = array_map(function($line) {
                             },
                             ticks: {
                                 callback: function(dataLabel, index) {
-                                    // Hide the label of every 7th dataset. stats start at august 30 -> move it to only show mondays
-                                    return (index + 2) % 7 === 0 ? dataLabel : '';
+                                    // Hide the label of every 7th dataset. stats start at august 30 -> move it to only show mondays. "null" hides the grid lines - "" would only hide the label
+                                    return (index + 2) % 7 === 0 ? dataLabel : null;
                                 }
                             }
                         }],
