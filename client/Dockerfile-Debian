@@ -1,0 +1,4 @@
+FROM debian:stretch
+
+RUN apt-get update -q
+RUN apt-get install -y devscripts cdbs osc
