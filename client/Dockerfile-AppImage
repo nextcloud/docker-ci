@@ -4,7 +4,8 @@ MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
     apt-get install -y wget libsqlite3-dev libssl-dev cmake git \
-        software-properties-common build-essential mesa-common-dev fuse rsync curl
+        software-properties-common build-essential mesa-common-dev \
+        fuse rsync curl libssl-dev
 
 RUN add-apt-repository -y ppa:beineri/opt-qt593-trusty && \
     apt-get update && \
