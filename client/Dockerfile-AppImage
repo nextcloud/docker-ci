@@ -13,3 +13,7 @@ RUN add-apt-repository -y ppa:beineri/opt-qt593-trusty && \
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y gcc-7 g++-7
+
+RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && \
+    apt-get update && \
+    apt-get install -y cmake
