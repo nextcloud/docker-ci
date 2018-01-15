@@ -17,7 +17,7 @@ wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l
 wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
 perl ./l10n.pl $1 read
 
-versions='stable11 stable12 master'
+versions='stable11 stable12 stable13 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -75,7 +75,7 @@ rm -f *.js *.json
 
 cd ..
 
-backportVersions='master stable12 stable11'
+backportVersions='master stable13 stable12 stable11'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
