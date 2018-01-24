@@ -13,10 +13,10 @@ RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzi
 RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
 RUN echo "extension=ast.so" >> /etc/php/7.2/cli/conf.d/20-ast.ini
 RUN phpenmod zip intl gd
-RUN curl -O -L https://phar.phpunit.de/phpunit-5.7.21.phar \
-    && chmod +x phpunit-5.7.21.phar \
-    && mv phpunit-5.7.21.phar /usr/local/bin/phpunit
-RUN curl -O -L https://getcomposer.org/download/1.1.2/composer.phar \
+RUN curl -O -L https://phar.phpunit.de/phpunit-6.5.5.phar \
+    && chmod +x phpunit-6.5.5.phar \
+    && mv phpunit-6.5.5.phar /usr/local/bin/phpunit
+RUN curl -O -L https://getcomposer.org/download/1.6.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
