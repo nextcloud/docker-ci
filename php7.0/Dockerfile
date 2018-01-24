@@ -18,8 +18,8 @@ RUN cd /tmp/ && \
     phpize && \
     ./configure && \
     make && \
-    make install &&
-    cd / &&
+    make install && \
+    cd / && \
     rm -rf /tmp/phpredis
 
 RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
