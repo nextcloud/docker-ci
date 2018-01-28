@@ -1,20 +1,13 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
     apt-get install -y wget libsqlite3-dev libssl-dev cmake git \
         software-properties-common build-essential mesa-common-dev \
-        fuse rsync curl libssl-dev
+        fuse rsync curl
 
-RUN add-apt-repository -y ppa:beineri/opt-qt593-trusty && \
+RUN add-apt-repository -y ppa:beineri/opt-qt593-xenial && \
     apt-get update && \
     apt-get install -y qt59base qt59tools qt59webengine
 
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
-    apt-get update && \
-    apt-get install -y gcc-7 g++-7
-
-RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && \
-    apt-get update && \
-    apt-get install -y cmake
