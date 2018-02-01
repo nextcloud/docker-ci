@@ -11,7 +11,7 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/server /app
 
-versions='stable11 stable12 stable13 master'
+versions='stable12 stable13 master'
 
 # build POT files for all versions
 cd l10n
@@ -48,7 +48,7 @@ tx pull -a -f -r nextcloud.settings-1 --minimum-perc=1
 
 cd ..
 
-backportVersions='master stable13 stable12 stable11'
+backportVersions='master stable13 stable12'
 for version in $backportVersions
 do
   git checkout $version
