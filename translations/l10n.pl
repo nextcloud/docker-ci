@@ -20,12 +20,13 @@ sub crawlFiles{
 	foreach my $i ( @files ){
 		next if substr( $i, 0, 1 ) eq '.';
 		next if $i eq 'l10n';
+		next if $i eq 'node_modules';
 
 		if( -d $dir.'/'.$i ){
 			push( @found, crawlFiles( $dir.'/'.$i ));
 		}
-		else{
-			push(@found,$dir.'/'.$i) if $i =~ /.*(?<!\.min)\.js$/ || $i =~ /\.php$/;
+		else {
+			push(@found,$dir.'/'.$i) if $i =~ /.*(?<!\.min)\.js$/ || $i =~ /\.vue$/ || $i =~ /\.php$/;
 		}
 	}
 
@@ -114,13 +115,13 @@ if( $task eq 'read' ){
 		foreach my $file ( @totranslate ){
 			next if $ignore{$file};
 			my $keywords = '';
-			if( $file =~ /\.[jt]sx?$/ ){
+			if( $file =~ /\.[jt]sx?$/ || $file =~ /\.vue$/ ){
 				$keywords = '--keyword=t:2 --keyword=n:2,3';
 			}
 			else{
 				$keywords = '--keyword=t --keyword=n:1,2';
 			}
-			my $language = ( $file =~ /\.[jt]sx?$/ ? 'Javascript' : 'PHP');
+			my $language = ( $file =~ /\.[jt]sx?$/ || $file =~ /\.vue$/ ? 'Javascript' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
 			print "    Reading $file\n";
 			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="$packageName" --msgid-bugs-address="translations\@owncloud.org"`;
