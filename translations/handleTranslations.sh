@@ -14,6 +14,7 @@ git clone git@github.com:nextcloud/server /app
 # fetch translation script
 # TODO ship this inside the docker container
 wget https://github.com/nextcloud/travis_ci/raw/master/translationtool/translationtool.phar
+# TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable12 stable13 master'
 
