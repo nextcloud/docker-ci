@@ -11,9 +11,6 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/$1 /app
 
-
-# TODO ship this inside the docker container
-wget https://github.com/nextcloud/travis_ci/raw/master/translationtool/translationtool.phar
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 for app in $(ls)
@@ -23,10 +20,9 @@ do
   fi
   
   cd "$app"
-    
-  # build PO file
 
-  php5 ../translationtool.phar create-pot-files
+  # build POT files
+  /translationtool.phar create-pot-files
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f l10n/*.js l10n/*.json
@@ -39,7 +35,7 @@ do
     tx pull -f -a --minimum-perc=25
 
     # build JS/JSON based on translations
-    php5 ../translationtool.phar convert-po-files
+    /translationtool.phar convert-po-files
 
     if [ -d tests ]; then
       # remove tests/
@@ -53,8 +49,6 @@ do
 
   cd ..
 done
-
-rm -f translationtool.phar
 
 # create git commit and push it
 git commit -m "[tx-robot] updated from transifex" || true
