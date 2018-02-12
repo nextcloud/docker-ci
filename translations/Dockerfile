@@ -10,8 +10,9 @@ RUN apk update && \
 # Install Transifex client
 RUN pip3 install transifex-client
 
-# Add sym link for php
+# Add sym link for php & python
 RUN ln -s /usr/bin/php5 /usr/bin/php
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 RUN mkdir -p /app
 
