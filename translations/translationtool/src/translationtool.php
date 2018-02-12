@@ -55,17 +55,17 @@ class TranslatableApp {
 			$output = '--output=' . escapeshellarg($pathToPotFile);
 
 			$keywords = '';
-			if (substr($entry, -3) === '.js') {
-				$keywords = '--keyword=t:2 --keyword=n:2,3';
-			} else {
+			if (substr($entry, -4) === '.php') {
 				$keywords = '--keyword=t --keyword=n:1,2';
+			} else {
+				$keywords = '--keyword=t:2 --keyword=n:2,3';
 			}
 
 			$language = '--language=';
-			if (substr($entry, -3) === '.js') {
-				$language .= 'Javascript';
-			} else {
+			if (substr($entry, -4) === '.php') {
 				$language .= 'PHP';
+			} else {
+				$language .= 'Javascript';
 			}
 
 			$joinexisting = '';
@@ -162,11 +162,16 @@ class TranslatableApp {
 			if (in_array($newPath, $this->ignoreFiles)) {
 				continue;
 			}
-			if (is_dir($newRealPath) && $entry != 'l10n') {
+			if (is_dir($newRealPath) && $entry != 'l10n' && $entry != 'node_modules') {
 				$this->findTranslatableFiles($newPath);
 			}
 			if (is_file($newRealPath)) {
-				if (substr($entry, -4) === '.php' || (substr($entry, -3) === '.js' && substr($entry, -7) !== '.min.js')) {
+				if (substr($entry, -4) === '.php' ||
+					(substr($entry, -3) === '.js' && substr($entry, -7) !== '.min.js') ||
+					substr($entry, -4) === '.vue' ||
+					substr($entry, -4) === '.jsx' ||
+					substr($entry, -3) === '.ts' ||
+					substr($entry, -4) === '.tsx') {
 					$this->translatableFiles[] = $newRealPath;
 				}
 			}
