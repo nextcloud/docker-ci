@@ -12,7 +12,7 @@ gpg --list-keys
 git clone git@github.com:nextcloud/appstore /app
 
 # install django
-pip install Django==1.9.8
+pip3 install Django==1.9.8
 
 # create po files
 ./manage.py makemessages
