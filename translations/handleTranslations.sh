@@ -11,9 +11,6 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/server /app
 
-# fetch translation script
-# TODO ship this inside the docker container
-wget https://github.com/nextcloud/travis_ci/raw/master/translationtool/translationtool.phar
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable12 stable13 master'
@@ -23,7 +20,9 @@ mkdir stable-templates
 for version in $versions
 do
   git checkout $version
-  php5 translationtool.phar create-pot-files
+
+  # build POT files
+  /translationtool.phar create-pot-files
 
   cd translationfiles/templates/
   for file in $(ls)
@@ -64,7 +63,7 @@ do
   find settings/l10n -type f -delete
 
   # build JS/JSON based on translations
-  php5 translationtool.phar convert-po-files
+  /translationtool.phar convert-po-files
 
   # remove tests/
   rm -rf tests
