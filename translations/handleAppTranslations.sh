@@ -9,13 +9,13 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/$1 /app
+git clone git@github.com:$1/$2 /app
 
 # build PO file
 cd l10n
 wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
 wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
-perl ./l10n.pl $1 read
+perl ./l10n.pl $2 read
 
 versions='stable11 stable12 stable13 master'
 
@@ -33,14 +33,14 @@ do
   git checkout $version
 
   # ignore build folder for groupfolders and logreader
-  if [ "$1" == "groupfolders" -o "$1" == "logreader" ] ; then
+  if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
       rm -rf ../build
   fi
 
-  perl ./l10n.pl $1 read > /dev/null
+  perl ./l10n.pl $2 read > /dev/null
 
   # ignore build folder for groupfolders and logreader
-  if [ "$1" == "groupfolders" -o "$1" == "logreader" ] ; then
+  if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
       git checkout -- ../build
   fi
 
@@ -90,7 +90,7 @@ do
   cd l10n
 
   # build JS/JSON based on translations
-  perl ./l10n.pl $1 write
+  perl ./l10n.pl $2 write
 
   cd ..
 
