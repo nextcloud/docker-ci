@@ -35,6 +35,7 @@
         "nextcloud limit_login_to_ip",
         "nextcloud logreader",
         "nextcloud maps",
+        "nextcloud mail",
         "nextcloud news",
         "nextcloud nextcloud_announcements",
         "nextcloud notes",
@@ -87,12 +88,6 @@
       "name": "externalandroid-branched",
       "arguments": [
         "stefan-niedermann nextcloud-notes transifex"
-      ]
-    },
-    {
-      "name": "mail",
-      "arguments": [
-        "mail"
       ]
     },
     {

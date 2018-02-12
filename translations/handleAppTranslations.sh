@@ -35,6 +35,11 @@ do
       rm -rf build
   fi
 
+  # mail specific code
+  if [ "$2" == "mail" ] ; then
+    php5 build/translation-extractor.php
+  fi
+
   php5 translationtool.phar create-pot-files
 
   # ignore build folder for groupfolders and logreader
