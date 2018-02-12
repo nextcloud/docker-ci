@@ -1,0 +1,16 @@
+{
+	"name": "nextcloud/translationtool",
+	"description": "Needed for the translation tool",
+	"license": "MIT",
+	"config": {
+		"vendor-dir": "vendor",
+		"optimize-autoloader": true,
+		"classmap-authoritative": true
+	},
+	"bin": [
+		"translationtool.php"
+	],
+	"require": {
+		"gettext/gettext": "^4.4"
+	}
+}

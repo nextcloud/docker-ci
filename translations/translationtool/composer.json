@@ -1,0 +1,13 @@
+{
+	"name": "nextcloud/translationtool",
+	"description": "Needed for the translation tool",
+	"license": "MIT",
+	"config": {
+		"vendor-dir": "vendor",
+		"optimize-autoloader": true,
+		"classmap-authoritative": true
+	},
+	"require": {
+		"clue/phar-composer": "^1.0"
+	}
+}
