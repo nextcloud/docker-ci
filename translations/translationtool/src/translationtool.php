@@ -50,7 +50,7 @@ class TranslatableApp {
 		$this->findTranslatableFiles();
 
 		// Let gettext create the pot file
-		$additionalArguments = ' --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"';
+		$additionalArguments = ' --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="3.14159" --package-name="Nextcloud" --msgid-bugs-address="translations\@example.com"';
 		foreach ($this->translatableFiles as $entry) {
 			$output = '--output=' . escapeshellarg($pathToPotFile);
 
