@@ -12,49 +12,51 @@ gpg --list-keys
 git clone git@github.com:nextcloud/$1 /app
 
 
+# TODO ship this inside the docker container
+wget https://github.com/nextcloud/travis_ci/raw/master/translationtool/translationtool.phar
+# TODO use build/l10nParseAppInfo.php to fetch app names for l10n
+
 for app in $(ls)
 do
-  if [ ! -d "$app/l10n" ]; then
+  if [ ! -d "$app/.tx" ]; then
     continue
   fi
   
-  cd "$app/l10n"
+  cd "$app"
     
   # build PO file
-  wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
-  wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
-  perl ./l10n.pl $app read
 
-  if [ -e "templates/*.pot" ]; then
+  php5 ../translationtool.phar create-pot-files
+
+  # delete removed l10n files that are used for language detection (they will be recreated during the write)
+  rm -f l10n/*.js l10n/*.json
+
+  if [ -e "translationfiles/templates/*.pot" ]; then
     # push sources
     tx push -s
 
     # pull translations - force pull because a fresh clone has newer time stamps
     tx pull -f -a --minimum-perc=25
+
+    # build JS/JSON based on translations
+    php5 ../translationtool.phar convert-po-files
+
+    if [ -d tests ]; then
+      # remove tests/
+      rm -rf tests
+      git checkout -- tests/
+    fi
   fi
 
-  # delete removed l10n files that are used for language detection (they will be recreated during the write)
-  rm -f *.js *.json
-
-  # build JS/JSON based on translations
-  perl ./l10n.pl $app write
-
-  rm l10n.pl
-  rm l10nParseAppInfo.php
-  cd ..
-
-  if [ -d tests ]; then
-    # remove tests/
-    rm -rf tests
-    git checkout -- tests/
-  fi
-
-  # create git commit and push it
+  # prepate git commit
   git add l10n/*.js l10n/*.json || true
 
   cd ..
 done
 
-git commit -am "[tx-robot] updated from transifex" || true
+rm -f translationtool.phar
+
+# create git commit and push it
+git commit -m "[tx-robot] updated from transifex" || true
 git push origin master
 echo "done"
