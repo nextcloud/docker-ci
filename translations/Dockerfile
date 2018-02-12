@@ -4,7 +4,7 @@ MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
 # Install python
 RUN apk update && \
-    apk add python3 py3-pip gettext make gnupg git openssh wget php5 && \
+    apk add python3 py3-pip gettext make gnupg git openssh php5 && \
     rm -rf /var/cache/apk/*
 
 # Install Transifex client
