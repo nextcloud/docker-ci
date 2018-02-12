@@ -127,7 +127,7 @@ foreach ($files as $file) {
             <?php foreach ($runs as $name => $list) { ?>
                 <tr>
                     <td><?php
-                    echo '<a href="/trigger.php?j=' . trim($name) . '">' . trim($name) . '</a>';
+                    echo '<a href="/trigger.php?j=' . trim($name) . '">' . trim(str_replace(' nextcloud ', ' ', $name)) . '</a>';
                     if ($triggeredName === trim($name)) {
                         echo ' (triggered)';
                     }
