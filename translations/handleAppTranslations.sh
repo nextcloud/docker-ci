@@ -11,13 +11,11 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:$1/$2 /app
 
-# build PO file
-cd l10n
-wget https://raw.githubusercontent.com/nextcloud/docker-ci/master/translations/l10n.pl
-wget https://raw.githubusercontent.com/nextcloud/server/master/build/l10nParseAppInfo.php
-perl ./l10n.pl $2 read
+# TODO ship this inside the docker container
+wget https://github.com/nextcloud/travis_ci/raw/master/translationtool/translationtool.phar
+# TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable11 stable12 stable13 master'
+versions='stable12 stable13 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -34,32 +32,30 @@ do
 
   # ignore build folder for groupfolders and logreader
   if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
-      rm -rf ../build
+      rm -rf build
   fi
 
-  perl ./l10n.pl $2 read > /dev/null
+  php5 translationtool.phar create-pot-files
 
   # ignore build folder for groupfolders and logreader
   if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
-      git checkout -- ../build
+      git checkout -- build
   fi
 
-  cd templates
+  cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../stable-templates/$version.$file
+    mv $file ../../stable-templates/$version.$file
   done
-  cd ..
+  cd ../..
 done
 
 # merge POT files into one
 for file in $(ls stable-templates/master.*)
 do
   name=$(echo $file | cut -b 25- )
-  msgcat --use-first stable-templates/*.$name > templates/$name
+  msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
 done
-
-rm l10nParseAppInfo.php
 
 # remove intermediate POT files
 rm -rf stable-templates
@@ -70,12 +66,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=25
 
-# delete removed l10n files that are used for language detection (they will be recreated during the write)
-rm -f *.js *.json
-
-cd ..
-
-backportVersions='master stable13 stable12 stable11'
+backportVersions='master stable13 stable12'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
@@ -87,12 +78,11 @@ do
   fi
   git checkout $version
 
-  cd l10n
+  # delete removed l10n files that are used for language detection (they will be recreated during the write)
+  rm -f l10n/*.js l10n/*.json
 
   # build JS/JSON based on translations
-  perl ./l10n.pl $2 write
-
-  cd ..
+  php5 translationtool.phar convert-po-files
 
   if [ -d tests ]; then
     # remove tests/
@@ -107,5 +97,3 @@ do
 
   echo "done with $version"
 done
-
-rm l10n/l10n.pl
