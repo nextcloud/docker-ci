@@ -46,7 +46,7 @@ rm -rf stable-templates
 tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
-tx pull -f -a --minimum-perc=75
+tx pull -f -a --minimum-perc=50
 # pull all "settings" translations for the language name (for 12)
 tx pull -a -f -r nextcloud.settings-1 --minimum-perc=1
 # pull all "lib" translations for the language name (for 13 and master)
