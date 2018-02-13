@@ -10,6 +10,7 @@
       "name": "app",
       "arguments": [
         "nextcloud activity",
+        "nextcloud admin_notifications",
         "nextcloud announcementcenter",
         "nextcloud bruteforcesettings",
         "nextcloud calendar",
@@ -25,6 +26,7 @@
         "nextcloud files_automatedtagging",
         "nextcloud files_downloadactivity",
         "nextcloud files_filter",
+        "nextcloud files_fulltextsearch",
         "nextcloud files_texteditor",
         "nextcloud firstrunwizard",
         "nextcloud fulltextsearch",
@@ -41,6 +43,7 @@
         "nextcloud notes",
         "nextcloud notifications",
         "nextcloud ocsms",
+        "nextcloud orcid",
         "nextcloud passman",
         "nextcloud password_policy",
         "nextcloud polls",
@@ -48,6 +51,7 @@
         "nextcloud ransomware_protection",
         "nextcloud richdocuments",
         "nextcloud serverinfo",
+        "nextcloud sharepoint",
         "nextcloud spreed",
         "nextcloud survey_client",
         "nextcloud tasks",
@@ -56,6 +60,7 @@
         "nextcloud twofactor_u2f",
         "nextcloud user_saml",
         "nextcloud weather",
+        "nextcloud zenodo",
         "janis91 ocr",
         "juliushaertl apporder"
       ]
