@@ -23,6 +23,7 @@
         "nextcloud end_to_end_encryption",
         "nextcloud external",
         "nextcloud files_accesscontrol",
+        "nextcloud files_antivirus",
         "nextcloud files_automatedtagging",
         "nextcloud files_downloadactivity",
         "nextcloud files_filter",
@@ -62,6 +63,7 @@
         "nextcloud user_saml",
         "nextcloud weather",
         "nextcloud zenodo",
+        "daita mood",
         "janis91 ocr",
         "juliushaertl apporder"
       ]
