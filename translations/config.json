@@ -27,6 +27,7 @@
         "nextcloud files_downloadactivity",
         "nextcloud files_filter",
         "nextcloud files_fulltextsearch",
+        "nextcloud files_retention",
         "nextcloud files_texteditor",
         "nextcloud firstrunwizard",
         "nextcloud fulltextsearch",
