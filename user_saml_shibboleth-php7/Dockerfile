@@ -23,8 +23,8 @@ RUN rm /*.ldif
 RUN yum -y install centos-release-scl
 RUN yum -y install rh-php70 rh-php70-php rh-php70-php-gd rh-php70-php-mbstring rh-php70-php-sqlite httpd git rh-php70-mcrypt rh-php70-php-pdo sudo
 RUN scl enable rh-php70 bash
-RUN yum -y install https://www.softwarecollections.org/en/scls/remi/php70more/epel-7-x86_64/download/remi-php70more-epel-7-x86_64.noarch.rpm
-RUN yum -y install more-php70-php-mcrypt.x86_64
+RUN yum -y install centos-release-scl
+RUN yum -y install sclo-php70-php-mcrypt.x86_64
 RUN chmod -R 777 /opt/
 RUN rm -f /etc/httpd/conf.d/nss.conf
 ADD apache/httpd.conf /etc/httpd/conf/httpd.conf
