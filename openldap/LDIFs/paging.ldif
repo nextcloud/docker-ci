@@ -1,0 +1,60 @@
+dn: ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: top
+objectclass: organizationalUnit
+ou: PagingTest
+
+dn: uid=gunna,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: gunna
+cn: Gunna Mínervudóttir
+sn: Mínervudóttir
+displayname: Gunna
+userPassword: 123456
+
+dn: uid=ebba,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: ebba
+cn: Ebba Benediktsdóttir
+sn: Benediktsdóttir
+displayname: Ebba
+userPassword: 123456
+
+dn: uid=juliana,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: juliana
+cn: Júlíana Bjarnadóttir
+sn: Bjarnadóttir
+displayname: Júlíana
+userPassword: 123456
+
+dn: uid=eindis,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: eindis
+cn: Eindís Hjartardóttir
+sn: Hjartardóttir
+displayname: Eindís
+userPassword: 123456
+
+dn: uid=stigur,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: stigur
+cn: Stígur Skúlason
+sn: Skúlason
+displayname: Stígur
+userPassword: 123456
+
+dn: uid=fjolnir,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: fjolnir
+cn: Fjölnir Vignisson
+sn: Vignisson
+displayname: Fjölnir
+userPassword: 123456
+
+dn: uid=leo,ou=PagingTest,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: leo
+cn: Leó Bjarnarsonar
+sn: Bjarnarsonar
+displayname: Leó
+userPassword: 123456
