@@ -1,0 +1,21 @@
+dn: ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: top
+objectclass: organizationalUnit
+ou: Ordinary
+
+dn: ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: top
+objectclass: organizationalUnit
+ou: Users
+
+dn: uid=alice,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: alice
+cn: Alice Alfgeirdottir
+sn: Alfgeirdottir
+givenname: Alice
+initials: AA
+displayname: Alice
+userPassword: 123456
+mail: alice@nextcloud.ci
+jpegPhoto: < /etc/ldap/prepopulate/avatar-female.png
