@@ -31,6 +31,12 @@ tx push -s
 # pull translations
 tx pull -f -a --minimum-perc=50
 
+# for the default Android app rename the informal german to the formal version
+if [ -d src/main/res ]; then
+  rm -rf src/main/res/values-de
+  mv src/main/res/values-de-rDE src/main/res/values-de
+fi
+
 if [ -e "scripts/metadata/generate_metadata.py" ]; then
   # copy transifex strings to fastlane
   python3 scripts/metadata/generate_metadata.py
