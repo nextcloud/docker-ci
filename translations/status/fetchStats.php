@@ -9,6 +9,10 @@ $configs = [
 		'url' => 'https://github.com/nextcloud/android/issues?q=is%3Aissue+is%3Aopen+-label%3Abug+-label%3Aenhancement+-label%3Aoverview',
 		'filename' => __DIR__ . '/stats-android',
 	],
+	[
+		'url' => 'https://github.com/nextcloud/android/issues?q=is%3Aissue+is%3Aopen+label%3Aapproved+label%3Abug+-label%3A%22pr+exists%22',
+		'filename' => __DIR__ . '/stats-android-approved',
+	],
 ];
 
 foreach ($configs as $key => $config) {
