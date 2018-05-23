@@ -216,12 +216,66 @@ class TranslatableApp {
 		if ($xml->name) {
 			$strings[] = $xml->name->__toString();
 		}
-		
+
 		if ($xml->navigations) {
 			foreach ($xml->navigations as $navigation) {
 				$name = $navigation->navigation->name->__toString();
 				if (!in_array($name, $strings)) {
 					$strings[] = $name;
+				}
+			}
+		}
+
+		if ($xml->name) {
+			if ($xml->name->count() > 1) {
+				foreach ($xml->name as $name) {
+					if ((string)$name->attributes()->lang === 'en') {
+						$name = $name->__toString();
+						if (!in_array($name, $strings)) {
+							$strings[] = $name;
+						}
+					}
+				}
+			} else {
+				$name = $xml->name->__toString();
+				if (!in_array($name, $strings)) {
+					$strings[] = $name;
+				}
+			}
+		}
+
+		if ($xml->summary) {
+			if ($xml->summary->count() > 1) {
+				foreach ($xml->summary as $summary) {
+					if ((string)$summary->attributes()->lang === 'en') {
+						$name = $summary->__toString();
+						if (!in_array($name, $strings)) {
+							$strings[] = $name;
+						}
+					}
+				}
+			} else {
+				$name = $xml->summary->__toString();
+				if (!in_array($name, $strings)) {
+					$strings[] = $name;
+				}
+			}
+		}
+
+		if ($xml->description) {
+			if ($xml->description->count() > 1) {
+				foreach ($xml->description as $description) {
+					if ((string)$description->attributes()->lang === 'en') {
+						$name = $description->__toString();
+						if (!in_array($name, $strings)) {
+							$strings[] = trim($name);
+						}
+					}
+				}
+			} else {
+				$name = $xml->description->__toString();
+				if (!in_array($name, $strings)) {
+					$strings[] = trim($name);
 				}
 			}
 		}
