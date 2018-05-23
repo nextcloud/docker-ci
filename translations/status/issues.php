@@ -47,7 +47,7 @@ $elementsAndroidApproved = array_map(function($line) {
             <p>The total number of untriaged issues needs to be close to 0. <a href="https://github.com/nextcloud/android/issues?utf8=✓&amp;q=is%3Aissue+is%3Aopen+-label%3Abug+-label%3Aenhancement+-label%3Aoverview">Triage issues on Github.</a></p>
             <canvas id="myChartAndroid"></canvas>
             <h1><?php echo $elementsAndroidApproved[count($elementsAndroidApproved)-1][1]; ?> approved android bugs</h1>
-            <p>The total number of approved android bugs should be close to 0. <a href="https://github.com/nextcloud/android/issues?utf8=✓&amp;q=is%3Aissue+is%3Aopen+label%3Aapproved+label%3Abug+-label%3A%22pr+exists%22">Triage issues on Github.</a></p>
+            <p>The total number of approved android bugs should be close to 0. <a href="https://github.com/nextcloud/android/issues?utf8=✓&amp;q=is%3Aissue+is%3Aopen+label%3Aapproved+label%3Abug+-label%3A%22pr+exists%22">Fix bugs on Github.</a></p>
             <canvas id="myChartAndroidApproved"></canvas>
         </div>
         <script>
