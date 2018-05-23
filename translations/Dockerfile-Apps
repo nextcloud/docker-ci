@@ -1,4 +1,4 @@
-FROM nextcloudci/translations:translations-20
+FROM nextcloudci/translations:translations-23
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
