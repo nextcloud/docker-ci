@@ -170,6 +170,7 @@ class TranslatableApp {
 					(substr($entry, -3) === '.js' && substr($entry, -7) !== '.min.js') ||
 					substr($entry, -4) === '.vue' ||
 					substr($entry, -4) === '.jsx' ||
+					substr($entry, -5) === '.html' ||
 					substr($entry, -3) === '.ts' ||
 					substr($entry, -4) === '.tsx') {
 					$this->translatableFiles[] = $newRealPath;
