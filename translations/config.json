@@ -10,7 +10,6 @@
       "name": "app",
       "arguments": [
         "nextcloud activity",
-        "nextcloud admin_notifications",
         "nextcloud announcementcenter",
         "nextcloud bookmarks",
         "nextcloud bruteforcesettings",
