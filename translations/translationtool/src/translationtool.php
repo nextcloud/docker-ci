@@ -340,7 +340,7 @@ class TranslationTool {
 
 		$this->findApps(getcwd());
 		if (count($this->appPaths) === 0) {
-			echo 'Could not find translatable apps.' . PHP_EOL;
+			echo 'Could not find translatable apps. Make sure that the folder "l10n" is present.' . PHP_EOL;
 			return false;
 		}
 
