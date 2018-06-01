@@ -37,6 +37,13 @@ if [ -d src/main/res ]; then
   mv src/main/res/values-de-rDE src/main/res/values-de
 fi
 
+# move language folder as java uses old locales
+if [ -d src/main/res ]; then
+  mv src/main/res/values-he src/main/res/values-iw
+  mv src/main/res/values-id src/main/res/values-in
+  mv src/main/res/values-yi src/main/res/values-ji
+fi
+
 if [ -e "scripts/metadata/generate_metadata.py" ]; then
   # copy transifex strings to fastlane
   python3 scripts/metadata/generate_metadata.py
