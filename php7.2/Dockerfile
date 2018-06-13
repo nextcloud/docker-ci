@@ -6,14 +6,21 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https
     php7.2-cli php7.2-curl php7.2-pgsql php7.2-ldap \
     php7.2-sqlite php7.2-mysql php7.2-zip php7.2-xml \
     php7.2-mbstring php7.2-dev make libmagickcore-6.q16-2-extra unzip \
-    php7.2-redis php7.2-imagick && \
+    php7.2-redis php7.2-imagick php7.2-dev \
+    libsystemd-dev && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
 RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
 RUN echo "extension=ast.so" >> /etc/php/7.2/cli/conf.d/20-ast.ini
-RUN phpenmod zip intl gd
+
+RUN cd /tmp && wget -O php-systemd-src.zip https://github.com/systemd/php-systemd/archive/master.zip && \
+    unzip php-systemd-src.zip && cd /tmp/php-systemd-master && phpize && \
+    ./configure --with-systemd && make && make install && rm -rf /tmp/php-systemd-master && \
+    echo "extension=systemd.so" >> /etc/php/7.2/mods-available/systemd.ini
+
+RUN phpenmod zip intl gd systemd
 RUN curl -O -L https://phar.phpunit.de/phpunit-6.5.5.phar \
     && chmod +x phpunit-6.5.5.phar \
     && mv phpunit-6.5.5.phar /usr/local/bin/phpunit
