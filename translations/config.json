@@ -88,6 +88,7 @@
       "arguments": [
         "linfaservice cloudgallery",
         "nextcloud android",
+        "nextcloud Android-SingleSignOn",
         "nextcloud client",
         "nextcloud news-android",
         "nextcloud passman-android",
