@@ -43,3 +43,5 @@ RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platform-tools"
 
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "system-images;android-27;google_apis;x86"
 RUN (sleep 5; echo "no") | avdmanager create avd -n android-27 -c 100M -k "system-images;android-27;google_apis;x86" --abi "google_apis/x86"
+
+RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux32 -O /usr/bin/jq && chmod +x /usr/bin/jq
