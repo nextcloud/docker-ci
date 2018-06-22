@@ -7,9 +7,9 @@ RUN apt-get update && \
         software-properties-common build-essential mesa-common-dev \
         fuse rsync curl libssl-dev
 
-RUN add-apt-repository -y ppa:beineri/opt-qt593-trusty && \
+RUN add-apt-repository -y ppa:beineri/opt-qt595-trusty && \
     apt-get update && \
-    apt-get install -y qt59base qt59tools qt59webengine
+    apt-get install -y qt59base qt59tools qt59webengine qt59svg
 
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
