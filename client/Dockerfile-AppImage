@@ -3,9 +3,9 @@ FROM ubuntu:trusty
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
-    apt-get install -y wget libsqlite3-dev libssl-dev cmake git \
+    apt-get install -y wget libsqlite3-dev libssl-dev git \
         software-properties-common build-essential mesa-common-dev \
-        fuse rsync curl libssl-dev
+        fuse rsync curl
 
 RUN add-apt-repository -y ppa:beineri/opt-qt595-trusty && \
     apt-get update && \
@@ -15,6 +15,13 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y gcc-7 g++-7
 
-RUN add-apt-repository -y ppa:george-edison55/cmake-3.x && \
-    apt-get update && \
-    apt-get install -y cmake
+RUN cd /tmp && \
+    wget https://cmake.org/files/v3.11/cmake-3.11.4-Linux-x86_64.tar.gz && \
+    tar -xvf cmake-3.11.4-Linux-x86_64.tar.gz && \
+    cd cmake-3.11.4-Linux-x86_64 &&
+    cp -r bin /usr/ && \
+    cp -r share /usr/ && \
+    cp -r doc /usr/share/ && \
+    cp -r man /usr/share/ && \
+    cd .. && \
+    rm -rf cmake*
