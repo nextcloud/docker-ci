@@ -3,7 +3,7 @@ FROM ubuntu:trusty
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
-    apt-get install -y wget libsqlite3-dev libssl-dev git \
+    apt-get install -y wget libsqlite3-dev git \
         software-properties-common build-essential mesa-common-dev \
         fuse rsync curl
 
@@ -14,6 +14,14 @@ RUN add-apt-repository -y ppa:beineri/opt-qt595-trusty && \
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
     apt-get update && \
     apt-get install -y gcc-7 g++-7
+
+RUN cd /tmp && \
+    wget https://www.openssl.org/source/openssl-1.1.0h.tar.gz && \
+    tar -xvf openssl-1.1.0h.tar.gz && \
+    cd openssl-1.1.0h && \
+    ./config && \
+    make && \
+    make install
 
 RUN cd /tmp && \
     wget https://cmake.org/files/v3.11/cmake-3.11.4-Linux-x86_64.tar.gz && \
