@@ -41,14 +41,17 @@ class TranslatableApp {
 		$this->setAppName();
 
 		switch ($this->name) {
-			case 'updatenotification':
-				$this->ignoreFiles[] = 'js/merged.js';
+			case 'bruteforcesettings':
+				$this->ignoreFiles[] = 'js/bruteforcesettings.js';
 				break;
 			case 'oauth2':
 				$this->ignoreFiles[] = 'js/oauth2.js';
 				break;
 			case 'settings':
 				$this->ignoreFiles[] = 'js/settings-vue.js';
+				break;
+			case 'updatenotification':
+				$this->ignoreFiles[] = 'js/merged.js';
 				break;
 		}
 	}
