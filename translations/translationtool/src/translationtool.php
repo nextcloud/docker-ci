@@ -39,6 +39,18 @@ class TranslatableApp {
 		$this->dummyFileName = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
 
 		$this->setAppName();
+
+		switch ($this->name) {
+			case 'updatenotification':
+				$this->ignoreFiles[] = 'js/merged.js';
+				break;
+			case 'oauth2':
+				$this->ignoreFiles[] = 'js/oauth2.js';
+				break;
+			case 'settings':
+				$this->ignoreFiles[] = 'js/settings-vue.js';
+				break;
+		}
 	}
 
 	 public function createPotFile() {
