@@ -51,7 +51,7 @@ class TranslatableApp {
 				$this->ignoreFiles[] = 'js/settings-vue.js';
 				break;
 			case 'updatenotification':
-				$this->ignoreFiles[] = 'js/merged.js';
+				$this->ignoreFiles[] = 'js/updatenotification.js';
 				break;
 		}
 	}
