@@ -114,6 +114,12 @@
       "arguments": [
         "windows-universal"
       ]
-    }
+    },
+    {
+      "name": "changelogserver",
+      "arguments": [
+        ""
+      ]
+    },
   ]
 }
