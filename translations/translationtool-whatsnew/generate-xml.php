@@ -21,7 +21,7 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-include "./vendor/autoload.php";
+include __DIR__ . "/vendor/autoload.php";
 
 if (count($_SERVER['argv']) !== 2) {
 	echo "Please specify the path to changelog_server/data." . PHP_EOL . PHP_EOL;
