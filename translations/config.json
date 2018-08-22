@@ -118,7 +118,7 @@
     {
       "name": "changelogserver",
       "arguments": [
-        ""
+        "nextcloud changelog_server"
       ]
     }
   ]
