@@ -58,6 +58,7 @@
         "nextcloud spreed",
         "nextcloud survey_client",
         "nextcloud tasks",
+        "nextcloud terms_of_service",
         "nextcloud twofactor_totp",
         "nextcloud twofactor_u2f",
         "nextcloud user_saml",
