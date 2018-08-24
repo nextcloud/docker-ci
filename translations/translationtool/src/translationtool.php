@@ -50,6 +50,10 @@ class TranslatableApp {
 			case 'settings':
 				$this->ignoreFiles[] = 'js/settings-vue.js';
 				break;
+			case 'terms_of_service':
+				$this->ignoreFiles[] = 'js/terms_of_service_admin.js';
+				$this->ignoreFiles[] = 'js/terms_of_service_user.js';
+				break;
 			case 'updatenotification':
 				$this->ignoreFiles[] = 'js/updatenotification.js';
 				break;
