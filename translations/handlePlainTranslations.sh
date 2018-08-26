@@ -39,7 +39,7 @@ fi
 # for the Android talk app rename the informal german to the formal version
 if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-de
-  mv app/src/main/res/values-de-rDE src/main/res/values-de
+  mv app/src/main/res/values-de-rDE app/src/main/res/values-de
 fi
 
 if [ -e "scripts/metadata/generate_metadata.py" ]; then
