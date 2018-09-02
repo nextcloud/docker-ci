@@ -44,6 +44,9 @@ class TranslatableApp {
 			case 'bruteforcesettings':
 				$this->ignoreFiles[] = 'js/bruteforcesettings.js';
 				break;
+			case 'notifications':
+				$this->ignoreFiles[] = 'js/notifications.js';
+				break;
 			case 'oauth2':
 				$this->ignoreFiles[] = 'js/oauth2.js';
 				break;
