@@ -22,6 +22,7 @@ RUN yes | sdkmanager --sdk_root=/opt/android-sdk-linux/ --licenses
 
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle -O android.gradle && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/gplay.gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android-library/master/build.gradle -O android-library.gradle && \
     sed '/^ [ ]*dependencies/Q' android.gradle >> build.gradle && \
     echo "    dependencies {" >> build.gradle && \
