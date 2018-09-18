@@ -31,9 +31,10 @@ RUN cd /gradle && \
     sed -n '/^dependencies/,/\}/p' android-library.gradle | grep -v dep | grep -v "}" >> build.gradle && \
     grep -A 999 "^dependencies" android.gradle | grep -v "dependencies" >> build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
-    sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle
+    sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle && \
+    sed -i s'#minSdkVersion\ 14#minSdkVersion\ 18#' build.gradle
 
-RUN cd /gradle && ./gradlew clean assembleGenericDebug assembleGenericDebugAndroidTest lintGenericDebug
+RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint
 
 RUN gem install xml-simple
 
