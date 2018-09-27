@@ -19,6 +19,7 @@ displayname: Alice
 userPassword: 123456
 mail: alice@nextcloud.ci
 mobile: +49 173 7484122
+employeeNumber: 92379
 # we misue roomNumber for an absolute path
 roomNumber: /dev/shm/alice-data
 jpegPhoto:< file:///etc/ldap/prepopulate/avatar-female.jpg
@@ -34,6 +35,7 @@ displayname: Elisa
 userPassword: 123456
 mail: elisa@nextcloud.ci
 mobile: +49 173 7484144
+employeeNumber: 50194
 # we misue roomNumber for an absolute path
 roomNumber: /dev/shm/elisa-data
 

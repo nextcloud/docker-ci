@@ -10,6 +10,7 @@ cn: Gunna Mínervudóttir
 sn: Mínervudóttir
 displayname: Gunna
 userPassword: 123456
+employeeNumber: 58294
 
 dn: uid=ebba,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -18,6 +19,7 @@ cn: Ebba Benediktsdóttir
 sn: Benediktsdóttir
 displayname: Ebba
 userPassword: 123456
+employeeNumber: 57572
 
 dn: uid=juliana,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -26,6 +28,7 @@ cn: Júlíana Bjarnadóttir
 sn: Bjarnadóttir
 displayname: Júlíana
 userPassword: 123456
+employeeNumber: 71228
 
 dn: uid=eindis,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -34,6 +37,7 @@ cn: Eindís Hjartardóttir
 sn: Hjartardóttir
 displayname: Eindís
 userPassword: 123456
+employeeNumber: 62509
 
 dn: uid=stigur,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -42,6 +46,7 @@ cn: Stígur Skúlason
 sn: Skúlason
 displayname: Stígur
 userPassword: 123456
+employeeNumber: 11719
 
 dn: uid=fjolnir,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -50,6 +55,7 @@ cn: Fjölnir Vignisson
 sn: Vignisson
 displayname: Fjölnir
 userPassword: 123456
+employeeNumber: 64174
 
 dn: uid=leo,ou=PagingTest,dc=nextcloud,dc=ci
 objectclass: inetOrgPerson
@@ -58,3 +64,4 @@ cn: Leó Bjarnarsonar
 sn: Bjarnarsonar
 displayname: Leó
 userPassword: 123456
+employeeNumber: 55950
