@@ -13,7 +13,7 @@ git clone git@github.com:$1/$2 /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable12 stable13 master'
+versions='stable12 stable13 stable14 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -35,7 +35,7 @@ do
 
   # mail specific code
   if [ "$2" == "mail" ] ; then
-    php5 build/translation-extractor.php
+    php build/translation-extractor.php
   fi
 
   # build POT files
@@ -70,7 +70,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=25
 
-backportVersions='master stable13 stable12'
+backportVersions='master stable14 stable13 stable12'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
