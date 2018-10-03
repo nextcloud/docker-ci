@@ -44,6 +44,12 @@ class TranslatableApp {
 			case 'bruteforcesettings':
 				$this->ignoreFiles[] = 'js/bruteforcesettings.js';
 				break;
+			case 'core':
+				$this->ignoreFiles[] = 'js/contactsmenu_templates.js';
+				break;
+			case 'files':
+				$this->ignoreFiles[] = 'js/templates.js';
+				break;
 			case 'notifications':
 				$this->ignoreFiles[] = 'js/notifications.js';
 				break;
@@ -52,6 +58,12 @@ class TranslatableApp {
 				break;
 			case 'settings':
 				$this->ignoreFiles[] = 'js/settings-vue.js';
+				$this->ignoreFiles[] = 'js/0.settings-vue.js';
+				$this->ignoreFiles[] = 'js/1.settings-vue.js';
+				$this->ignoreFiles[] = 'js/2.settings-vue.js';
+				$this->ignoreFiles[] = 'js/3.settings-vue.js';
+				$this->ignoreFiles[] = 'js/4.settings-vue.js';
+				$this->ignoreFiles[] = 'js/templates.js';
 				break;
 			case 'terms_of_service':
 				$this->ignoreFiles[] = 'js/terms_of_service_admin.js';
