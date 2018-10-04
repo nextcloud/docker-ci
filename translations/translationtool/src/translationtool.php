@@ -46,8 +46,16 @@ class TranslatableApp {
 				break;
 			case 'core':
 				$this->ignoreFiles[] = 'js/contactsmenu_templates.js';
+				$this->ignoreFiles[] = 'js/sharetemplates.js';
+				$this->ignoreFiles[] = 'js/systemtags/templates.js';
+				break;
+			case 'comments':
+				$this->ignoreFiles[] = 'js/templates.js';
 				break;
 			case 'files':
+				$this->ignoreFiles[] = 'js/templates.js';
+				break;
+			case 'files_versions':
 				$this->ignoreFiles[] = 'js/templates.js';
 				break;
 			case 'notifications':
