@@ -8,9 +8,19 @@ $elements = array_map(function($line) {
 
 $lines = explode(PHP_EOL, file_get_contents(__DIR__ . '/stats-android'));
 
-$elementsAndroid = array_map(function($line) {
-    return explode(' ', $line); 
-}, $lines);
+$elementsAndroid = array_filter(array_map(function($line) {
+    if (strlen($line) < 5) {
+        return null;
+    }
+    list($date, $enhancements, $approvedBugs, $nonApprovedBugs, $untriaged) = explode(' ', $line);
+    return [
+        'date' => $date,
+        'enhancements' => $enhancements,
+        'approvedBugs' => $approvedBugs,
+        'nonApprovedBugs' => $nonApprovedBugs,
+        'untriaged' => $untriaged,
+    ];
+}, $lines));
 
 ?>
 <html lang="de">
@@ -98,9 +108,7 @@ $elementsAndroid = array_map(function($line) {
                     labels: [
                     <?php
                     foreach($elementsAndroid as $element) {
-                        if ($element[0] != 0 ) {
-                            echo ("\"" . $element[0] . "\",");
-                        }
+                        echo ("\"" . $element['date'] . "\",");
                     }
                     ?>
                     ],
@@ -110,9 +118,7 @@ $elementsAndroid = array_map(function($line) {
                         data: [
                             <?php
                             foreach($elementsAndroid as $element) {
-                                if ($element[0] != 0 ) {
-                                    echo ($element[2] . ",");
-                                }
+                                echo ($element['enhancements'] . ",");
                             }
                             ?>
                         ],
@@ -123,9 +129,7 @@ $elementsAndroid = array_map(function($line) {
                         data: [
                             <?php
                             foreach($elementsAndroid as $element) {
-                                if ($element[0] != 0 ) {
-                                    echo ($element[3] . ",");
-                                }
+                                echo ($element['approvedBugs'] . ",");
                             }
                             ?>
                         ],
@@ -136,9 +140,7 @@ $elementsAndroid = array_map(function($line) {
                         data: [
                             <?php
                             foreach($elementsAndroid as $element) {
-                                if ($element[0] != 0 ) {
-                                    echo ($element[4] . ",");
-                                }
+                                echo ($element['nonApprovedBugs'] . ",");
                             }
                             ?>
                         ],
@@ -149,9 +151,7 @@ $elementsAndroid = array_map(function($line) {
                         data: [
                             <?php
                             foreach($elementsAndroid as $element) {
-                                if ($element[0] != 0 ) {
-                                    echo ($element[5] . ",");
-                                }
+                                echo ($element['untriaged'] . ",");
                             }
                             ?>
                         ],
