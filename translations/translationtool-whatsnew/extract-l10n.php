@@ -92,7 +92,7 @@ function writePotFile(string $path, array $strings) {
 	foreach ($strings as $version => $items) {
 		foreach($items as $key => $item) {
 			$content .= 'msgid "' . $version . '-' . $key .'-' . substr(hash('sha256', $item), 0, 8) . '"' . PHP_EOL;
-			$content .= 'msgstr "' . $item . '"' . PHP_EOL . PHP_EOL;
+			$content .= 'msgstr "' . str_replace('"', '\"', $item) . '"' . PHP_EOL . PHP_EOL;
 		}
 	}
 
