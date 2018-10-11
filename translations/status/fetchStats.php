@@ -1,5 +1,9 @@
 <?php
 
+$today = date("Y-m-d");
+$oneWeekAgo = date("Y-m-d", strtotime('-1 week'));
+$twoWeeksAgo = date("Y-m-d", strtotime('-2 weeks'));
+
 $configs = [
 	[
 		'url' => [
@@ -15,6 +19,14 @@ $configs = [
 			'untriaged' => 'https://github.com/nextcloud/android/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+-label%3Abug+-label%3Aenhancement+-label%3Aoverview'
 			],
 		'filename' => __DIR__ . '/stats-android',
+	],
+	[
+	    'url' => [ 
+			'oneWeekOld' => "https://github.com/nextcloud/android/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aopen+updated%3A$oneWeekAgo..$today",
+			'twoWeeksOld' => "https://github.com/nextcloud/android/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aopen+updated%3A$twoWeeksAgo..$oneWeekAgo",
+			'olderThan2Weeks' => "https://github.com/nextcloud/android/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aopen+updated%3A2000-01-01..$twoWeeksAgo",
+			],
+	'filename' => __DIR__ . '/stats-android-pr',
 	],
 ];
 
