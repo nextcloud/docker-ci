@@ -193,8 +193,21 @@ $elementsAndroidPR = array_filter(array_map(function($line) {
                         }],
                     },
                     tooltips: {
-                        mode: 'index',
-                        intersect: false
+                        mode: 'label',
+                        callbacks: {
+                            afterTitle: function() {
+                                window.total = 0;
+                            },
+                            label: function(tooltipItem, data) {
+                                var corporation = data.datasets[tooltipItem.datasetIndex].label;
+                                var valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                window.total += valor;
+                                return corporation + ": " + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");             
+                            },
+                            footer: function() {
+                                return "TOTAL: " + window.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                            }
+                        }
                     },
                     responsive: true,
                 }
@@ -267,8 +280,21 @@ $elementsAndroidPR = array_filter(array_map(function($line) {
                         }],
                     },
                     tooltips: {
-                        mode: 'index',
-                        intersect: false
+                        mode: 'label',
+                        callbacks: {
+                            afterTitle: function() {
+                                window.total = 0;
+                            },
+                            label: function(tooltipItem, data) {
+                                var corporation = data.datasets[tooltipItem.datasetIndex].label;
+                                var valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                window.total += valor;
+                                return corporation + ": " + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");             
+                            },
+                            footer: function() {
+                                return "TOTAL: " + window.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                            }
+                        }
                     },
                     responsive: true,
                 }
