@@ -33,6 +33,7 @@
         "nextcloud files_texteditor",
         "nextcloud firstrunwizard",
         "nextcloud fulltextsearch",
+        "nextcloud fulltextsearch_elasticsearch",
         "nextcloud gallery",
         "nextcloud groupfolders",
         "nextcloud guests",
