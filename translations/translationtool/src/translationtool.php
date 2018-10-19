@@ -65,12 +65,15 @@ class TranslatableApp {
 				$this->ignoreFiles[] = 'js/oauth2.js';
 				break;
 			case 'settings':
+				$this->ignoreFiles[] = 'js/0.js';
+				$this->ignoreFiles[] = 'js/1.js';
+				$this->ignoreFiles[] = 'js/2.js';
+				$this->ignoreFiles[] = 'js/3.js';
+				$this->ignoreFiles[] = 'js/4.js';
+				$this->ignoreFiles[] = 'js/5.js';
+				$this->ignoreFiles[] = 'js/6.js';
 				$this->ignoreFiles[] = 'js/settings-vue.js';
-				$this->ignoreFiles[] = 'js/0.settings-vue.js';
-				$this->ignoreFiles[] = 'js/1.settings-vue.js';
-				$this->ignoreFiles[] = 'js/2.settings-vue.js';
-				$this->ignoreFiles[] = 'js/3.settings-vue.js';
-				$this->ignoreFiles[] = 'js/4.settings-vue.js';
+				$this->ignoreFiles[] = 'js/settings-admin-security.js';
 				$this->ignoreFiles[] = 'js/templates.js';
 				break;
 			case 'terms_of_service':
