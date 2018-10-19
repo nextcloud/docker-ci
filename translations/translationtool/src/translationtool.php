@@ -40,50 +40,21 @@ class TranslatableApp {
 
 		$this->setAppName();
 
-		switch ($this->name) {
-			case 'bruteforcesettings':
-				$this->ignoreFiles[] = 'js/bruteforcesettings.js';
-				break;
-			case 'core':
-				$this->ignoreFiles[] = 'js/contactsmenu_templates.js';
-				$this->ignoreFiles[] = 'js/sharetemplates.js';
-				$this->ignoreFiles[] = 'js/systemtags/templates.js';
-				break;
-			case 'comments':
-				$this->ignoreFiles[] = 'js/templates.js';
-				break;
-			case 'files':
-				$this->ignoreFiles[] = 'js/templates.js';
-				break;
-			case 'files_versions':
-				$this->ignoreFiles[] = 'js/templates.js';
-				break;
-			case 'notifications':
-				$this->ignoreFiles[] = 'js/notifications.js';
-				break;
-			case 'oauth2':
-				$this->ignoreFiles[] = 'js/oauth2.js';
-				break;
-			case 'settings':
-				$this->ignoreFiles[] = 'js/0.js';
-				$this->ignoreFiles[] = 'js/1.js';
-				$this->ignoreFiles[] = 'js/2.js';
-				$this->ignoreFiles[] = 'js/3.js';
-				$this->ignoreFiles[] = 'js/4.js';
-				$this->ignoreFiles[] = 'js/5.js';
-				$this->ignoreFiles[] = 'js/6.js';
-				$this->ignoreFiles[] = 'js/settings-vue.js';
-				$this->ignoreFiles[] = 'js/settings-admin-security.js';
-				$this->ignoreFiles[] = 'js/templates.js';
-				break;
-			case 'terms_of_service':
-				$this->ignoreFiles[] = 'js/terms_of_service_admin.js';
-				$this->ignoreFiles[] = 'js/terms_of_service_user.js';
-				break;
-			case 'updatenotification':
-				$this->ignoreFiles[] = 'js/updatenotification.js';
-				break;
+		if (file_exists($this->appPath . '/.l10nignore')) {
+			$lines = explode("\n", file_get_contents($this->appPath . '/.l10nignore'));
+			foreach ($lines as $line) {
+				if (!$line) {
+					continue;
+				}
+				if (substr($line, 0, 1) === '#') {
+					continue;
+				}
+				$this->ignoreFiles[] = $line;
+			}
 		}
+
+		echo "Those files are ignored:\n";
+		print_r($this->ignoreFiles);
 	}
 
 	 public function createPotFile() {
