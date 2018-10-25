@@ -127,6 +127,12 @@
       "arguments": [
         "nextcloud changelog_server"
       ]
+    },
+    {
+      "name": "documentation-sync",
+      "arguments": [
+        "nextcloud documentation"
+      ]
     }
   ]
 }
