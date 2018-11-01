@@ -1,4 +1,4 @@
-FROM nextcloudci/translations:translations-36
+FROM nextcloudci/translations:translations-37
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
