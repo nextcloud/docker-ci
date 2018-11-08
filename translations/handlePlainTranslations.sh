@@ -41,6 +41,11 @@ if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-de
   mv app/src/main/res/values-de-rDE app/src/main/res/values-de
 fi
+# for the Android news app rename the informal german to the formal version
+if [ -d News-Android-App/src/main/res ]; then
+  rm -rf News-Android-App/src/main/res/values-de
+  mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
+fi
 
 if [ -e "scripts/metadata/generate_metadata.py" ]; then
   # copy transifex strings to fastlane
