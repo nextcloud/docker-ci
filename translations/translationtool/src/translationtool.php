@@ -25,8 +25,8 @@ require __DIR__ . '/vendor/autoload.php';
 class TranslatableApp {
 	private $appPath;
 	private $name;
-	private $translatableFiles; 
-	private $dummyFileName;
+	private $fakeAppInfoFile;
+	private $fakeVueFile;
 	private $ignoreFiles;
 	private $translationsPath;
 
@@ -34,9 +34,9 @@ class TranslatableApp {
 		$this->appPath = $appPath;
 		$this->translationsPath = $translationsPath;
 
-		$this->translatableFiles = [];
 		$this->ignoreFiles = [];
-		$this->dummyFileName = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
+		$this->fakeAppInfoFile = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
+		$this->fakeVueFile = $this->appPath . '/specialVueFakeDummyForL10nScript.js';
 
 		$this->setAppName();
 
@@ -63,11 +63,15 @@ class TranslatableApp {
 		// Gather required data
 		$this->readIgnoreList();
 		$this->createFakeFileForAppInfo();
-		$this->findTranslatableFiles();
+		$this->createFakeFileForVueFiles();
+		$translatableFiles = $this->findTranslatableFiles(
+			['.php', '.js', '.jsx', '.html', '.ts', '.tsx'],
+			['.min.js']
+		);
 
 		// Let gettext create the pot file
 		$additionalArguments = ' --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="3.14159" --package-name="Nextcloud" --msgid-bugs-address="translations\@example.com"';
-		foreach ($this->translatableFiles as $entry) {
+		foreach ($translatableFiles as $entry) {
 			$output = '--output=' . escapeshellarg($pathToPotFile);
 
 			$keywords = '';
@@ -94,6 +98,7 @@ class TranslatableApp {
 		
 		// Don't forget to remove the temporary file
 		$this->deleteFakeFileForAppInfo();
+		$this->deleteFakeFileForVueFiles();
 	}
 
 	public function createNextcloudFiles() {
@@ -163,8 +168,18 @@ class TranslatableApp {
 		return Gettext\Generators\Po::convertString($string);
 	}
 
-	private function findTranslatableFiles($path='') {
+	private function hasExtension($fileName, $extensions) {
+		foreach ($extensions as $ext) {
+			if (substr($fileName, -strlen($ext)) === $ext) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private function findTranslatableFiles(array $extensions, array $ignoredExtensions = [], $path = '') {
 		$realPath = $path === '' ? $this->appPath : $this->appPath . '/' . $path;
+		$translatable = [];
 
 		$directoryectoryContent = scandir($realPath);
 		foreach ($directoryectoryContent as $entry) {
@@ -179,20 +194,17 @@ class TranslatableApp {
 				continue;
 			}
 			if (is_dir($newRealPath) && $entry != 'l10n' && $entry != 'node_modules') {
-				$this->findTranslatableFiles($newPath);
+				$translatable = array_merge($translatable, $this->findTranslatableFiles($extensions, $ignoredExtensions, $newPath));
 			}
 			if (is_file($newRealPath)) {
-				if (substr($entry, -4) === '.php' ||
-					(substr($entry, -3) === '.js' && substr($entry, -7) !== '.min.js') ||
-					substr($entry, -4) === '.vue' ||
-					substr($entry, -4) === '.jsx' ||
-					substr($entry, -5) === '.html' ||
-					substr($entry, -3) === '.ts' ||
-					substr($entry, -4) === '.tsx') {
-					$this->translatableFiles[] = $newRealPath;
+				if ($this->hasExtension($entry, $extensions)
+					&& !$this->hasExtension($entry, $ignoredExtensions)) {
+					$translatable[] = $newRealPath;
 				}
 			}
 		}
+
+		return $translatable;
 	}
 
 	private function readIgnoreList() {
@@ -302,12 +314,51 @@ class TranslatableApp {
 			$content .= '$l->t(' . $this->escape($string) . ');' . PHP_EOL;
 		}
 		
-		file_put_contents($this->dummyFileName, $content);		
+		file_put_contents($this->fakeAppInfoFile, $content);
+	}
+
+	private function createFakeFileForVueFiles() {
+		$fakeFileContent = '';
+
+		foreach ($this->findTranslatableFiles(['.vue']) as $vueFile) {
+			$vueSource = file_get_contents($vueFile);
+			if ($vueSource === false) {
+				echo "Warning: could not read " . $vueFile . PHP_EOL;
+				continue;
+			}
+
+			// t
+			preg_match_all("/\Wt\s*\('([_a-zA-Z]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wt\s*\(\"([_a-zA-Z]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
+			$matches = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2]);
+			foreach ($matches as $match) {
+				$fakeFileContent .= "t('" . $this->name . "', '" . $match . "');" . PHP_EOL;
+			}
+
+			// n
+			preg_match_all("/\Wn\s*\('([_a-zA-Z]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wn\s*\(\"([_a-zA-Z]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
+			$matches1 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2]);
+			$matches2 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3]);
+			foreach (array_keys($matches1) as $k) {
+				$match1 = $matches1[$k];
+				$match2 = $matches2[$k];
+				$fakeFileContent .= "n('" . $this->name . "', '" . $match1 . "', '" . $match2 . "');" . PHP_EOL;
+			}
+		}
+
+		file_put_contents($this->fakeVueFile, $fakeFileContent);
 	}
 
 	private function deleteFakeFileForAppInfo() {
-		if (is_file($this->dummyFileName)){
-			unlink($this->dummyFileName);
+		if (is_file($this->fakeAppInfoFile)){
+			unlink($this->fakeAppInfoFile);
+		}
+	}
+
+	private function deleteFakeFileForVueFiles() {
+		if (is_file($this->fakeVueFile)){
+			unlink($this->fakeVueFile);
 		}
 	}
 
