@@ -328,16 +328,16 @@ class TranslatableApp {
 			}
 
 			// t
-			preg_match_all("/\Wt\s*\('([_a-zA-Z]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wt\s*\(\"([_a-zA-Z]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
+			preg_match_all("/\Wt\s*\('([\w]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wt\s*\(\"([\w]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
 			$matches = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2]);
 			foreach ($matches as $match) {
 				$fakeFileContent .= "t('" . $this->name . "', '" . $match . "');" . PHP_EOL;
 			}
 
 			// n
-			preg_match_all("/\Wn\s*\('([_a-zA-Z]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wn\s*\(\"([_a-zA-Z]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
+			preg_match_all("/\Wn\s*\('([\w]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wn\s*\(\"([\w]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
 			$matches1 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2]);
 			$matches2 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3]);
 			foreach (array_keys($matches1) as $k) {
