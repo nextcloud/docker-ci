@@ -13,7 +13,7 @@ git clone git@github.com:nextcloud/server /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable12 stable13 stable14 master'
+versions='stable13 stable14 stable15 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -47,12 +47,10 @@ tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=50
-# pull all "settings" translations for the language name (for 12)
-tx pull -a -f -r nextcloud.settings-1 --minimum-perc=1
-# pull all "lib" translations for the language name (for 13 and master)
+# pull all "lib" translations for the language name
 tx pull -a -f -r nextcloud.lib --minimum-perc=1
 
-backportVersions='master stable14 stable13 stable12'
+backportVersions='master stable15 stable14 stable13'
 for version in $backportVersions
 do
   git checkout $version
