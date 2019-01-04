@@ -26,8 +26,5 @@ RUN chsh -s /bin/bash www-data
 ADD init.sh /initnc.sh
 RUN chmod +x /initnc.sh
 
-RUN mkdir /var/lock/apache2
-RUN mkdir /var/run/apache2
-
 EXPOSE 80
 ENTRYPOINT /initnc.sh
