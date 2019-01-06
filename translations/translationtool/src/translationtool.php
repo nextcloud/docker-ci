@@ -61,7 +61,6 @@ class TranslatableApp {
 		$pathToPotFile = $this->translationsPath . '/templates/' . $this->name . '.pot';
 
 		// Gather required data
-		$this->readIgnoreList();
 		$this->createFakeFileForAppInfo();
 		$this->createFakeFileForVueFiles();
 		$translatableFiles = $this->findTranslatableFiles(
@@ -205,15 +204,6 @@ class TranslatableApp {
 		}
 
 		return $translatable;
-	}
-
-	private function readIgnoreList() {
-		$ignoreFile = $this->appPath . '/l10n/ignorelist';
-		if (!is_file($ignoreFile)) {
-			return [];
-		}
-
-		return file($ignoreFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	}
 
 	private function findLanguages() {
