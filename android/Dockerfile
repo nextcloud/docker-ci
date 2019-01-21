@@ -33,15 +33,18 @@ RUN cd /gradle && \
     grep -A 999 "^dependencies" android.gradle | grep -v "dependencies" >> build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
     sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle && \
-    sed -i s'#minSdkVersion\ 14#minSdkVersion\ 18#' build.gradle
+    sed -i s'#minSdkVersion\ 14#minSdkVersion\ 18#' build.gradle && \
+    sed -i s"/implementation 'com.github.tobiaskaminsky:android-job:v1.2.6.1'//" build.gradle && \
+    sed -i s"/implementation 'com.afollestad:sectioned-recyclerview:0.5.0'//" build.gradle
 
-RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint
+RUN yes | sdkmanager --sdk_root=/opt/android-sdk-linux/ --update
+
+RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest # lint
 
 RUN gem install xml-simple
 
 RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux32 -O /usr/bin/jq && chmod +x /usr/bin/jq
 
-RUN echo "y" | sdkmanager --sdk_root=/opt/android-sdk-linux/ --update
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-27" 
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platform-tools"
 
