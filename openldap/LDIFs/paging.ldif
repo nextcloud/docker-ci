@@ -65,3 +65,48 @@ sn: Bjarnarsonar
 displayname: Leó
 userPassword: 123456
 employeeNumber: 55950
+
+dn: ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: top
+objectclass: organizationalUnit
+ou: PagingTestSecondBase
+
+dn: uid=allisha,ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: allisha
+cn: Allisha Janissen
+sn: Janissen
+displayname: Allisha
+userPassword: 123456
+
+dn: uid=dogukan,ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: dogukan
+cn: Doğukan van Rij
+sn: van Rij
+displayname: Doğukan
+userPassword: 123456
+
+dn: uid=shannah,ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: shannah
+cn: Shannah Barendrecht
+sn: Barendrecht
+displayname: Shannah
+userPassword: 123456
+
+dn: uid=lloyd,ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: lloyd
+cn: Lloyd Bonnet
+sn: Bonnet
+displayname: Lloyd
+userPassword: 123456
+
+dn: uid=priscilla,ou=PagingTestSecondBase,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: priscilla
+cn: Priscilla Silvius
+sn: Silvius
+displayname: Priscilla
+userPassword: 123456
