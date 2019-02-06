@@ -33,11 +33,6 @@ do
       rm -rf build
   fi
 
-  # mail specific code
-  if [ "$2" == "mail" ] ; then
-    php build/translation-extractor.php
-  fi
-
   # build POT files
   /translationtool.phar create-pot-files
 
