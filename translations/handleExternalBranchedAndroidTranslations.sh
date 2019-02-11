@@ -20,6 +20,12 @@ tx push -s
 # pull translations
 tx pull -f -a --minimum-perc=75
 
+# for the Android apps notes/deck rename the informal german to the formal version
+if [ -d app/src/main/res ]; then
+  rm -rf app/src/main/res/values-de
+  mv app/src/main/res/values-de-rDE app/src/main/res/values-de
+fi
+
 # create git commit and push it
 git add .
 git commit -am "[tx-robot] updated from transifex" || true
