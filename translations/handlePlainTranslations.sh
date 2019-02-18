@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # verbose and exit on error
 set -xe
