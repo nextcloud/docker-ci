@@ -15,6 +15,26 @@ git clone git@github.com:$1/$2 /app
 # default Android app
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
+  
+  versions="stable-3.5 master"
+    
+  mkdir stable-values
+  for version in $versions
+  do
+    git checkout $version
+    cp src/main/res/values/strings.xml stable-values/$version.xml
+  done
+    
+  cd stable-values
+  echo "<?xml version="1.0" encoding="utf-8"?>
+  <resources>" >> combined.xml
+    
+  grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
+    
+  echo "</resources>" >> combined.xml
+  mv combined.xml ../src/man/res/values/strings.xml
+  
+  cd ..
 fi
 # Android news app
 if [ -d News-Android-App/src/main/res ]; then
