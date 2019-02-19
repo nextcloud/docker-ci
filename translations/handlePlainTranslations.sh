@@ -15,7 +15,18 @@ git clone git@github.com:$1/$2 /app
 # default Android app
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
-  
+fi
+# Android news app
+if [ -d News-Android-App/src/main/res ]; then
+  rm -rf News-Android-App/src/main/res/values-*/strings.xml
+fi
+# Android talk app
+if [ -d app/src/main/res ]; then
+  rm -rf app/src/main/res/values-*/strings.xml
+fi
+
+# combine stable branches to keep freshly removed translations
+if [ $1 = "android" -a $2 = "nextcloud" ]; then
   versions="stable-3.5 master"
     
   mkdir stable-values
@@ -36,14 +47,7 @@ if [ -d src/main/res ]; then
   
   cd ..
 fi
-# Android news app
-if [ -d News-Android-App/src/main/res ]; then
-  rm -rf News-Android-App/src/main/res/values-*/strings.xml
-fi
-# Android talk app
-if [ -d app/src/main/res ]; then
-  rm -rf app/src/main/res/values-*/strings.xml
-fi
+
 
 # push sources
 tx push -s
