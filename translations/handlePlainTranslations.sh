@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # verbose and exit on error
 set -xe
@@ -43,7 +43,7 @@ if [ $1 = "android" -a $2 = "nextcloud" ]; then
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
     
   echo "</resources>" >> combined.xml
-  mv combined.xml ../src/man/res/values/strings.xml
+  mv combined.xml ../src/main/res/values/strings.xml
   
   cd ..
 fi

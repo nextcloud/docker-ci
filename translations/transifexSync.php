@@ -144,6 +144,11 @@ foreach ($jobs as $job) {
 		if ($result->errorMessage !== '') {
 			print('  Second run' . PHP_EOL);
 			$result = runJob($name, $arguments, $dataPath, $logPath);
+
+			// send email in case of trouble
+			if ($result->errorMessage !== '') {
+				@mail('roeland@nextcloud.com,morris@nextcloud.com,tobias@nextcloud.com', 'Transifex sync job failed', 'This is the log:' . PHP_EOL . $result->errorMessage);
+			}
 		}
 	}
 }
