@@ -26,7 +26,7 @@ if [ -d app/src/main/res ]; then
 fi
 
 # combine stable branches to keep freshly removed translations
-if [ $1 = "android" -a $2 = "nextcloud" ]; then
+if [ $1 = "nextcloud" -a $2 = "android" ]; then
   versions="stable-3.5 master"
     
   mkdir stable-values
