@@ -64,6 +64,9 @@ tx pull -f -a --minimum-perc=50
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-de
   mv src/main/res/values-de-rDE src/main/res/values-de
+
+  # reset combined source file
+  git checkout -- src/main/res/values/strings.xml
 fi
 # for the Android talk app rename the informal german to the formal version
 if [ -d app/src/main/res ]; then
