@@ -37,8 +37,8 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   done
     
   cd stable-values
-  echo "<?xml version="1.0" encoding="utf-8"?>
-  <resources>" >> combined.xml
+  echo '<?xml version="1.0" encoding="utf-8"?>
+  <resources>' >> combined.xml
     
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
     
