@@ -41,11 +41,16 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   <resources>' >> combined.xml
     
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
+  
+  # plurals are hard to compare, so we take only master ones
+  awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
     
   echo "</resources>" >> combined.xml
   mv combined.xml ../src/main/res/values/strings.xml
   
   cd ..
+  
+  rm -rf stable-values
 fi
 
 
