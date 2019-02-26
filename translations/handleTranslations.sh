@@ -48,7 +48,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=50
 # pull all "lib" translations for the language name
-tx pull -a -f -r nextcloud.lib --minimum-perc=1
+tx pull -a -f -r nextcloud.lib --minimum-perc=0
 
 backportVersions='master stable15 stable14 stable13'
 for version in $backportVersions
