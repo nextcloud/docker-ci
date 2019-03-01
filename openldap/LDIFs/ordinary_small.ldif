@@ -20,7 +20,7 @@ userPassword: 123456
 mail: alice@nextcloud.ci
 mobile: +49 173 7484122
 employeeNumber: 92379
-# we misue roomNumber for an absolute path
+# we misuse roomNumber for an absolute path
 roomNumber: /dev/shm/alice-data
 jpegPhoto:< file:///etc/ldap/prepopulate/avatar-female.jpg
 
@@ -36,7 +36,7 @@ userPassword: 123456
 mail: elisa@nextcloud.ci
 mobile: +49 173 7484144
 employeeNumber: 50194
-# we misue roomNumber for an absolute path
+# we misuse roomNumber for an absolute path
 roomNumber: /dev/shm/elisa-data
 
 dn: uid=ghost,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
@@ -46,6 +46,45 @@ cn: A Ghost
 givenname: Sam
 sn: Wheat
 description: a user without displayName that should be ignored by Nextcloud when configured userDisplayNameAttribute is set to displayname (default)
+
+dn: uid=clara,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: clara
+cn: Clara Clausen
+sn: Clausen
+givenname: Clara
+initials: CC
+displayname: Clara
+userPassword: 123456
+mail: clara@nextcloud.ci
+mobile: +49 173 5481149
+employeeNumber: 54172
+
+dn: uid=gustaf,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: gustaf
+cn: Gustaf Gulbrandsen
+sn: Gulbrandsen
+givenname: Gustaf
+initials: GG
+displayname: Gustaf
+userPassword: 123456
+mail: gustaf@nextcloud.ci
+mobile: +49 173 8462928
+employeeNumber: 59376
+
+dn: uid=jesper,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+objectclass: inetOrgPerson
+uid: jesper
+cn: Jesper Jämsä
+sn: Jämsä
+givenname: Jesper
+initials: JJ
+displayname: Jämsä
+userPassword: 123456
+mail: jesper@nextcloud.ci
+mobile: +49 173 8536421
+employeeNumber: 59463
 
 dn: ou=Groups,ou=Ordinary,dc=nextcloud,dc=ci
 objectclass: top
@@ -71,8 +110,58 @@ member: uid=alice,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
 dn: ou=OtherGroups,dc=nextcloud,dc=ci
 objectclass: top
 objectclass: organizationalUnit
-ou: Groups
+ou: OtherGroups
 
 dn: cn=SquareGroup,ou=OtherGroups,dc=nextcloud,dc=ci
 objectClass: groupOfNames
 member: uid=alice,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+# nested groups
+
+dn: cn=Gardeners,ou=OtherGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: cn=Olericulture,ou=OtherGroups,dc=nextcloud,dc=ci
+member: cn=Orcharding,ou=OtherGroups,dc=nextcloud,dc=ci
+member: cn=Landscapers,ou=OtherGroups,dc=nextcloud,dc=ci
+
+dn: cn=Olericulture,ou=OtherGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=clara,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+member: uid=jesper,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+dn: cn=Orcharding,ou=OtherGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=alice,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+member: uid=elisa,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+dn: cn=Landscapers,ou=OtherGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=gustaf,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+
+# numeric groups
+
+dn: ou=NumericGroups,dc=nextcloud,dc=ci
+objectclass: top
+objectclass: organizationalUnit
+ou: NumericGroups
+
+dn: cn=2000,ou=NumericGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: cn=3000,ou=NumericGroups,dc=nextcloud,dc=ci
+member: cn=3001,ou=NumericGroups,dc=nextcloud,dc=ci
+member: cn=3002,ou=NumericGroups,dc=nextcloud,dc=ci
+
+dn: cn=3000,ou=NumericGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=clara,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+member: uid=jesper,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+dn: cn=3001,ou=NumericGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=alice,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+member: uid=elisa,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
+
+dn: cn=3002,ou=NumericGroups,dc=nextcloud,dc=ci
+objectClass: groupOfNames
+member: uid=gustaf,ou=Users,ou=Ordinary,dc=nextcloud,dc=ci
