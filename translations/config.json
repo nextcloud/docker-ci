@@ -67,6 +67,7 @@
         "nextcloud twofactor_totp",
         "nextcloud twofactor_u2f",
         "nextcloud user_saml",
+        "nextcloud viewer",
         "nextcloud weather",
         "nextcloud zenodo",
         "brantje nextnote",
