@@ -28,16 +28,16 @@ do
   fi
   git checkout $version
 
-  # ignore build folder for groupfolders and logreader
-  if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
+  # ignore build folder logreader
+  if [ "$2" == "logreader" ] ; then
       rm -rf build
   fi
 
   # build POT files
   /translationtool.phar create-pot-files
 
-  # ignore build folder for groupfolders and logreader
-  if [ "$2" == "groupfolders" -o "$2" == "logreader" ] ; then
+  # ignore build folder logreader
+  if [ "$2" == "logreader" ] ; then
       git checkout -- build
   fi
 
