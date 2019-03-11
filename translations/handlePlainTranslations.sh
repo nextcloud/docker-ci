@@ -108,4 +108,4 @@ do
   git commit -am "[tx-robot] updated from transifex" || true
   git push origin $version
   echo "done"
-fi
+done
