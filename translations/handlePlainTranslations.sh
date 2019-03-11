@@ -52,13 +52,16 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   cd ..
   
   rm -rf stable-values
-
-  git checkout master
 fi
-
 
 # push sources
 tx push -s
+
+# undo local changes
+if [ $1 = "nextcloud" -a $2 = "android" ]; then
+  git checkout -- src/main/res/values/strings.xml
+  git checkout master
+fi
 
 for version in $versions
 do
