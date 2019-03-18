@@ -192,6 +192,11 @@ class TranslatableApp {
 			if (in_array($newPath, $this->ignoreFiles)) {
 				continue;
 			}
+			foreach ($this->ignoreFiles as $ignoredFile) {
+				if (strpos($newPath, $ignoredFile) === 0) {
+					continue 2;
+				}
+			}
 			if (is_dir($newRealPath) && $entry != 'l10n' && $entry != 'node_modules') {
 				$translatable = array_merge($translatable, $this->findTranslatableFiles($extensions, $ignoredExtensions, $newPath));
 			}
