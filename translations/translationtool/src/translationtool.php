@@ -27,16 +27,18 @@ class TranslatableApp {
 	private $name;
 	private $fakeAppInfoFile;
 	private $fakeVueFile;
+	private $fakeLocaleFile;
 	private $ignoreFiles;
 	private $translationsPath;
 
-	 public function __construct($appPath, $translationsPath) {
+	public function __construct($appPath, $translationsPath) {
 		$this->appPath = $appPath;
 		$this->translationsPath = $translationsPath;
 
 		$this->ignoreFiles = [];
 		$this->fakeAppInfoFile = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
 		$this->fakeVueFile = $this->appPath . '/specialVueFakeDummyForL10nScript.js';
+		$this->fakeLocaleFile = $this->appPath . '/specialLocaleFakeDummyForL10nScript.php';
 
 		$this->setAppName();
 
@@ -57,12 +59,13 @@ class TranslatableApp {
 		print_r($this->ignoreFiles);
 	}
 
-	 public function createPotFile() {
+	public function createPotFile() {
 		$pathToPotFile = $this->translationsPath . '/templates/' . $this->name . '.pot';
 
 		// Gather required data
 		$this->createFakeFileForAppInfo();
 		$this->createFakeFileForVueFiles();
+		$this->createFakeFileForLocale();
 		$translatableFiles = $this->findTranslatableFiles(
 			['.php', '.js', '.jsx', '.html', '.ts', '.tsx'],
 			['.min.js']
@@ -98,6 +101,7 @@ class TranslatableApp {
 		// Don't forget to remove the temporary file
 		$this->deleteFakeFileForAppInfo();
 		$this->deleteFakeFileForVueFiles();
+		$this->deleteFakeFileForLocale();
 	}
 
 	public function createNextcloudFiles() {
@@ -370,6 +374,37 @@ class TranslatableApp {
 		
 		if ($xml->name) {
 			$this->name = $xml->id->__toString();
+		}
+	}
+
+	private function createFakeFileForLocale() {
+		if ($this->name !== 'settings') {
+			return false;
+		}
+		$entryName = $this->appPath . '/../resources/locales.json';
+
+		if (!file_exists($entryName)) {
+			return false;
+		}
+
+		$strings = [];
+		$locales = json_decode(file_get_contents($entryName), true);
+
+		foreach ($locales as $locale) {
+			$strings[] = $locale['name'];
+		}
+
+		$content = '<?php' . PHP_EOL;
+		foreach ($strings as $string) {
+			$content .= '$l->t(' . $this->escape($string) . ');' . PHP_EOL;
+		}
+
+		file_put_contents($this->fakeLocaleFile, $content);
+	}
+
+	private function deleteFakeFileForLocale() {
+		if (is_file($this->fakeLocaleFile)){
+			unlink($this->fakeLocaleFile);
 		}
 	}
 }
