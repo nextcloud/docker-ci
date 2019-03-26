@@ -49,6 +49,8 @@ tx push -s
 tx pull -f -a --minimum-perc=50
 # pull all "lib" translations for the language name
 tx pull -a -f -r nextcloud.lib --minimum-perc=0
+# pull 20% of "settings" translations for the region name
+tx pull -a -f -r nextcloud.settings-1 --minimum-perc=20
 
 backportVersions='master stable15 stable14'
 for version in $backportVersions
