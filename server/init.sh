@@ -23,6 +23,6 @@ set -e
 
 . /etc/apache2/envvars
 
-tail -F data/nextcloud.log &
+sh -c "while true ; do cat data/nextcloud.log | tail -n 200; sleep 2; done "
 
 apache2 -DFOREGROUND "$@"
