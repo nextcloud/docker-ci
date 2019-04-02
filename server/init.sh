@@ -23,6 +23,6 @@ set -e
 
 . /etc/apache2/envvars
 
-tail -f data/nextcloud.log &
+tail -F data/nextcloud.log &
 
 apache2 -DFOREGROUND "$@"
