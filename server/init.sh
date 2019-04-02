@@ -17,12 +17,13 @@ OC_PASS=test php occ user:add --password-from-env -- test
 
 #Trusted domains
 php occ config:system:set trusted_domains 1 --value=*
+php occ config:system:set loglevel --value='0'
 "
 
 set -e
 
 . /etc/apache2/envvars
 
-sh -c "while true ; do cat data/nextcloud.log | tail -n 200; sleep 2; done" &
+tail -f data/nextcloud.log &
 
 apache2 -DFOREGROUND "$@"
