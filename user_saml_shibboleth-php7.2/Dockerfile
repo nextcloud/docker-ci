@@ -21,10 +21,12 @@ RUN rm /*.ldif
 # Install Apache and PHP 7.2 for Nextcloud
 RUN yum -y install centos-release-scl
 RUN yum -y install rh-php72 rh-php72-php rh-php72-php-gd rh-php72-php-mbstring rh-php72-php-sqlite httpd git rh-php72-mcrypt rh-php72-php-pdo sudo
+RUN sed -i "s/128M/512M/" /etc/opt/rh/rh-php72/php.ini
 RUN source scl_source enable rh-php72
 RUN chmod -R 777 /opt/
 RUN rm -f /etc/httpd/conf.d/nss.conf
 ADD apache/httpd.conf /etc/httpd/conf/httpd.conf
+
 
 # Add the startup file
 ADD start.sh /start.sh
