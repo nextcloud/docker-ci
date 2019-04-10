@@ -1,5 +1,4 @@
 FROM unicon/shibboleth-idp:3.2.0
-MAINTAINER lukas@statuscode.ch
 
 # Add Shibboleth config stuff
 ADD shibboleth/ /opt/shibboleth-idp/
