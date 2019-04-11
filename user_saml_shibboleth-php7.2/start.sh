@@ -17,4 +17,4 @@ sed -i "s/^-Xmx.*$/-Xmx$JETTY_MAX_HEAP/g" /opt/shib-jetty-base/start.ini
 
 apachectl &
 /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir &
-/etc/init.d/jetty run &
+sleep 4 && /etc/init.d/jetty run &
