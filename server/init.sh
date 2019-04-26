@@ -19,13 +19,20 @@ OC_PASS=test php occ user:add --password-from-env -- test
 #Trusted domains
 php occ config:system:set trusted_domains 1 --value=*
 php occ config:system:set loglevel --value='0'
-
-php occ config:system:set redis host --value=cache
-php occ config:system:set redis port --value=6379 --type=integer
-php occ config:system:set redis timeout --value=0 --type=integer
-php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.local
-php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.distributed
 "
+
+if test -z "$REDIS" 
+then
+	  echo "\$REDIS not set, ignoring..."
+else
+    su www-data -c "
+	php occ config:system:set redis host --value=${REDIS}
+	php occ config:system:set redis port --value=6379 --type=integer
+	php occ config:system:set redis timeout --value=0 --type=integer
+	php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.local
+	php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.distributed
+	"
+fi
 
 set -e
 
