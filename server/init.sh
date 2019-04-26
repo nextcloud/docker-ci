@@ -7,6 +7,7 @@ cd /var/www/html/
 
 #Update code
 su www-data -c "
+git fetch origin
 git checkout ${BRANCH}
 git pull
 git submodule update
