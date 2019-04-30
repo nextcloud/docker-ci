@@ -1,6 +1,6 @@
 #!/bin/sh
 
-versions='master stable-3.5 stable-3.6'
+versions='master stable-3.6'
 
 # verbose and exit on error
 set -xe
