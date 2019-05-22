@@ -84,9 +84,9 @@
         "nickv-nextcloud event_update_notification",
         "nickv-nextcloud twofactor_nextcloud_notification",
         "rullzer dropit",
-        "ayselafsar dicomviewer"
-        "e-alfred ocdownloader"
-        "e-alfred flowupload"
+        "ayselafsar dicomviewer",
+        "e-alfred ocdownloader",
+        "e-alfred flowupload",
         "e-alfred nextcloud-scanner"
       ]
     },
