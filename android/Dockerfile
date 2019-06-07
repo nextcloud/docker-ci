@@ -1,11 +1,7 @@
-FROM debian:jessie
+FROM debian:stretch
 
-RUN apt-get update && apt-get install -y software-properties-common && \
-    add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
-    apt-get update && \
-    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections && \
-    apt-get update && \
-    apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales oracle-java8-installer unzip && \
+RUN apt-get update && apt-get install -y software-properties-common
+RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-8-jdk-headless && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
