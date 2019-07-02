@@ -69,6 +69,7 @@
         "nextcloud suspicious_login",
         "nextcloud tasks",
         "nextcloud terms_of_service",
+        "nextcloud text",
         "nextcloud twofactor_totp",
         "nextcloud twofactor_u2f",
         "nextcloud user_saml",
