@@ -63,7 +63,7 @@ rm -rf stable-templates
 tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
-tx pull -f -a --minimum-perc=25
+tx pull -f -a --minimum-perc=5
 
 backportVersions='master stable16 stable15 stable14'
 for version in $backportVersions
