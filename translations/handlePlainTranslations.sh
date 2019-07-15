@@ -1,7 +1,5 @@
 #!/bin/sh
 
-versions='master stable-3.7'
-
 # verbose and exit on error
 set -xe
 
@@ -12,6 +10,8 @@ gpg --list-keys
 
 # fetch git repo
 git clone git@github.com:$1/$2 /app
+
+versions="master $(git branch -r | grep "origin/stable" | cut -f2 -d"/")"
 
 # remove existing translations to cleanup not maintained languages
 # default Android app
@@ -29,14 +29,13 @@ fi
 
 # combine stable branches to keep freshly removed translations
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
-    
   mkdir stable-values
   for version in $versions
   do
     git checkout $version
     cp src/main/res/values/strings.xml stable-values/$version.xml
   done
-    
+
   cd stable-values
   echo '<?xml version="1.0" encoding="utf-8"?>
   <resources>' >> combined.xml
