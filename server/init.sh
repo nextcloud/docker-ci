@@ -12,6 +12,9 @@ git checkout ${BRANCH}
 git pull
 git submodule update
 
+# allow eval script for executing javascript in webview (LoginIT test)
+sed -i s'/protected $evalScriptAllowed = false;/protected $evalScriptAllowed = true;/' lib/public/AppFramework/Http/ContentSecurityPolicy.php
+
 #init
 php occ maintenance:install --admin-user=admin --admin-pass=admin
 OC_PASS=test php occ user:add --password-from-env -- test
