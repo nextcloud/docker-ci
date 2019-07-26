@@ -2,27 +2,36 @@
 
 export BRANCH=${BRANCH:=master}
 
-#Where we do all the work
+# Where we do all the work
 cd /var/www/html/
 
-#Update code
+# Update code
 su www-data -c "
 git fetch origin
 git checkout ${BRANCH}
 git pull
 git submodule update
 
-# allow eval script for executing javascript in webview (LoginIT test)
-sed -i s'/protected $evalScriptAllowed = false;/protected $evalScriptAllowed = true;/' lib/public/AppFramework/Http/ContentSecurityPolicy.php
-
-#init
+# init
 php occ maintenance:install --admin-user=admin --admin-pass=admin
 OC_PASS=test php occ user:add --password-from-env -- test
 
-#Trusted domains
+# Trusted domains
 php occ config:system:set trusted_domains 1 --value=*
 php occ config:system:set loglevel --value='0'
 "
+
+# allow eval script for executing javascript in webview (LoginIT test for Android)
+# it needs EVAL set to true within environment in .drone.yml
+
+if test -z "$EVAL"
+then
+	echo "\$EVAL not set, ignoring..."
+else
+    echo "\$EVAL is set, allowing eval script in ContentSecurityPolicy.php"
+	sed -i s'/protected $evalScriptAllowed = false;/protected $evalScriptAllowed = true;/' lib/public/AppFramework/Http/ContentSecurityPolicy.php
+fi
+
 
 if test -z "$REDIS" 
 then
