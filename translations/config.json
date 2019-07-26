@@ -72,6 +72,7 @@
         "nextcloud text",
         "nextcloud twofactor_totp",
         "nextcloud twofactor_u2f",
+        "nextcloud user_retention",
         "nextcloud user_saml",
         "nextcloud viewer",
         "nextcloud weather",
