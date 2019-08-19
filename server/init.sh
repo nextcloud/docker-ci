@@ -14,7 +14,13 @@ git submodule update
 
 # init
 php occ maintenance:install --admin-user=admin --admin-pass=admin
-OC_PASS=test php occ user:add --password-from-env -- test
+OC_PASS=test php occ user:add --password-from-env --display-name='User Test' -- test
+OC_PASS=user1 php occ user:add --password-from-env --display-name='User One' -- user1
+OC_PASS=user2 php occ user:add --password-from-env --display-name='User Two' -- user2
+
+php occ group:add users
+php occ group:adduser users user1
+php occ group:adduser users user2
 
 # Trusted domains
 php occ config:system:set trusted_domains 1 --value=*
