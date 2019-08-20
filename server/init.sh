@@ -45,11 +45,3 @@ else
 	php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.distributed
 	"
 fi
-
-set -e
-
-. /etc/apache2/envvars
-
-tail -f data/nextcloud.log &
-
-apache2 -DFOREGROUND "$@"
