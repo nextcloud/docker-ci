@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 RUN apt-get update && apt-get install -y software-properties-common
-RUN apt-get install -y ruby wget locales unzip openjdk-8-jdk-headless curl qrencode git && \
+RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-8-jdk-headless curl qrencode git && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
