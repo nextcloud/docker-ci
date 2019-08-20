@@ -26,5 +26,11 @@ RUN chsh -s /bin/bash www-data
 ADD init.sh /initnc.sh
 RUN chmod +x /initnc.sh
 
+ADD run.sh /run.sh
+RUN chmod +x /run.sh
+
+ADD initAndRun.sh /initAndRun.sh
+RUN chmod +x /initAndRun.sh
+
 EXPOSE 80
-ENTRYPOINT /initnc.sh
+ENTRYPOINT /initAndRun.sh
