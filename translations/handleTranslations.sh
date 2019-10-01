@@ -72,7 +72,12 @@ do
   git checkout -- tests/
 
   # create git commit and push it
-  git add apps core lib settings
+  if [ "$version" != "master" ]; then
+    git add apps core lib settings
+  else
+    git add apps core lib
+  fi
+
   git commit -am "[tx-robot] updated from transifex" || true
   git push origin $version
 
