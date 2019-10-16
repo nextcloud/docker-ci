@@ -1,7 +1,7 @@
-FROM mhart/alpine-node:6.8.0
+FROM mhart/alpine-node:10.16.3
 # Sources at https://github.com/mhart/alpine-node
-# Version 6.8.0 contains npm 3.10.8
+# Version 10.16.3 contains npm 6.12.0, yarn 1.19.1
 
 MAINTAINER Joachim Bauch <mail@joachim-bauch.de>
 
-RUN npm install -g stylelint@7.4.2
+RUN npm install -g stylelint@11.0.0
