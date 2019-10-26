@@ -327,8 +327,8 @@ class TranslatableApp {
 			}
 
 			// t
-			preg_match_all("/\Wt\s*\('([\w]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wt\s*\(\"([\w]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
+			preg_match_all("/\Wt\s*\(\s*'([\w]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wt\s*\(\s*\"([\w]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
 			preg_match_all("/\Wt\s*\(\s*\'([\w]+)\'\s*,\s*\`(.+)\`\s*\)/msU", $vueSource, $templateQuoteMatches);
 			$matches = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
 			foreach ($matches as $match) {
@@ -336,8 +336,8 @@ class TranslatableApp {
 			}
 
 			// n
-			preg_match_all("/\Wn\s*\('([\w]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wn\s*\(\"([\w]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
+			preg_match_all("/\Wn\s*\(\s*'([\w]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
+			preg_match_all("/\Wn\s*\(\s*\"([\w]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
 			preg_match_all("/\Wn\s*\(\s*\'([\w]+)\'\s*,\s*\`(.+)\`\s*,\s*\`(.+)\`\s*\)/msU", $vueSource, $templateQuoteMatches);
 			$matches1 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
 			$matches2 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3], $templateQuoteMatches[3]);
