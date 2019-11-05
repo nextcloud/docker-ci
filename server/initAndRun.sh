@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-
-/init.sh
-/run.sh
+/usr/local/bin/initnc.sh
+/usr/local/bin/run.sh

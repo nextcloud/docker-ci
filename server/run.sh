@@ -7,4 +7,4 @@ cd /var/www/html/
 
 tail -f data/nextcloud.log &
 
-apache2 -DFOREGROUND "$@"
+apache2-foreground "$@"
