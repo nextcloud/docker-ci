@@ -10,7 +10,7 @@ RUN apt-get update && \
 # Install packages
 RUN apt-get install -y php7.3-cli php7.3-common php7.3-mbstring \
     php7.3-gd php-imagick php7.3-intl php7.3-bz2 php7.3-xml \
-    php7.3-mysql php7.3-zip php7.3-dev curl php7.3-curl php7.3-fpm \
+    php7.3-mysql php7.3-zip php7.3-dev curl php7.3-curl \
     php-dompdf php-apcu redis-server php-redis php-smbclient \
     php7.3-ldap unzip php7.3-pgsql php7.3-sqlite make apache2 \
     php7.3-json php7.3-opcache libmagickcore-6.q16-2-extra \
@@ -36,14 +36,8 @@ RUN chsh -s /bin/bash www-data
 ADD initnc.sh /usr/local/bin/
 ADD run.sh /usr/local/bin/
 ADD initAndRun.sh /usr/local/bin/
-ADD apache2-foreground /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/*
-
-RUN a2enconf php7.3-fpm
-
-# allow php fpm to create its run socket
-RUN mkdir -p /run/php
 
 EXPOSE 80
 ENTRYPOINT ["/usr/local/bin/initAndRun.sh"]
