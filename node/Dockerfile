@@ -1,2 +1,2 @@
 FROM node:lts-alpine
-RUN apk add git bash
+RUN apk add git bash make
