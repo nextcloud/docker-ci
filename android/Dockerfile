@@ -37,7 +37,7 @@ RUN cd /gradle && \
     grep -A 999 "^dependencies" android.gradle | grep -v "dependencies" >> build.gradle && \
     sed -i '/.*com.google.*/s/^.*\/\///g' build.gradle && \
     sed -i '/.*touch-image-view.*/s/^/\/\//g' build.gradle && \
-    sed -i s'#minSdkVersion\ 14#minSdkVersion\ 18#' build.gradle && \
+    sed -i s'#minSdkVersion\ 16#minSdkVersion\ 18#' build.gradle && \
     sed -i s"/implementation 'com.github.tobiaskaminsky:android-job:v1.2.6.1'//" build.gradle && \
     sed -i s"/implementation 'com.afollestad:sectioned-recyclerview:0.5.0'//" build.gradle && \
     sed -i s"/.*NC_TEST.*//" build.gradle && \
