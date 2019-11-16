@@ -85,17 +85,33 @@ RUN cd /tmp && \
     cd .. && \
     rm -rf cmake*
 
-# Download Qt-5.12 sources
-RUN apt install -y xz-utils && \
-    wget https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz && \
-    tar -xvf qt-everywhere-src-5.12.5.tar.xz && \
-    cd qt-everywhere-src-5.12.5
 
-# Build Qt-5.12
-RUN cd qt-everywhere-src-5.12.5 && \
-    OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
-        -confirm-license -release -openssl-linked -prefix /opt/qt5.12.5 && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf qt-everywhere*
+## Download Qt-5.12 sources
+#RUN apt install -y xz-utils && \
+#    wget https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz && \
+#    tar -xvf qt-everywhere-src-5.12.5.tar.xz && \
+#    cd qt-everywhere-src-5.12.5
+
+## Build Qt-5.12
+#RUN cd qt-everywhere-src-5.12.5 && \
+#    OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
+#        -confirm-license -release -openssl-linked -prefix /opt/qt5.12.5 && \
+#    make && \
+#    make install && \
+#    cd .. && \
+#    rm -rf qt-everywhere*
+
+
+#
+# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
+#
+# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
+#
+# This is why we're going to use our own precompiled version here. You may modify the comments in this
+# Dockerfile to build your own version on a dedicated build machine.
+#
+
+# Download Qt-5.12 precompiled
+RUN apt install -y xz-utils && \
+    wget https://download.nextcloud.com/desktop/development/qt/qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz && \
+    tar -xvf qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz
