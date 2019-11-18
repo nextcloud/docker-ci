@@ -30,7 +30,7 @@ RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android-library/master/build.gradle -O android-library.gradle && \
     sed '/^ [ ]*dependencies/Q' android.gradle >> build.gradle && \
     echo "    dependencies {" >> build.gradle && \
-    sed -n '/^ .*dependencies/,/\}/p' android-library.gradle | grep -v dep >> build.gradle && \
+    sed -n '/^ .*dependencies.*{/,/\}/p' android-library.gradle | grep -v dep >> build.gradle && \
     grep -A 999 "^ [ ]*dependencies" android.gradle  | sed '/^dependencies/Q' | grep -v "dependencies" >> build.gradle && \
     echo "dependencies {" >> build.gradle && \
     sed -n '/^dependencies/,/\}/p' android-library.gradle | grep -v dep | grep -v "}" >> build.gradle && \
