@@ -14,7 +14,7 @@ RUN apt-get install -y php7.3-cli php7.3-common php7.3-mbstring \
     php-dompdf php-apcu redis-server php-redis php-smbclient \
     php7.3-ldap unzip php7.3-pgsql php7.3-sqlite make apache2 \
     php7.3-json php7.3-opcache libmagickcore-6.q16-2-extra \
-    libapache2-mod-php7.3
+    libapache2-mod-php7.3 make npm node
 
 # Cleanup
 RUN apt-get autoremove -y && apt-get autoclean && apt-get clean && \
