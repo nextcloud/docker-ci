@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && apt-get install -y php7.3-intl php7.3-gd git curl \
     php7.3-cli php7.3-curl php7.3-pgsql php7.3-ldap \
-    php7.3-sqlite php7.3-mysql php7.3-zip php7.3-xml \
+    php7.3-sqlite php7.3-mysql php7.3-zip php7.3-xml php7.3-redis \
     php7.3-mbstring php7.3-dev make libmagickcore-6.q16-2-extra unzip \
     php7.3-dev \
     libsystemd-dev && \
@@ -20,7 +20,7 @@ RUN cd /tmp && wget -O php-systemd-src.zip https://github.com/systemd/php-system
     ./configure --with-systemd && make && make install && rm -rf /tmp/php-systemd-master && \
     echo "extension=systemd.so" >> /etc/php/7.3/mods-available/systemd.ini
 
-RUN phpenmod zip intl gd systemd
+RUN phpenmod zip intl gd systemd redis
 RUN curl -O -L https://phar.phpunit.de/phpunit-8.phar \
     && chmod +x phpunit-8.phar \
     && mv phpunit-8.phar /usr/local/bin/phpunit
