@@ -1,4 +1,4 @@
-FROM nextcloudci/android:android-53
+FROM nextcloudci/android:android-54
 
 # Android 6 (API 23)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-23"

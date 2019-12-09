@@ -1,4 +1,4 @@
-FROM nextcloudci/android:android-53
+FROM nextcloudci/android:android-54
 
 # Android 7 (API 24)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-24"
