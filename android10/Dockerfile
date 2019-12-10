@@ -1,4 +1,4 @@
-FROM nextcloudci/android:android-54
+FROM nextcloudci/android:androidBase-1
 
 # Android 10 (API 29)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-29"
