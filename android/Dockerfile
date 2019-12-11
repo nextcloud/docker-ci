@@ -54,5 +54,6 @@ RUN gem install xml-simple
 RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux32 -O /usr/bin/jq && chmod +x /usr/bin/jq
 
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platform-tools"
+RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "emulator"
 
 WORKDIR /opt/workspace/

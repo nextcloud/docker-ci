@@ -1,4 +1,4 @@
-FROM nextcloudci/android:androidBase-1
+FROM nextcloudci/android:androidBase-2
 
 # Android 8 (API 26)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-26"
