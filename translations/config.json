@@ -91,7 +91,8 @@
         "e-alfred ocdownloader",
         "e-alfred flowupload",
         "e-alfred nextcloud-scanner",
-        "nextcloud forms"
+        "nextcloud forms",
+	"paullereverend extract"
       ]
     },
     {
