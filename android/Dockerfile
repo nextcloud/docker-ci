@@ -2,9 +2,15 @@ FROM debian:stretch
 
 RUN apt-get update && apt-get install -y software-properties-common
 RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-8-jdk-headless curl qrencode git lib32stdc++6 && \
+    apt-get install -y build-essential maven && \
+    curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+    apt-get install -y nodejs  && \
+    npm install -g appium  -unsafe-perm=true -allow-root &&\
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
-
+RUN cd /root && \
+    wget --output-document=pom.xml https://raw.githubusercontent.com/nextcloud/android/master/automationTest/pom.xml && \
+    mvn install
 RUN mkdir /opt/android-sdk-linux && \ 
     cd /opt/android-sdk-linux && \ 
     wget --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
