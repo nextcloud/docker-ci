@@ -54,6 +54,7 @@
         "nextcloud passman",
         "nextcloud password_policy",
         "nextcloud pdf_converter",
+	"nextcloud photos",
         "nextcloud polls",
         "nextcloud preferred_providers",
         "nextcloud privacy",
@@ -90,8 +91,8 @@
         "e-alfred ocdownloader",
         "e-alfred flowupload",
         "e-alfred nextcloud-scanner",
-        "affan98 forms",
-        "gino0631 nextcloud-metadata"
+        "gino0631 nextcloud-metadata",
+        "nextcloud forms"
       ]
     },
     {

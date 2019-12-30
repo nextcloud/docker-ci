@@ -21,9 +21,9 @@ RUN cd /tmp && wget -O php-systemd-src.zip https://github.com/systemd/php-system
     echo "extension=systemd.so" >> /etc/php/7.2/mods-available/systemd.ini
 
 RUN phpenmod zip intl gd systemd
-RUN curl -O -L https://phar.phpunit.de/phpunit-6.5.5.phar \
-    && chmod +x phpunit-6.5.5.phar \
-    && mv phpunit-6.5.5.phar /usr/local/bin/phpunit
+RUN curl -O -L https://phar.phpunit.de/phpunit-8.phar \
+    && chmod +x phpunit-8.phar \
+    && mv phpunit-8.phar /usr/local/bin/phpunit
 RUN curl -O -L https://getcomposer.org/download/1.6.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer

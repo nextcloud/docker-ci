@@ -13,7 +13,7 @@ git clone git@github.com:nextcloud/server /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable14 stable15 stable16 master'
+versions='stable15 stable16 stable17 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -52,7 +52,7 @@ tx pull -a -f -r nextcloud.lib --minimum-perc=0
 # pull 20% of "settings" translations for the region name
 tx pull -a -f -r nextcloud.settings-1 --minimum-perc=20
 
-backportVersions='master stable16 stable15 stable14'
+backportVersions='master stable17 stable16 stable15'
 for version in $backportVersions
 do
   git checkout $version
@@ -60,7 +60,9 @@ do
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   find core/l10n -type f -delete
   find lib/l10n -type f -delete
-  find settings/l10n -type f -delete
+  if [ "$version" != "master" ]; then
+    find settings/l10n -type f -delete
+  fi
 
   # build JS/JSON based on translations
   /translationtool.phar convert-po-files
@@ -70,7 +72,12 @@ do
   git checkout -- tests/
 
   # create git commit and push it
-  git add apps core lib settings
+  if [ "$version" != "master" ]; then
+    git add apps core lib settings
+  else
+    git add apps core lib
+  fi
+
   git commit -am "[tx-robot] updated from transifex" || true
   git push origin $version
 

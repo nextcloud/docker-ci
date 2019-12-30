@@ -3,13 +3,9 @@ FROM ubuntu:xenial
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
-    apt-get install -y wget libsqlite3-dev git curl \
-        software-properties-common build-essential mesa-common-dev
-
-# Add Qt-5.11
-RUN add-apt-repository ppa:beineri/opt-qt-5.12.1-xenial &&\
-    apt-get update && \
-    apt-get install -y qt512base qt512tools qt512webengine qt512svg qt512translations
+    apt-get install -y wget libsqlite3-dev git curl perl python \
+        software-properties-common build-essential mesa-common-dev \
+        pkg-config ninja-build
 
 # Install gcc-7
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
@@ -22,16 +18,38 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-get update && \
     apt-get install -y clang-6.0
 
-# Install openssl
-RUN cd /tmp && \
-    wget https://www.openssl.org/source/openssl-1.1.1b.tar.gz && \
-    tar -xvf openssl-1.1.1b.tar.gz && \
-    cd openssl-1.1.1b && \
-    ./config && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf openssl*
+# Add libsecret for qtkeychain
+RUN apt-get install -y pkg-config libsecret-1-dev
+
+###########################################################################
+
+# Add Qt-5.12 build dependencies
+RUN apt install -y libclang-dev gperf flex bison pkg-config
+
+# https://wiki.qt.io/Building_Qt_5_from_Git
+# https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
+RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && apt update && \
+    apt-get build-dep -y qt5-default
+
+# Libxcb, libxcb-xinerama0-dev
+RUN apt install -y '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev
+
+# OpenGL support
+RUN apt install -y flex bison gperf libicu-dev libxslt-dev ruby
+
+# Qt WebEngine
+RUN apt install -y libssl-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxrandr-dev libdbus-1-dev \
+                   libfontconfig1-dev libcap-dev libxtst-dev libpulse-dev libudev-dev libpci-dev libnss3-dev \
+                   libasound2-dev libxss-dev libegl1-mesa-dev gperf bison \
+                   libbz2-dev libgcrypt11-dev libdrm-dev libcups2-dev libatkmm-1.6-dev
+
+# Qt Multimedia
+RUN apt install -y libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev
+
+# QDoc Documentation Generator Tool
+RUN apt install -y libclang-6.0-dev llvm-6.0
+
+###########################################################################
 
 # Install zlib
 RUN cd /tmp && \
@@ -43,6 +61,17 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm -rf zlib*
+
+# Install openssl
+RUN cd /tmp && \
+    wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz && \
+    tar -xvf openssl-1.1.1d.tar.gz && \
+    cd openssl-1.1.1d && \
+    ./config && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf openssl*
 
 # Install cmake
 RUN cd /tmp && \
@@ -56,3 +85,33 @@ RUN cd /tmp && \
     cd .. && \
     rm -rf cmake*
 
+
+## Download Qt-5.12 sources
+#RUN apt install -y xz-utils && \
+#    wget https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz && \
+#    tar -xvf qt-everywhere-src-5.12.5.tar.xz && \
+#    cd qt-everywhere-src-5.12.5
+
+## Build Qt-5.12
+#RUN cd qt-everywhere-src-5.12.5 && \
+#    OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
+#        -confirm-license -release -openssl-linked -prefix /opt/qt5.12.5 && \
+#    make && \
+#    make install && \
+#    cd .. && \
+#    rm -rf qt-everywhere*
+
+
+#
+# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
+#
+# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
+#
+# This is why we're going to use our own precompiled version here. You may modify the comments in this
+# Dockerfile to build your own version on a dedicated build machine.
+#
+
+# Download Qt-5.12 precompiled
+RUN apt install -y xz-utils && \
+    wget https://download.nextcloud.com/desktop/development/qt/qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz && \
+    tar -xvf qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz
