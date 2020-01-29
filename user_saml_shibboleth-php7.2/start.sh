@@ -4,7 +4,7 @@
 
 export JAVA_HOME=/opt/jre-home
 export PATH=$PATH:$JAVA_HOME/bin
-export JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=nextcloud 
+export JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=nextcloud
 export JETTY_BROWSER_SSL_KEYSTORE_PASSWORD=nextcloud
 
 if [ -e "/opt/shibboleth-idp/ext-conf/idp-secrets.properties" ]; then
@@ -17,4 +17,4 @@ sed -i "s/^-Xmx.*$/-Xmx$JETTY_MAX_HEAP/g" /opt/shib-jetty-base/start.ini
 
 apachectl &
 /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir &
-sleep 4 && /etc/init.d/jetty run &
+sleep 15 && /etc/init.d/jetty run &
