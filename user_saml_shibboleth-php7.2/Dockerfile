@@ -27,6 +27,7 @@ RUN chmod -R 777 /opt/
 RUN rm -f /etc/httpd/conf.d/nss.conf
 ADD apache/httpd.conf /etc/httpd/conf/httpd.conf
 
+RUN yum -y install nc
 
 # Add the startup file
 ADD start.sh /start.sh
