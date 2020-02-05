@@ -13,7 +13,7 @@ git clone git@github.com:$1/$2 /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable15 stable16 stable17 master'
+versions='stable16 stable17 stable18 master'
 
 # build POT files for all versions
 mkdir stable-templates
@@ -65,7 +65,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5
 
-backportVersions='master stable17 stable16 stable15'
+backportVersions='master stable18 stable17 stable16'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
