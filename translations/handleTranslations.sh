@@ -60,7 +60,7 @@ do
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   find core/l10n -type f -delete
   find lib/l10n -type f -delete
-  if [ "$version" != "master" ]; then
+  if [ "$version" != "master" ] && [ "$version" != "stable18" ]; then
     find settings/l10n -type f -delete
   fi
 
@@ -72,7 +72,7 @@ do
   git checkout -- tests/
 
   # create git commit and push it
-  if [ "$version" != "master" ]; then
+  if [ "$version" != "master" ] && [ "$version" != "stable18" ]; then
     git add apps core lib settings
   else
     git add apps core lib
