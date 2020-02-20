@@ -46,9 +46,8 @@ tx push -s
 # undo local changes
 git checkout -f --
 
-# reverse version list to apply backports
-backportVersions=$(echo $versions | awk '{for(i=NF;i>=1;i--) printf "%s ", $i;print ""}')
-for version in $backportVersions
+# apply backports
+for version in $versions
 do
   # skip if the branch doesn't exist
   if git branch -r | egrep "^\W*origin/$version$" ; then
