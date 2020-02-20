@@ -12,10 +12,12 @@ gpg --list-keys
 git clone git@github.com:nextcloud/desktop.git
 cd desktop
 
-# Generate source translation files for master and stable branches
+# Generate source translation files for master and stable-x.y branches
 mkdir /branches
 
-versions="stable-2.6 master"
+versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9]$" | cut -f2 -d"/")" master"
+
+# Allow to manually limit translations to specified backport branches within the repo
 if [[ -f '.tx/backport' ]]; then
   versions="$(cat .tx/backport) master"
 fi
