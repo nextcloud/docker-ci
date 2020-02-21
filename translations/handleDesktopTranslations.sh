@@ -38,7 +38,10 @@ do
 done
 
 # Merge source translation files and filter duplicates
-lconvert-qt5 -i /branches/*.ts -o translations/client_en.ts
+lconvert-qt5 -i /branches/*.ts -o /merged_en.ts
+
+# Fix missing <numerusform> elements (always two are required but lconvert strips out one)
+sed 's/<numerusform><\/numerusform>/<numerusform><\/numerusform><numerusform><\/numerusform>/' /merged_en.ts > translations/client_en.ts
 
 # push sources
 tx push -s
