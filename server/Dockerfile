@@ -37,6 +37,13 @@ ADD initnc.sh /usr/local/bin/
 ADD run.sh /usr/local/bin/
 ADD initAndRun.sh /usr/local/bin/
 
+# self signed cert
+ADD ssl/dhparam.pem /etc/ssl/certs/
+ADD ssl/default-ssl.conf /etc/apache2/conf-available/ssl-params.conf
+ADD ssl/nextcloud.crt /etc/ssl/certs/nextcloud.crt
+ADD ssl/nextcloud.key /etc/ssl/private/nextcloud.key
+ADD ssl/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
 RUN chmod +x /usr/local/bin/*
 
 EXPOSE 80

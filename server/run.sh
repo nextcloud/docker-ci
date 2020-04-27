@@ -11,4 +11,10 @@ mkdir -p /var/run/apache2
 
 tail -f data/nextcloud.log &
 
+a2enmod ssl
+a2enmod headers
+a2ensite default-ssl
+a2enconf ssl-params
+apache2ctl configtest
+
 apache2 -DFOREGROUND "$@"
