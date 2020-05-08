@@ -13,7 +13,7 @@ git clone git@github.com:$1/$2 /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable16 stable17 stable18 master'
+versions='stable17 stable18 stable19 master'
 
 # build POT files for all versions
 mkdir stable-templates
