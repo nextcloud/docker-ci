@@ -3,6 +3,7 @@ FROM ubuntu:xenial
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
     apt-get install -y wget libsqlite3-dev git curl perl python \
         software-properties-common build-essential mesa-common-dev \
         pkg-config ninja-build
