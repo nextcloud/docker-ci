@@ -3,6 +3,7 @@ FROM ubuntu:xenial
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
 RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
     apt-get install -y wget libsqlite3-dev git curl perl python \
         software-properties-common build-essential mesa-common-dev \
         pkg-config ninja-build
@@ -64,9 +65,9 @@ RUN cd /tmp && \
 
 # Install openssl
 RUN cd /tmp && \
-    wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz && \
-    tar -xvf openssl-1.1.1d.tar.gz && \
-    cd openssl-1.1.1d && \
+    wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz && \
+    tar -xvf openssl-1.1.1g.tar.gz && \
+    cd openssl-1.1.1g && \
     ./config && \
     make && \
     make install && \
@@ -88,14 +89,14 @@ RUN cd /tmp && \
 
 ## Download Qt-5.12 sources
 #RUN apt install -y xz-utils && \
-#    wget https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz && \
-#    tar -xvf qt-everywhere-src-5.12.5.tar.xz && \
-#    cd qt-everywhere-src-5.12.5
+#    wget https://download.qt.io/official_releases/qt/5.12/5.12.8/single/qt-everywhere-src-5.12.8.tar.xz && \
+#    tar -xvf qt-everywhere-src-5.12.8.tar.xz && \
+#    cd qt-everywhere-src-5.12.8
 
 ## Build Qt-5.12
-#RUN cd qt-everywhere-src-5.12.5 && \
+#RUN cd qt-everywhere-src-5.12.8 && \
 #    OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
-#        -confirm-license -release -openssl-linked -prefix /opt/qt5.12.5 && \
+#        -confirm-license -release -openssl-linked -prefix /opt/qt5.12.8 && \
 #    make && \
 #    make install && \
 #    cd .. && \
@@ -113,5 +114,5 @@ RUN cd /tmp && \
 
 # Download Qt-5.12 precompiled
 RUN apt install -y xz-utils && \
-    wget https://download.nextcloud.com/desktop/development/qt/qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz && \
-    tar -xvf qt-bin-5.12.5-openssl-1.1.1d-linux-x86_64-2019-11-01.tar.xz
+    wget https://download.nextcloud.com/desktop/development/qt/qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz && \
+    tar -xvf qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz
