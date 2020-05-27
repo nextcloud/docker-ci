@@ -115,4 +115,5 @@ RUN cd /tmp && \
 # Download Qt-5.12 precompiled
 RUN apt install -y xz-utils && \
     wget https://download.nextcloud.com/desktop/development/qt/qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz && \
-    tar -xvf qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz
+    tar -xvf qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz && \
+    rm qt-bin-5.12.8-openssl-1.1.1g-linux-x86_64-2020-05-24.tar.xz
