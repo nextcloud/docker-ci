@@ -17,7 +17,7 @@ RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" && \
     apt-get update && \
-    apt-get install -y clang-6.0
+    apt-get install -y clang-6.0 clang-tidy-6.0
 
 # Add libsecret for qtkeychain
 RUN apt-get install -y pkg-config libsecret-1-dev
@@ -86,6 +86,15 @@ RUN cd /tmp && \
     cd .. && \
     rm -rf cmake*
 
+# Install clazy
+RUN cd /tmp && \
+    wget https://downloads.kdab.com/clazy/1.6/Clazy-x86_64-1.6.AppImage -O Clazy.AppImage && \
+    chmod +x Clazy.AppImage && \
+    ./Clazy.AppImage --appimage-extract && \
+    rm Clazy.AppImage && \
+    mv squashfs-root /opt/clazy && \
+    ln -s /opt/clazy/AppRun /usr/bin/clazy && \
+    cd ..
 
 ## Download Qt-5.12 sources
 #RUN apt install -y xz-utils && \
