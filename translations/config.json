@@ -126,7 +126,6 @@
     {
       "name": "plain",
       "arguments": [
-        "linfaservice cloudgallery",
         "nextcloud android",
         "nextcloud Android-SingleSignOn",
         "nextcloud news-android",
