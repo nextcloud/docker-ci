@@ -67,7 +67,7 @@ RUN cd /tmp && \
     tar -xvf zlib-1.2.11.tar.gz && \
     cd zlib-1.2.11 && \
     ./configure && \
-    make && \
+    make -j$(nproc) && \
     make install && \
     cd .. && \
     rm -rf zlib*
@@ -78,7 +78,7 @@ RUN cd /tmp && \
     tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
     cd openssl-${VER_OPENSSL} && \
     ./config && \
-    make && \
+    make -j$(nproc) && \
     make install && \
     cd .. && \
     rm -rf openssl*
@@ -121,7 +121,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
       cd qt-everywhere-src-${VER_QT} && \
       OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
           -confirm-license -release -openssl-linked -prefix ${QT_ROOT} && \
-      make && \
+      make -j$(nproc) && \
       make install && \
       cd .. && \
       rm -rf qt-everywhere* && \
