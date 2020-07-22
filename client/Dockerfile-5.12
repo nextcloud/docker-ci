@@ -13,7 +13,7 @@ ENV QT_ROOT /opt/qt${VER_QT}
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
-    apt-get install -y wget libsqlite3-dev git curl perl python \
+    apt-get install -y wget libsqlite3-dev git curl jq perl python \
         software-properties-common build-essential mesa-common-dev \
         pkg-config ninja-build
 
@@ -150,3 +150,5 @@ RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
       tar -xvf ${QT_TARBALL} && \
       rm ${QT_TARBALL} \
     ; fi
+
+###########################################################################
