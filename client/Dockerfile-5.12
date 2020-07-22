@@ -150,3 +150,16 @@ RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
       tar -xvf ${QT_TARBALL} && \
       rm ${QT_TARBALL} \
     ; fi
+
+###########################################################################
+
+# Add libqgtk
+RUN apt install -y libgtk2.0-dev && \
+    git clone https://code.qt.io/qt/qtstyleplugins.git && \
+    cd qtstyleplugins && \
+    export PATH=$PATH:${QT_ROOT}/bin && \
+    qmake && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf qtstyleplugins
