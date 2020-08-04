@@ -34,11 +34,11 @@ do
 
   git checkout $version
 
-  lupdate-qt5 src/gui/ src/cmd/ src/common/ src/crashreporter/ src/csync/ src/libsync/ -ts /branches/$version.ts
+  lupdate src/gui/ src/cmd/ src/common/ src/crashreporter/ src/csync/ src/libsync/ -ts /branches/$version.ts
 done
 
 # Merge source translation files and filter duplicates
-lconvert-qt5 -i /branches/*.ts -o /merged_en.ts
+lconvert -i /branches/*.ts -o /merged_en.ts
 
 # Fix missing <numerusform> elements (always two are required but lconvert strips out one)
 # Fix paths, changed by lconvert
