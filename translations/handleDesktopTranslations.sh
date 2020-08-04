@@ -34,7 +34,7 @@ do
 
   git checkout $version
 
-  lupdate src/gui/ src/cmd/ src/common/ src/crashreporter/ src/csync/ src/libsync/ -ts /branches/$version.ts
+  lupdate src/gui/ src/cmd/ src/common/ src/crashreporter/ src/csync/ src/libsync/ resources.qrc -ts /branches/$version.ts
 done
 
 # Merge source translation files and filter duplicates
