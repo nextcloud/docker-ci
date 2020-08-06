@@ -68,17 +68,6 @@ RUN apt install -y libclang-10-dev llvm-10
 
 ###########################################################################
 
-# Install zlib
-RUN cd /tmp && \
-    wget https://zlib.net/zlib-1.2.11.tar.gz && \
-    tar -xvf zlib-1.2.11.tar.gz && \
-    cd zlib-1.2.11 && \
-    ./configure && \
-    make -j$(nproc) && \
-    make install && \
-    cd .. && \
-    rm -rf zlib*
-
 # Install openssl
 RUN cd /tmp && \
     wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
@@ -89,29 +78,6 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm -rf openssl*
-
-# Install cmake
-RUN cd /tmp && \
-    wget https://github.com/Kitware/CMake/releases/download/v3.14.0/cmake-3.14.0-Linux-x86_64.tar.gz && \
-    tar -xvf cmake-3.14.0-Linux-x86_64.tar.gz && \
-    cd cmake-3.14.0-Linux-x86_64 && \
-    cp -r bin /usr/ && \
-    cp -r share /usr/ && \
-    cp -r doc /usr/share/ && \
-    cp -r man /usr/share/ && \
-    cd .. && \
-    rm -rf cmake*
-
-# Install clazy
-RUN cd /tmp && \
-    wget https://downloads.kdab.com/clazy/1.6/Clazy-x86_64-1.6.AppImage -O Clazy.AppImage && \
-    chmod +x Clazy.AppImage && \
-    ./Clazy.AppImage --appimage-extract && \
-    rm Clazy.AppImage && \
-    mv squashfs-root /opt/clazy && \
-    ln -s /opt/clazy/AppRun /usr/bin/clazy && \
-    cd ..
-
 
 ###########################################################################
 
