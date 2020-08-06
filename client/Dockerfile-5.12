@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:20.04
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
@@ -13,20 +13,27 @@ ENV QT_ROOT /opt/qt${VER_QT}
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
-    apt-get install -y wget libsqlite3-dev git curl jq perl python \
-        software-properties-common build-essential mesa-common-dev \
-        pkg-config ninja-build
-
-# Install gcc-7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
-    apt-get update && \
-    apt-get install -y gcc-7 g++-7
-
-# Install clang-6
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" && \
-    apt-get update && \
-    apt-get install -y clang-6.0 clang-tidy-6.0
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+        wget \
+        libsqlite3-dev \
+        git \
+        curl \
+        jq \
+        perl \
+        python \
+        software-properties-common \
+        build-essential \
+        mesa-common-dev \
+        pkg-config \
+        ninja-build \
+        gcc-10 \
+        g++-10 \
+        clang-10 \
+        clang-format-10 \
+        clang-tidy-10 \
+        clazy \
+        cmake \
+        zlib1g-dev
 
 # Add libsecret for qtkeychain
 RUN apt-get install -y pkg-config libsecret-1-dev
@@ -51,13 +58,13 @@ RUN apt install -y flex bison gperf libicu-dev libxslt-dev ruby
 RUN apt install -y libssl-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxrandr-dev libdbus-1-dev \
                    libfontconfig1-dev libcap-dev libxtst-dev libpulse-dev libudev-dev libpci-dev libnss3-dev \
                    libasound2-dev libxss-dev libegl1-mesa-dev gperf bison \
-                   libbz2-dev libgcrypt11-dev libdrm-dev libcups2-dev libatkmm-1.6-dev
+                   libbz2-dev libgcrypt20-dev libdrm-dev libcups2-dev libatkmm-1.6-dev
 
 # Qt Multimedia
-RUN apt install -y libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev
+RUN apt install -y libasound2-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 
 # QDoc Documentation Generator Tool
-RUN apt install -y libclang-6.0-dev llvm-6.0
+RUN apt install -y libclang-10-dev llvm-10
 
 ###########################################################################
 
