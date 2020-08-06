@@ -125,3 +125,22 @@ RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
     ; fi
 
 ###########################################################################
+
+ENV QTDIR ${QT_ROOT}
+ENV PATH ${QT_ROOT}/bin:${PATH}
+ENV LD_LIBRARY_PATH ${QT_ROOT}/lib/x86_64-linux-gnu:${QT_ROOT}/lib:/usr/local/lib:${LD_LIBRARY_PATH}
+ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
+
+# Install QtKeychain
+RUN cd /tmp && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git && \
+    cd qtkeychain && \
+    git checkout v0.10.0 && \
+    mkdir build && \
+    cd build && \
+    cmake ../ && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf qtkeychain
+
