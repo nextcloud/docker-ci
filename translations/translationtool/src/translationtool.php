@@ -477,6 +477,10 @@ class TranslationTool {
 				continue;
 			}
 
+			if ($entry === 'node_modules') {
+				continue;
+			}
+
 			if ($entry === 'l10n') {
 				$this->appPaths[] = $path;
 			} else {
