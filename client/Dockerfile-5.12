@@ -154,9 +154,8 @@ ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 # Install QtKeychain
 RUN cd /tmp && \
-    git clone https://github.com/frankosterfeld/qtkeychain.git && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
     cd qtkeychain && \
-    git checkout v0.10.0 && \
     mkdir build && \
     cd build && \
     cmake ../ && \
@@ -164,4 +163,3 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm -rf qtkeychain
-
