@@ -11,7 +11,9 @@ ENV VER_OPENSSL 1.1.1g
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
-RUN apt-get update && \
+# https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
+RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
+    apt-get update && \
     apt-get install -y apt-transport-https && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
         wget \
@@ -33,38 +35,59 @@ RUN apt-get update && \
         clang-tidy-10 \
         clazy \
         cmake \
-        zlib1g-dev
-
+        zlib1g-dev \
+        xz-utils \
 # Add libsecret for qtkeychain
-RUN apt-get install -y libsecret-1-dev
-
-###########################################################################
-
+        libsecret-1-dev \
 # Add Qt-5.12 build dependencies
-RUN apt install -y libclang-dev gperf flex bison
-
-# https://wiki.qt.io/Building_Qt_5_from_Git
-# https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
-RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && apt update && \
-    apt-get build-dep -y qt5-default
-
+        libclang-dev \
+        gperf \
+        flex \
+        bison \
 # Libxcb, libxcb-xinerama0-dev
-RUN apt install -y '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev
-
+        '^libxcb.*-dev' \
+        libx11-xcb-dev \
+        libglu1-mesa-dev \
+        libxrender-dev \
+        libxi-dev \
 # OpenGL support
-RUN apt install -y flex bison gperf libicu-dev libxslt-dev ruby
-
+        libicu-dev \
+        libxslt-dev \
+        ruby \
 # Qt WebEngine
-RUN apt install -y libssl-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxrandr-dev libdbus-1-dev \
-                   libfontconfig1-dev libcap-dev libxtst-dev libpulse-dev libudev-dev libpci-dev libnss3-dev \
-                   libasound2-dev libxss-dev libegl1-mesa-dev gperf bison \
-                   libbz2-dev libgcrypt20-dev libdrm-dev libcups2-dev libatkmm-1.6-dev
-
+        libssl-dev \
+        libxcursor-dev \
+        libxcomposite-dev \
+        libxdamage-dev \
+        libxrandr-dev \
+        libdbus-1-dev \
+        libfontconfig1-dev \
+        libcap-dev \
+        libxtst-dev \
+        libpulse-dev \
+        libudev-dev \
+        libpci-dev \
+        libnss3-dev \
+        libasound2-dev \
+        libxss-dev \
+        libegl1-mesa-dev \
+        libbz2-dev \
+        libgcrypt20-dev \
+        libdrm-dev \
+        libcups2-dev \
+        libatkmm-1.6-dev \
 # Qt Multimedia
-RUN apt install -y libasound2-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
-
+        libasound2-dev \
+        libgstreamer1.0-dev \
+        libgstreamer-plugins-base1.0-dev \
 # QDoc Documentation Generator Tool
-RUN apt install -y libclang-10-dev llvm-10
+        libclang-10-dev \
+        llvm-10 && \
+# https://wiki.qt.io/Building_Qt_5_from_Git
+    apt-get build-dep -y qt5-default && \
+# Cleaning up
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ###########################################################################
 
@@ -83,7 +106,6 @@ RUN cd /tmp && \
 
 # Download Qt-5.12 sources
 RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
-      apt install -y xz-utils && \
       wget https://download.qt.io/official_releases/qt/5.12/${VER_QT}/single/qt-everywhere-src-${VER_QT}.tar.xz && \
       tar -xvf qt-everywhere-src-${VER_QT}.tar.xz && \
       cd qt-everywhere-src-${VER_QT} \
@@ -118,7 +140,6 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
 
 RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
-      apt install -y xz-utils && \
       wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
       tar -xvf ${QT_TARBALL} && \
       rm ${QT_TARBALL} \
