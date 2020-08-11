@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:20.04
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
@@ -6,71 +6,90 @@ MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 ARG BUILD_QT
 
 ENV VER_QT 5.12.9
-ENV VER_QT_DATE 2020-07-21
+ENV VER_QT_DATE 2020-08-05
 ENV VER_OPENSSL 1.1.1g
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
-RUN apt-get update && \
-    apt-get install -y apt-transport-https && \
-    apt-get install -y wget libsqlite3-dev git curl jq perl python \
-        software-properties-common build-essential mesa-common-dev \
-        pkg-config ninja-build
-
-# Install gcc-7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && \
-    apt-get update && \
-    apt-get install -y gcc-7 g++-7
-
-# Install clang-6
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" && \
-    apt-get update && \
-    apt-get install -y clang-6.0 clang-tidy-6.0
-
-# Add libsecret for qtkeychain
-RUN apt-get install -y pkg-config libsecret-1-dev
-
-###########################################################################
-
-# Add Qt-5.12 build dependencies
-RUN apt install -y libclang-dev gperf flex bison pkg-config
-
-# https://wiki.qt.io/Building_Qt_5_from_Git
 # https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
-RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && apt update && \
-    apt-get build-dep -y qt5-default
-
+RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
+    apt-get update && \
+    apt-get install -y apt-transport-https && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+        wget \
+        libsqlite3-dev \
+        git \
+        curl \
+        jq \
+        perl \
+        python \
+        software-properties-common \
+        build-essential \
+        mesa-common-dev \
+        pkg-config \
+        ninja-build \
+        gcc-10 \
+        g++-10 \
+        clang-10 \
+        clang-format-10 \
+        clang-tidy-10 \
+        clazy \
+        cmake \
+        zlib1g-dev \
+        xz-utils \
+# Add libsecret for qtkeychain
+        libsecret-1-dev \
+# Add Qt-5.12 build dependencies
+        libclang-dev \
+        gperf \
+        flex \
+        bison \
 # Libxcb, libxcb-xinerama0-dev
-RUN apt install -y '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev
-
+        '^libxcb.*-dev' \
+        libx11-xcb-dev \
+        libglu1-mesa-dev \
+        libxrender-dev \
+        libxi-dev \
 # OpenGL support
-RUN apt install -y flex bison gperf libicu-dev libxslt-dev ruby
-
+        libicu-dev \
+        libxslt-dev \
+        ruby \
 # Qt WebEngine
-RUN apt install -y libssl-dev libxcursor-dev libxcomposite-dev libxdamage-dev libxrandr-dev libdbus-1-dev \
-                   libfontconfig1-dev libcap-dev libxtst-dev libpulse-dev libudev-dev libpci-dev libnss3-dev \
-                   libasound2-dev libxss-dev libegl1-mesa-dev gperf bison \
-                   libbz2-dev libgcrypt11-dev libdrm-dev libcups2-dev libatkmm-1.6-dev
-
+        libssl-dev \
+        libxcursor-dev \
+        libxcomposite-dev \
+        libxdamage-dev \
+        libxrandr-dev \
+        libdbus-1-dev \
+        libfontconfig1-dev \
+        libcap-dev \
+        libxtst-dev \
+        libpulse-dev \
+        libudev-dev \
+        libpci-dev \
+        libnss3-dev \
+        libasound2-dev \
+        libxss-dev \
+        libegl1-mesa-dev \
+        libbz2-dev \
+        libgcrypt20-dev \
+        libdrm-dev \
+        libcups2-dev \
+        libatkmm-1.6-dev \
 # Qt Multimedia
-RUN apt install -y libasound2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev
-
+        libasound2-dev \
+        libgstreamer1.0-dev \
+        libgstreamer-plugins-base1.0-dev \
 # QDoc Documentation Generator Tool
-RUN apt install -y libclang-6.0-dev llvm-6.0
+        libclang-10-dev \
+        llvm-10 && \
+# https://wiki.qt.io/Building_Qt_5_from_Git
+    apt-get build-dep -y qt5-default && \
+# Cleaning up
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ###########################################################################
-
-# Install zlib
-RUN cd /tmp && \
-    wget https://zlib.net/zlib-1.2.11.tar.gz && \
-    tar -xvf zlib-1.2.11.tar.gz && \
-    cd zlib-1.2.11 && \
-    ./configure && \
-    make -j$(nproc) && \
-    make install && \
-    cd .. && \
-    rm -rf zlib*
 
 # Install openssl
 RUN cd /tmp && \
@@ -83,34 +102,10 @@ RUN cd /tmp && \
     cd .. && \
     rm -rf openssl*
 
-# Install cmake
-RUN cd /tmp && \
-    wget https://github.com/Kitware/CMake/releases/download/v3.14.0/cmake-3.14.0-Linux-x86_64.tar.gz && \
-    tar -xvf cmake-3.14.0-Linux-x86_64.tar.gz && \
-    cd cmake-3.14.0-Linux-x86_64 && \
-    cp -r bin /usr/ && \
-    cp -r share /usr/ && \
-    cp -r doc /usr/share/ && \
-    cp -r man /usr/share/ && \
-    cd .. && \
-    rm -rf cmake*
-
-# Install clazy
-RUN cd /tmp && \
-    wget https://downloads.kdab.com/clazy/1.6/Clazy-x86_64-1.6.AppImage -O Clazy.AppImage && \
-    chmod +x Clazy.AppImage && \
-    ./Clazy.AppImage --appimage-extract && \
-    rm Clazy.AppImage && \
-    mv squashfs-root /opt/clazy && \
-    ln -s /opt/clazy/AppRun /usr/bin/clazy && \
-    cd ..
-
-
 ###########################################################################
 
 # Download Qt-5.12 sources
 RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
-      apt install -y xz-utils && \
       wget https://download.qt.io/official_releases/qt/5.12/${VER_QT}/single/qt-everywhere-src-${VER_QT}.tar.xz && \
       tar -xvf qt-everywhere-src-${VER_QT}.tar.xz && \
       cd qt-everywhere-src-${VER_QT} \
@@ -145,10 +140,26 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
 
 RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
-      apt install -y xz-utils && \
       wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
       tar -xvf ${QT_TARBALL} && \
       rm ${QT_TARBALL} \
     ; fi
 
 ###########################################################################
+
+ENV QTDIR ${QT_ROOT}
+ENV PATH ${QT_ROOT}/bin:${PATH}
+ENV LD_LIBRARY_PATH ${QT_ROOT}/lib/x86_64-linux-gnu:${QT_ROOT}/lib:/usr/local/lib:${LD_LIBRARY_PATH}
+ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
+
+# Install QtKeychain
+RUN cd /tmp && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
+    cd qtkeychain && \
+    mkdir build && \
+    cd build && \
+    cmake ../ && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf qtkeychain
