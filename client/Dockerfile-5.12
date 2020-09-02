@@ -37,6 +37,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         cmake \
         zlib1g-dev \
         xz-utils \
+# For cmocka based csync tests
+        libcmocka-dev \
 # Add libsecret for qtkeychain
         libsecret-1-dev \
 # Add Qt-5.12 build dependencies
