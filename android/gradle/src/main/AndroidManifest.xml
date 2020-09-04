@@ -7,8 +7,4 @@
         tools:replace="android:label">
     </application>
 
-    <uses-sdk
-        android:minSdkVersion="18"
-        android:targetSdkVersion="28" />
-
 </manifest>
