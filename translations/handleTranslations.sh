@@ -13,7 +13,7 @@ git clone git@github.com:nextcloud/server /app
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable17 stable18 stable19 master'
+versions='stable17 stable18 stable19 stable20 master'
 
 # build POT files for all versions
 mkdir stable-templates
