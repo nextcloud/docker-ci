@@ -12,7 +12,10 @@ git checkout ${BRANCH}
 git pull
 git submodule update
 
-# init
+# Creating data
+mkdir -p /var/www/html/data
+
+# Init
 php occ maintenance:install --admin-user=admin --admin-pass=admin
 OC_PASS=test php occ user:add --password-from-env -- test
 
