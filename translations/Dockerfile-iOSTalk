@@ -1,0 +1,5 @@
+FROM nextcloudci/translations:translations-58
+
+MAINTAINER Morris Jobke <hey@morrisjobke.de>
+
+ADD handleiOSTalkTranslations.sh /handleTranslations.sh
