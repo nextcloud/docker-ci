@@ -10,7 +10,6 @@ gpg --list-keys
 
 # fetch git repo
 git clone git@github.com:nextcloud/talk-ios /app
-cd VideoCalls
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
 rm -r VideoCalls/*.lproj
