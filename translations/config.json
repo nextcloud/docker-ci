@@ -129,6 +129,12 @@
       ]
     },
     {
+      "name": "iostalk",
+      "arguments": [
+        ""
+      ]
+    },
+    {
       "name": "desktop",
       "arguments": [
         ""
