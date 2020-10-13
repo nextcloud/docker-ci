@@ -65,7 +65,7 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5
 
-backportVersions='master stable19 stable18 stable17'
+backportVersions='master stable20 stable19 stable18'
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
