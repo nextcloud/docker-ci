@@ -52,7 +52,7 @@ tx pull -a -f -r nextcloud.lib --minimum-perc=0
 # pull 20% of "settings" translations for the region name
 tx pull -a -f -r nextcloud.settings-1 --minimum-perc=20
 
-backportVersions='master stable19 stable18 stable17'
+backportVersions='master stable20 stable19 stable18'
 for version in $backportVersions
 do
   git checkout $version
@@ -60,9 +60,6 @@ do
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   find core/l10n -type f -delete
   find lib/l10n -type f -delete
-  if [ "$version" != "master" ] && [ "$version" != "stable19" ] && [ "$version" != "stable18" ]; then
-    find settings/l10n -type f -delete
-  fi
 
   # build JS/JSON based on translations
   /translationtool.phar convert-po-files
@@ -72,11 +69,7 @@ do
   git checkout -- tests/
 
   # create git commit and push it
-  if [ "$version" != "master" ] && [ "$version" != "stable19" ] && [ "$version" != "stable18" ]; then
-    git add apps core lib settings
-  else
-    git add apps core lib
-  fi
+  git add apps core lib
 
   git commit -am "[tx-robot] updated from transifex" || true
   git push origin $version
