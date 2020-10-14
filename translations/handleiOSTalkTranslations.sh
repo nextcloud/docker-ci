@@ -12,9 +12,9 @@ gpg --list-keys
 git clone git@github.com:nextcloud/talk-ios /app
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
-rm -r VideoCalls/*.lproj
-git checkout -- VideoCalls/Base.lproj
-git checkout -- VideoCalls/en.lproj
+rm -r NextcloudTalk/*.lproj
+git checkout -- NextcloudTalk/Base.lproj
+git checkout -- NextcloudTalk/en.lproj
 
 # push sources
 tx push -s
@@ -22,7 +22,7 @@ tx push -s
 # pull translations
 tx pull -f -a --minimum-perc=25
 
-cd VideoCalls
+cd NextcloudTalk
 
 # use de_DE instead of de
 rm -rf ./de.lproj
