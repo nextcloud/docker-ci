@@ -29,4 +29,4 @@ do
    sleep 1
 done
 
-/etc/init.d/jetty run &
+run-jetty.sh &
