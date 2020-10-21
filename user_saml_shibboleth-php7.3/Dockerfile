@@ -1,4 +1,4 @@
-FROM unicon/shibboleth-idp:3.2.1
+FROM unicon/shibboleth-idp:3.4.3
 
 # Add Shibboleth config stuff
 ADD shibboleth/ /opt/shibboleth-idp/
