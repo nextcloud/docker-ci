@@ -1,4 +1,4 @@
-FROM nextcloudci/android:androidBase-2
+FROM nextcloudci/androidbase:androidBase-4
 
 # Android 8.1 (API 27)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-27"
