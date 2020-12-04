@@ -1,9 +1,9 @@
-FROM debian:jessie
-RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https lsb-release ca-certificates && \
+FROM debian:buster
+RUN apt-get update && apt-get install -y wget gnupg2 libzip4 apt-transport-https lsb-release ca-certificates && \
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && apt-get install -y php7.3-intl php7.3-gd git curl \
-    php7.3-cli php7.3-curl php7.3-pgsql php7.3-ldap \
+    php7.3-cli php7.3-curl php7.3-pgsql php7.3-ldap php7.3-apcu \
     php7.3-sqlite php7.3-mysql php7.3-zip php7.3-xml php7.3-redis \
     php7.3-mbstring php7.3-dev make libmagickcore-6.q16-2-extra unzip \
     php7.3-redis php7.3-imagick php7.3-dev php-xdebug \
