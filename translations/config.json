@@ -150,7 +150,8 @@
         "nextcloud passman-android",
         "nextcloud passman-webextension",
         "nextcloud talk-android",
-        "nerzhul ownCloud-SMS-App"
+        "nerzhul ownCloud-SMS-App",
+        "teifun2 nextcloud-cookbook-flutter"
       ]
     },
     {
