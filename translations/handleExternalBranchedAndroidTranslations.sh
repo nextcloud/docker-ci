@@ -28,6 +28,6 @@ fi
 
 # create git commit and push it
 git add .
-git commit -am "[tx-robot] updated from transifex" || true
+git commit -am "[tx-robot] updated from transifex" -s || true
 git push -f origin $3
 echo "done"

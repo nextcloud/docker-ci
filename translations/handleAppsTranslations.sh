@@ -51,6 +51,6 @@ do
 done
 
 # create git commit and push it
-git commit -m "[tx-robot] updated from transifex" || true
+git commit -m "[tx-robot] updated from transifex" -s || true
 git push origin master
 echo "done"
