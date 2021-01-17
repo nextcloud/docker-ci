@@ -91,7 +91,7 @@ do
 
   # create git commit and push it
   git add l10n/*.js l10n/*.json
-  git commit -am "[tx-robot] updated from transifex" s || true
+  git commit -am "[tx-robot] updated from transifex" -s || true
   git push origin $version
 
   echo "done with $version"
