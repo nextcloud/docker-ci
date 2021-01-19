@@ -148,15 +148,15 @@
         "nextcloud passman-android",
         "nextcloud passman-webextension",
         "nextcloud talk-android",
-        "nerzhul ownCloud-SMS-App",
-        "teifun2 nextcloud-cookbook-flutter"
+        "nerzhul ownCloud-SMS-App"
       ]
     },
     {
       "name": "externalandroid-branched",
       "arguments": [
         "stefan-niedermann nextcloud-notes transifex",
-        "stefan-niedermann nextcloud-deck transifex"
+        "stefan-niedermann nextcloud-deck transifex",
+        "teifun2 nextcloud-cookbook-flutter transifex"
       ]
     },
     {
