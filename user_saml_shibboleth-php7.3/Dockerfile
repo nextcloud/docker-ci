@@ -32,3 +32,5 @@ RUN yum -y install nc
 # Add the startup file
 ADD start.sh /start.sh
 RUN chmod a+x /start.sh
+
+CMD ["/start.sh"]
