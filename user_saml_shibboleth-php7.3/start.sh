@@ -29,4 +29,4 @@ do
    sleep 1
 done
 
-run-jetty.sh &
+run-jetty.sh
