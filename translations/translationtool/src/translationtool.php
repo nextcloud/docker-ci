@@ -240,10 +240,6 @@ class TranslatableApp {
 		
 		$strings = [];
 		$xml = simplexml_load_file($entryName);
-		
-		if ($xml->name) {
-			$strings[] = $xml->name->__toString();
-		}
 
 		if ($xml->navigations) {
 			foreach ($xml->navigations as $navigation) {
@@ -254,6 +250,8 @@ class TranslatableApp {
 			}
 		}
 
+		// FIXME: currently unused info.xml translations
+		/*
 		if ($xml->name) {
 			if ($xml->name->count() > 1) {
 				foreach ($xml->name as $name) {
@@ -307,6 +305,7 @@ class TranslatableApp {
 				}
 			}
 		}
+		*/
 		
 		$content = '<?php' . PHP_EOL;
 		foreach ($strings as $string) {
