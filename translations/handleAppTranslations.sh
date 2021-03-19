@@ -14,6 +14,9 @@ git clone git@github.com:$1/$2 /app
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable19 stable20 stable20.1 stable21 stable21.1 master'
+if [[ -f '/app/.tx/backport' ]]; then
+  versions="$(cat /app/.tx/backport) master"
+fi
 
 # build POT files for all versions
 mkdir stable-templates
@@ -65,7 +68,8 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5
 
-backportVersions='master stable21.1 stable21 stable20.1 stable20 stable19'
+# reverse version list to apply backports
+backportVersions=$(echo $versions | awk '{for(i=NF;i>=1;i--) printf "%s ", $i;print ""}')
 for version in $backportVersions
 do
   # skip if the branch doesn't exist
