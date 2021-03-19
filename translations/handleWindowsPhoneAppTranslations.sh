@@ -20,6 +20,6 @@ tx pull -f -a --minimum-perc=75
 
 # create git commit and push it
 git add .
-git commit -am "[tx-robot] updated from transifex" || true
+git commit -am "[tx-robot] updated from transifex" -s || true
 git push origin master
 echo "done"

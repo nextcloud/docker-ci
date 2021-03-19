@@ -28,6 +28,6 @@ rm -rf locale/de_DE/
 
 # create git commit and push it
 git add locale/
-git commit -am "[tx-robot] updated from transifex" || true
+git commit -am "[tx-robot] updated from transifex" -s || true
 git push origin master
 echo "done"
