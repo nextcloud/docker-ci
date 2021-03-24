@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip4 apt-transport-https
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN phpenmod zip intl gd systemd
-RUN curl -O -L https://phar.phpunit.de/phpunit-9.phar \
-    && chmod +x phpunit-9.phar \
-    && mv phpunit-9.phar /usr/local/bin/phpunit
+# Note: phpunit 9.5 contains breaking changes so we stick to the version before that
+RUN curl -O -L https://phar.phpunit.de/phpunit-9.4.4.phar \
+    && chmod +x phpunit-9.4.4.phar \
+    && mv phpunit-9.4.4.phar /usr/local/bin/phpunit
 RUN curl -O -L https://getcomposer.org/download/1.10.15/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
