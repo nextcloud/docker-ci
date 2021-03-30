@@ -14,7 +14,7 @@ git clone git@github.com:$1/$2 /app
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable19 stable20 stable20.1 stable21 stable21.1 master main'
-if [[ -f '/app/.tx/backport' ]]; then
+if [ -f '/app/.tx/backport' ]; then
   versions="$(cat /app/.tx/backport) master"
 fi
 
@@ -32,7 +32,7 @@ do
   git checkout $version
 
   # ignore build folder logreader
-  if [ "$2" == "logreader" ] ; then
+  if [ "$2" = "logreader" ] ; then
       rm -rf build
   fi
 
@@ -40,7 +40,7 @@ do
   /translationtool.phar create-pot-files
 
   # ignore build folder logreader
-  if [ "$2" == "logreader" ] ; then
+  if [ "$2" = "logreader" ] ; then
       git checkout -- build
   fi
 
