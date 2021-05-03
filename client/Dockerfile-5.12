@@ -84,7 +84,9 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libgstreamer-plugins-base1.0-dev \
 # QDoc Documentation Generator Tool
         libclang-10-dev \
-        llvm-10 && \
+        llvm-10 \
+# html documentation generation
+        python3-sphinx && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y qt5-default && \
 # Cleaning up
