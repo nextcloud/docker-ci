@@ -137,7 +137,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 # on a dedicated build machine:
 #
-#   docker build -t client-5.12 . --build-arg BUILD_QT=1
+#   docker build -f Dockerfile-5.12 -t client-5.12 . --build-arg BUILD_QT=1
 #
 
 # Download Qt-5.12 precompiled
