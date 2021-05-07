@@ -5,9 +5,9 @@ MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT 5.12.9
-ENV VER_QT_DATE 2020-08-05
-ENV VER_OPENSSL 1.1.1g
+ENV VER_QT 5.12.10
+ENV VER_QT_DATE 2021-04-30
+ENV VER_OPENSSL 1.1.1k
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -84,7 +84,9 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libgstreamer-plugins-base1.0-dev \
 # QDoc Documentation Generator Tool
         libclang-10-dev \
-        llvm-10 && \
+        llvm-10 \
+# html documentation generation
+        python3-sphinx && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y qt5-default && \
 # Cleaning up
@@ -135,7 +137,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 # on a dedicated build machine:
 #
-#   docker build -t client-5.12 . --build-arg BUILD_QT=1
+#   docker build -f Dockerfile-5.12 -t client-5.12 . --build-arg BUILD_QT=1
 #
 
 # Download Qt-5.12 precompiled
