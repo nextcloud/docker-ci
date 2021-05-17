@@ -53,12 +53,42 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   rm -rf stable-values
 fi
 
+if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
+  mkdir stable-values
+  for version in $versions
+  do
+    git checkout $version
+    cp app/src/main/res/values/strings.xml stable-values/$version.xml
+  done
+
+  cd stable-values
+  echo '<?xml version="1.0" encoding="utf-8"?>
+  <resources>' >> combined.xml
+    
+  grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
+  
+  # plurals are hard to compare, so we take only master ones
+  awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
+    
+  echo "</resources>" >> combined.xml
+  mv combined.xml ../app/src/main/res/values/strings.xml
+  
+  cd ..
+  
+  rm -rf stable-values
+fi
+
 # push sources
 tx push -s
 
 # undo local changes
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
   git checkout -- src/main/res/values/strings.xml
+  git checkout master
+fi
+
+if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
+  git checkout -- app/src/main/res/values/strings.xml
   git checkout master
 fi
 
