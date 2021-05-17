@@ -63,7 +63,7 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
 
   cd stable-values
   echo '<?xml version="1.0" encoding="utf-8"?>
-  <resources>' >> combined.xml
+  <resources xmlns:tools="http://schemas.android.com/tools">' >> combined.xml
     
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
   
