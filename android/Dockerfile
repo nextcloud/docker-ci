@@ -1,18 +1,18 @@
-FROM debian:stretch
+FROM debian:buster
 
 RUN apt-get update && apt-get install -y software-properties-common
-RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-8-jdk-headless curl qrencode git && \
+RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-11-jdk curl qrencode git && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN mkdir /opt/android-sdk-linux
-RUN cd /opt/android-sdk-linux && wget --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
+RUN cd /opt/android-sdk-linux && wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-7302050_latest.zip && \
     unzip android-sdk.zip && \
     rm -f android-sdk.zip
 
 ENV SHELL /bin/bash
 ENV ANDROID_HOME=/opt/android-sdk-linux/
-ENV PATH=$PATH:/opt/android-sdk-linux/tools/bin/:/opt/android-sdk-linux/emulator/:/opt/android-sdk-linux/platform-tools/
+ENV PATH=$PATH:/opt/android-sdk-linux/cmdline-tools/bin/:/opt/android-sdk-linux/emulator/:/opt/android-sdk-linux/platform-tools/
 
 RUN echo en_US.UTF-8 UTF-8 >> /etc/locale.gen
 RUN locale-gen && update-locale LANG=en_US.UTF-8
