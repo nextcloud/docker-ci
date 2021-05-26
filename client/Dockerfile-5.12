@@ -85,10 +85,10 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # QDoc Documentation Generator Tool
         libclang-10-dev \
         llvm-10 \
+# generate png images from svg
+        inkscape \
 # html documentation generation
         python3-sphinx && \
-# generate png images from svg
-        inkscape && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y qt5-default && \
 # Cleaning up
