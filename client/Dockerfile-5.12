@@ -87,6 +87,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         llvm-10 \
 # html documentation generation
         python3-sphinx && \
+# generate png images from svg
+        inkscape && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y qt5-default && \
 # Cleaning up
