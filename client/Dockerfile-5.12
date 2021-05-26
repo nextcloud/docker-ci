@@ -13,8 +13,13 @@ ENV QT_ROOT /opt/qt${VER_QT}
 
 # https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
+    # Ubuntus version of inkscape is outdated
     apt-get update && \
     apt-get install -y apt-transport-https && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y software-properties-common && \
+    rm -rf /var/lib/apt/lists/* && \
+    add-apt-repository -y ppa:inkscape.dev/stable && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
         wget \
         libsqlite3-dev \
