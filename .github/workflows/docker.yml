@@ -7,7 +7,11 @@ on:
         description: "Path to the folder"
         required: true
         default: 'webdav-apache-php7.3'
-
+      tagName:
+        description: "Tag name"
+        required: true
+        default: 'latest'
+        
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
@@ -30,6 +34,5 @@ jobs:
           push: true
           context: ${{ github.event.inputs.folderPath }}
           tags: |
-            docker.pkg.github.com/${{ github.repository }}/${{ github.event.inputs.folderPath }}:${{ github.sha }}
-            docker.pkg.github.com/${{ github.repository }}/${{ github.event.inputs.folderPath }}:${{ github.ref }}
+            docker.pkg.github.com/${{ github.repository }}/${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }}
  
