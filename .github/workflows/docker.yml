@@ -35,4 +35,5 @@ jobs:
           context: ${{ github.event.inputs.folderPath }}
           tags: |
             docker.pkg.github.com/${{ github.repository }}/${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }}
- 
+            ghcr.io/nextcloud/continuous-integration-${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }}
+
