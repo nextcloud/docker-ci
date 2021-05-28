@@ -1,0 +1,1 @@
+FROM arafato/azurite:latest
