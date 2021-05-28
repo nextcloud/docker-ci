@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip4 sed apt-transport-h
     libsystemd-dev && \
     ln -s /bin/sed /usr/bin/sed && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
-    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* && \
+    # Make sure that the php version being used is php7.3
+    rm /usr/bin/php && ln -s /usr/bin/php7.3 /usr/bin/php
 
 RUN cd /tmp/ && wget https://github.com/nikic/php-ast/archive/master.zip && unzip master.zip
 RUN cd /tmp/php-ast-master/ && phpize && ./configure && make && make install && rm -rf /tmp/php-ast-master/
