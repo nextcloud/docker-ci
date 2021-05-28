@@ -1,5 +1,5 @@
-FROM debian:jessie
-RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https lsb-release ca-certificates && \
+FROM debian:buster
+RUN apt-get update && apt-get install -y wget gnupg2 libzip4 sed apt-transport-https lsb-release ca-certificates && \
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && apt-get install -y php7.3-intl php7.3-gd git curl \
@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip2 apt-transport-https
     php7.3-mbstring php7.3-dev make libmagickcore-6.q16-2-extra unzip \
     php7.3-redis php7.3-imagick php7.3-dev php-xdebug \
     libsystemd-dev && \
+    ln -s /bin/sed /usr/bin/sed && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
