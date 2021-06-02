@@ -13,12 +13,17 @@ ENV QT_ROOT /opt/qt${VER_QT}
 
 # https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
-    # Ubuntus version of inkscape is outdated
     apt-get update && \
-    apt-get install -y apt-transport-https && \
+    apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y software-properties-common && \
     rm -rf /var/lib/apt/lists/* && \
+    # Ubuntus version of inkscape is outdated
     add-apt-repository -y ppa:inkscape.dev/stable && \
+    # CMake is also outdated
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
+    # Install packages
+    apt-key update && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
         wget \
