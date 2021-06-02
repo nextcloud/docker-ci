@@ -178,3 +178,21 @@ RUN cd /tmp && \
     make install && \
     cd .. && \
     rm -rf qtkeychain
+
+# Create a wrapper for inkscape that translates -o flag to the -e flag.
+# That's necessary because Ubuntu 16.04 does not provide a newer
+# inkscape version even with the PPA.
+RUN mv /usr/bin/inkscape /usr/bin/inkscape-original && \
+    echo "#!/usr/bin/env bash\n\
+args=\"\"\n\
+for arg in \"\$@\"\n\
+do\n\
+    if [ \"\$arg\" = \"-o\" ]; then\n\
+        args=\"\$args -e\"\n\
+    else\n\
+        args=\"\$args \$arg\"\n\
+    fi\n\
+done\n\
+/usr/bin/inkscape-original \$args\n\
+" > /usr/bin/inkscape && \
+    chmod +x /usr/bin/inkscape
