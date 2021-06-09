@@ -11,6 +11,7 @@
       "arguments": [
         "nextcloud activity",
         "nextcloud announcementcenter",
+        "nextcloud approval",
         "nextcloud bookmarks",
         "nextcloud browser_warning",
         "nextcloud bruteforcesettings",
