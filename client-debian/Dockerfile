@@ -1,4 +1,4 @@
-FROM ubuntu:artful
+FROM ubuntu:focal
 
-RUN apt-get update -q
-RUN apt-get install -y devscripts cdbs osc git
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -q
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts cdbs osc git
