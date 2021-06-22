@@ -326,6 +326,13 @@ class TranslatableApp {
 				continue;
 			}
 
+			// L10n text="..."
+			preg_match_all('/L10n text\=\"(.*)\"/', $vueSource, $L10nMatches);
+			$matches = array_merge($L10nMatches[1]);
+			foreach ($matches as $match) {
+				$fakeFileContent .= "t('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match) . "');" . PHP_EOL;
+			}
+
 			// t
 			preg_match_all("/\Wt\s*\(\s*'([\w]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
 			preg_match_all("/\Wt\s*\(\s*\"([\w]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
