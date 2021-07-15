@@ -5,7 +5,7 @@ MAINTAINER Morris Jobke <hey@morrisjobke.de>
 # Install python
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
-        awk \
+        gawk \
         gettext \
         git \
         gnupg \
