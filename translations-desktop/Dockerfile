@@ -1,4 +1,4 @@
-FROM nextcloudci/translations:translations-57
+FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
