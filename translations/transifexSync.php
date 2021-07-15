@@ -64,9 +64,9 @@ function runJob(string $name, string $arguments, string $dataPath, string $logPa
 	$result->startDate = new DateTime();
 
 	print('  Pulling container' . PHP_EOL);
-	shell_exec('docker pull nextcloudci/translations' . $imageName);
+	shell_exec('docker pull ghcr.io/nextcloud/continuous-integration-translations' . $imageName);
 	print('  Running container' . PHP_EOL);
-	exec('docker run -v ' . $dataPath . 'transifexrc:/root/.transifexrc -v ' . $dataPath . 'gpg:/gpg -v ' . $dataPath . 'ssh/id_rsa:/root/.ssh/id_rsa --rm -i nextcloudci/translations' . $imageName . ' ' . $arguments . ' 2>&1', $output, $returnValue);
+	exec('docker run -v ' . $dataPath . 'transifexrc:/root/.transifexrc -v ' . $dataPath . 'gpg:/gpg -v ' . $dataPath . 'ssh/id_rsa:/root/.ssh/id_rsa --rm -i ghcr.io/nextcloud/continuous-integration-translations' . $imageName . ' ' . $arguments . ' 2>&1', $output, $returnValue);
 
 	$result->endDate = new DateTime();
 
@@ -147,7 +147,7 @@ foreach ($jobs as $job) {
 
 			// send email in case of trouble
 			if ($result->errorMessage !== '') {
-				@mail('roeland@nextcloud.com,morris@nextcloud.com,tobias@nextcloud.com', 'Transifex sync job failed', 'This is the log:' . PHP_EOL . $result->errorMessage);
+				@mail('joas@nextcloud.com,tobias@nextcloud.com', 'Transifex sync job failed', 'This is the log:' . PHP_EOL . $result->errorMessage);
 			}
 		}
 	}
