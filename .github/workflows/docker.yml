@@ -7,6 +7,13 @@ on:
         description: "Path to the folder"
         required: true
         default: 'webdav-apache-php7.3'
+      dockerFile:
+        description: "Optional relative (from folder) path to Dockerfile. Default is $folder/Dockerfile"
+        required: false
+        default: 'Dockerfile'
+      suffix:
+        description: "Option suffix to image name"
+        required: false
       tagName:
         description: "Tag name"
         required: true
@@ -39,6 +46,7 @@ jobs:
         with:
           push: true
           context: ${{ github.event.inputs.folderPath }}
+          file: '${{ github.event.inputs.folderPath }}/${{ github.event.inputs.dockerFile }}'
           tags: |
-            ghcr.io/nextcloud/continuous-integration-${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }}
+            ghcr.io/nextcloud/continuous-integration-${{ github.event.inputs.folderPath }}${{ github.event.inputs.suffix }}:${{ github.event.inputs.tagName }}
 
