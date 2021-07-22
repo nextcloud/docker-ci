@@ -14,7 +14,7 @@ on:
         
 jobs:
   push_to_registry:
-    name: Push Docker image to GitHub Packages
+    name: Push Docker image ${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }} to GitHub Packages
     runs-on: ubuntu-latest
     permissions:
       packages: write
