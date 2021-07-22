@@ -1,4 +1,4 @@
-FROM nextcloudci/php7.3:php7.3-3
+FROM ghcr.io/nextcloud/continuous-integration-php7.3:latest
 RUN apt-get update && \
     apt-get purge -y php7.3-apcu && \
     apt-get install -y php7.3-memcached memcached && \
