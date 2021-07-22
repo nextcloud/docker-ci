@@ -93,6 +93,7 @@
         "nextcloud workflow_pdf_converter",
         "nextcloud zenodo",
         "ayselafsar dicomviewer",
+        "baimard gestion",
         "ChristophWurst twofactor_gateway",
         "CollaboraOnline richdocumentscode",
         "datenangebot health",
@@ -119,8 +120,7 @@
         "SergeyMosin appointments",
         "stjosh auto_groups",
         "sualko cloud_bbb",
-        "tacruc gpgmailer",
-        "baimard gestion"
+        "tacruc gpgmailer"
       ]
     },
     {
