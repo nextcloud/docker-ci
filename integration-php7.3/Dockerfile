@@ -1,4 +1,4 @@
-FROM nextcloudci/php7.3:php7.3-5
+FROM ghcr.io/nextcloud/continuous-integration-php7.3:latest
 
 RUN composer global require hirak/prestissimo
 
