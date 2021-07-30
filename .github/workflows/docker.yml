@@ -12,7 +12,7 @@ on:
         required: false
         default: 'Dockerfile'
       suffix:
-        description: "Option suffix to image name"
+        description: "Option suffix to image name (e.g. `-documentation`)"
         required: false
       tagName:
         description: "Tag name"
