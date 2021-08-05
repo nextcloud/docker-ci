@@ -1,4 +1,4 @@
-FROM nextcloudci/androidbase:androidBase-4
+FROM ghcr.io/nextcloud/continuous-integration-androidbase:1
 
 # Android 8.1 (API 27)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-27"

@@ -1,4 +1,4 @@
-FROM nextcloudci/android:androidBase-2
+FROM ghcr.io/nextcloud/continuous-integration-androidbase:1
 
 # Android 4 (API 16)
 RUN sdkmanager --sdk_root=/opt/android-sdk-linux/ "platforms;android-16"
