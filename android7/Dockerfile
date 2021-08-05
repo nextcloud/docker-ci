@@ -1,4 +1,4 @@
-FROM ghcr.io/nextcloud/continuous-integration-androidbase:1
+FROM ghcr.io/nextcloud/continuous-integration-androidbase:2
 
 # Android 7 (API 24)
 RUN sdkmanager "platforms;android-24"

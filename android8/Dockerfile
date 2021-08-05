@@ -1,4 +1,4 @@
-FROM ghcr.io/nextcloud/continuous-integration-androidbase:1
+FROM ghcr.io/nextcloud/continuous-integration-androidbase:2
 
 # Android 8.1 (API 27)
 RUN sdkmanager "platforms;android-27"

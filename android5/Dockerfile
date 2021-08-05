@@ -1,4 +1,4 @@
-FROM ghcr.io/nextcloud/continuous-integration-androidbase:1
+FROM ghcr.io/nextcloud/continuous-integration-androidbase:2
 
 # Android 5 (API 21)
 RUN sdkmanager "platforms;android-21"
