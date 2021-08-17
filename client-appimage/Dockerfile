@@ -1,12 +1,12 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 MAINTAINER Felix Weilbach <felix.weilbach@nextcloud.com>
 
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT 5.12.10
-ENV VER_QT_DATE 2021-06-01
+ENV VER_QT 5.15
+ENV VER_QT_DATE 2021-08-18
 ENV VER_OPENSSL 1.1.1k
 
 ENV QT_ROOT /opt/qt${VER_QT}
@@ -21,7 +21,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     add-apt-repository -y ppa:inkscape.dev/stable && \
     # CMake is also outdated
     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
     # Install packages
     apt-key update && \
     apt-get update && \
@@ -50,7 +50,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libcmocka-dev \
 # Add libsecret for qtkeychain
         libsecret-1-dev \
-# Add Qt-5.12 build dependencies
+# Add Qt build dependencies
         libclang-dev \
         gperf \
         flex \
@@ -113,51 +113,40 @@ RUN cd /tmp && \
     cd openssl-${VER_OPENSSL} && \
     ./config && \
     make -j$(nproc) && \
-    make install && \
+    make -j$(nproc) install && \
     cd .. && \
     rm -rf openssl*
 
 ###########################################################################
 
-# Download Qt-5.12 sources
+# Download Qt sources
 RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
-      wget https://download.qt.io/official_releases/qt/5.12/${VER_QT}/single/qt-everywhere-src-${VER_QT}.tar.xz && \
-      tar -xvf qt-everywhere-src-${VER_QT}.tar.xz && \
-      cd qt-everywhere-src-${VER_QT} \
+    git clone git://code.qt.io/qt/qt5.git && \
+    cd qt5 && \
+    git checkout ${VER_QT} && \
+    ./init-repository --module-subset=default,-qt3d \
     ; fi
 
-# Build Qt-5.12
+# Build Qt
 RUN if [ "$BUILD_QT" = "1" ] ; then \
-      cd qt-everywhere-src-${VER_QT} && \
-      OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ./configure -nomake tests -nomake examples -opensource \
-          -confirm-license -release -openssl-linked -prefix ${QT_ROOT} && \
-      make -j$(nproc) && \
-      make install && \
-      cd .. && \
-      rm -rf qt-everywhere* && \
-      tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
+    mkdir qt5-${VER_QT}-linux-release && \
+    cd qt5-${VER_QT}-linux-release && \
+     OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ../qt5/configure -release -prefix ${QT_ROOT} -nomake examples -nomake tests -opensource -confirm-license -openssl-linked -skip qt3d && \
+    make -j$(nproc) && \
+    make -j$(nproc) install && \
+    cd .. && \
+    rm -rf qt5 && \
+    tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
     ; fi
 
-#
-# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
-#
-# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
-#
-# This is why we're going to use our own precompiled version here.
-#
-# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
-# on a dedicated build machine:
-#
-#   docker build -f Dockerfile-5.12 -t client-5.12 . --build-arg BUILD_QT=1
-#
-
-# Download Qt-5.12 precompiled
+# Download Qt precompiled
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
 
-RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
-      wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
-      tar -xvf ${QT_TARBALL} && \
-      rm ${QT_TARBALL} \
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    echo Download precompiled Qt. && \
+    wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
+    tar -xvf ${QT_TARBALL} && \
+    rm ${QT_TARBALL} \
     ; fi
 
 ###########################################################################
@@ -168,31 +157,15 @@ ENV LD_LIBRARY_PATH ${QT_ROOT}/lib/x86_64-linux-gnu:${QT_ROOT}/lib:/usr/local/li
 ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 # Install QtKeychain
-RUN cd /tmp && \
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
     git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
     cmake ../ && \
     make -j$(nproc) && \
-    make install && \
+    make -j$(nproc) install && \
     cd .. && \
-    rm -rf qtkeychain
-
-# Create a wrapper for inkscape that translates -o flag to the -e flag.
-# That's necessary because Ubuntu 16.04 does not provide a newer
-# inkscape version even with the PPA.
-RUN mv /usr/bin/inkscape /usr/bin/inkscape-original && \
-    echo "#!/usr/bin/env bash\n\
-args=\"\"\n\
-for arg in \"\$@\"\n\
-do\n\
-    if [ \"\$arg\" = \"-o\" ]; then\n\
-        args=\"\$args -e\"\n\
-    else\n\
-        args=\"\$args \$arg\"\n\
-    fi\n\
-done\n\
-/usr/bin/inkscape-original \$args\n\
-" > /usr/bin/inkscape && \
-    chmod +x /usr/bin/inkscape
+    rm -rf qtkeychain \
+    ; fi
