@@ -93,6 +93,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         llvm-10 \
 # generate png images from svg
         inkscape \
+# install xvfb to enable graphical tests
+		xvfb \
 # html documentation generation
         python3-sphinx && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
