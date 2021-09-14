@@ -1,8 +1,6 @@
-# ubuntu:17.10 instead of debian because of the dependency to PHP 7.1
-FROM ubuntu:18.10
-RUN apt-get update && apt-get install -y python-pil python-sphinx \
-    python-pip rst2pdf texlive-fonts-recommended \
+FROM ubuntu:20.04
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pil \
+    python3-pip texlive-fonts-recommended latexmk \
     texlive-latex-extra texlive-latex-recommended make php-cli composer \
     nodejs npm
 
-RUN pip2 install sphinxcontrib-phpdomain
