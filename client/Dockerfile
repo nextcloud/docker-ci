@@ -93,6 +93,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         llvm-10 \
 # generate png images from svg
         inkscape \
+# SonarCloud
+        openjdk-11-jdk \
 # install xvfb to enable graphical tests
 		xvfb \
 # html documentation generation
@@ -180,3 +182,22 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd .. && \
     rm -rf qtkeychain \
     ; fi
+
+# Setup sonar-scanner
+ENV SONAR_SCANNER_VERSION 4.6.1.2450
+ENV SONAR_SERVER_URL "https://sonarcloud.io"
+ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
+
+RUN mkdir -p /opt/sonar && \
+    curl -sSLo /opt/sonar/sonar-scanner.zip ${SONAR_SCANNER_DOWNLOAD_URL} && \
+    unzip -o /opt/sonar/sonar-scanner.zip -d /opt/sonar/
+
+ENV PATH=/opt/sonar/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin:${PATH}
+
+# Setup build-wrapper
+ENV BUILD_WRAPPER_DOWNLOAD_URL ${SONAR_SERVER_URL}/static/cpp/build-wrapper-linux-x86.zip
+
+RUN curl -sSLo /opt/sonar/build-wrapper-linux-x86.zip ${BUILD_WRAPPER_DOWNLOAD_URL} && \
+          unzip -o /opt/sonar/build-wrapper-linux-x86.zip -d /opt/sonar/
+
+ENV PATH=/opt/sonar/build-wrapper-linux-x86:${PATH}
