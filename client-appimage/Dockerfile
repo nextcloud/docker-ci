@@ -97,7 +97,9 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # generate png images from svg
         inkscape \
 # html documentation generation
-        python3-sphinx && \
+        python3-sphinx \
+# for updating app images
+        zsync && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y qt5-default && \
 # Cleaning up
