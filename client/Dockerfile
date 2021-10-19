@@ -184,7 +184,7 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     ; fi
 
 # Setup sonar-scanner
-ENV SONAR_SCANNER_VERSION 4.6.1.2450
+ENV SONAR_SCANNER_VERSION 4.6.2.2472
 ENV SONAR_SERVER_URL "https://sonarcloud.io"
 ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
 
