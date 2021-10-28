@@ -97,7 +97,7 @@ class TranslatableApp {
 
 			exec('xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments);
 		}
-		
+
 		// Don't forget to remove the temporary file
 		$this->deleteFakeFileForAppInfo();
 		$this->deleteFakeFileForVueFiles();
@@ -233,14 +233,14 @@ class TranslatableApp {
 
 	private function createFakeFileForAppInfo() {
 		$entryName = $this->appPath . '/appinfo/info.xml';
-		
+
 		if (!file_exists($entryName)) {
 			return false;
 		}
-		
+
 		$strings = [];
 		$xml = simplexml_load_file($entryName);
-		
+
 		if ($xml->name) {
 			$strings[] = $xml->name->__toString();
 		}
@@ -307,12 +307,12 @@ class TranslatableApp {
 				}
 			}
 		}
-		
+
 		$content = '<?php' . PHP_EOL;
 		foreach ($strings as $string) {
 			$content .= '$l->t(' . $this->escape($string) . ');' . PHP_EOL;
 		}
-		
+
 		file_put_contents($this->fakeAppInfoFile, $content);
 	}
 
@@ -330,8 +330,11 @@ class TranslatableApp {
 			preg_match_all("/\Wt\s*\(\s*'([\w]+)',\s*'(.+)'/", $vueSource, $singleQuoteMatches);
 			preg_match_all("/\Wt\s*\(\s*\"([\w]+)\",\s*\"(.+)\"/", $vueSource, $doubleQuoteMatches);
 			preg_match_all("/\Wt\s*\(\s*\'([\w]+)\'\s*,\s*\`(.+)\`\s*\)/msU", $vueSource, $templateQuoteMatches);
-			$matches = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
-			foreach ($matches as $match) {
+			$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
+			$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
+			foreach (array_keys($matches2) as $k) {
+				$match = $matches2[$k];
+				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
 				$fakeFileContent .= "t('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match) . "');" . PHP_EOL;
 			}
 
@@ -339,16 +342,28 @@ class TranslatableApp {
 			preg_match_all("/\Wn\s*\(\s*'([\w]+)',\s*'(.+)'\s*,\s*'(.+)'\s*(.+)/", $vueSource, $singleQuoteMatches);
 			preg_match_all("/\Wn\s*\(\s*\"([\w]+)\",\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)/", $vueSource, $doubleQuoteMatches);
 			preg_match_all("/\Wn\s*\(\s*\'([\w]+)\'\s*,\s*\`(.+)\`\s*,\s*\`(.+)\`\s*\)/msU", $vueSource, $templateQuoteMatches);
-			$matches1 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
-			$matches2 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3], $templateQuoteMatches[3]);
-			foreach (array_keys($matches1) as $k) {
-				$match1 = $matches1[$k];
+			$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
+			$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
+			$matches3 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3], $templateQuoteMatches[3]);
+			foreach (array_keys($matches2) as $k) {
 				$match2 = $matches2[$k];
-				$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match1) . "', '" . preg_replace('/\s+/', ' ', $match2) . "');" . PHP_EOL;
+				$match3 = $matches3[$k];
+				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource,$matches0[$k]);
+				$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match2) . "', '" . preg_replace('/\s+/', ' ', $match3) . "');" . PHP_EOL;
 			}
 		}
 
 		file_put_contents($this->fakeVueFile, $fakeFileContent);
+	}
+
+	private function getTranslatorHintWithVueSource(string $vueFile, string $content, string $translation): string {
+		$relativeVuePath = substr($vueFile, strpos($vueFile, $this->name . '/src/') + strlen($this->name . '/'));
+
+		$position = strpos($content, $translation);
+		$contentBefore = substr($content, 0, $position);
+		$lineNumber = substr_count($contentBefore, "\n") + 1;
+
+		return '// TRANSLATORS ' . $relativeVuePath . ':' . $lineNumber . PHP_EOL;
 	}
 
 	private function deleteFakeFileForAppInfo() {
@@ -365,15 +380,15 @@ class TranslatableApp {
 
 	private function setAppName() {
 		$xmlFile = $this->appPath . '/appinfo/info.xml';
-		
+
 		$this->name = basename($this->appPath);
 
 		if (!file_exists($xmlFile)) {
 			return;
 		}
-		
+
 		$xml = simplexml_load_file($xmlFile);
-		
+
 		if ($xml->name) {
 			$this->name = $xml->id->__toString();
 		}
@@ -418,7 +433,7 @@ class TranslationTool {
 	public function __construct(){
 		$this->translationPath = getcwd() . '/translationfiles';
 		$this->appPaths = [];
-		
+
 		if (!is_dir($this->translationPath)) {
 			mkdir($this->translationPath);
 		}
