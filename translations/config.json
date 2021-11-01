@@ -28,6 +28,7 @@
         "nextcloud files_antivirus",
         "nextcloud files_automatedtagging",
         "nextcloud files_downloadactivity",
+        "nextcloud files_downloadlimit",
         "nextcloud files_filter",
         "nextcloud files_fulltextsearch",
         "nextcloud files_lock",
