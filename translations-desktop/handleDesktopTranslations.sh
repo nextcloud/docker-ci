@@ -70,7 +70,8 @@ do
   git checkout $version
 
   # pull translations
-  tx pull -f -a --minimum-perc=25
+  tx pull -f -a --minimum-perc=25 -r nextcloud.client
+  bash -c 'tx pull -f -a --minimum-perc=25 -r nextcloud.client-desktop ; echo ""'
 
   # create git commit and push it
   git add .
