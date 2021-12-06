@@ -1,4 +1,5 @@
-FROM nextcloudci/php7.4:latest
+FROM ghcr.io/nextcloud/continuous-integration-php7.4:latest
+
 RUN apt-get update && apt-get install -y gcc realpath make python && \
     mkdir -p /tmp/litmus && \
     wget -O /tmp/litmus/litmus-0.13.tar.gz http://www.webdav.org/neon/litmus/litmus-0.13.tar.gz && \
