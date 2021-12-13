@@ -8,6 +8,6 @@
 		"classmap-authoritative": true
 	},
 	"require": {
-		"clue/phar-composer": "^1.0"
+		"clue/phar-composer": "^1.3"
 	}
 }
