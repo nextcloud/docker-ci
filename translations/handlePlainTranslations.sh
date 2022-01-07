@@ -77,6 +77,9 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
 
   echo "</resources>" >> combined.xml
+
+  cat combined.xml
+
   mv combined.xml ../app/src/main/res/values/strings.xml
 
   cd ..
