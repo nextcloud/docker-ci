@@ -13,7 +13,7 @@ git clone git@github.com:$1/$2 /app
 
 versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/")"
 if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
-versions="master $(git branch -r | grep -E "origin\/stable\-13\.[0-9]+$" | cut -f2 -d"/")"
+  versions="master $(git branch -r | grep -E "origin\/stable\-13\.[0-9]+$" | cut -f2 -d"/")"
 fi
 
 # remove existing translations to cleanup not maintained languages
@@ -42,17 +42,20 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   cd stable-values
   echo '<?xml version="1.0" encoding="utf-8"?>
   <resources>' >> combined.xml
-    
+
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
-  
+
   # plurals are hard to compare, so we take only master ones
   awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
-    
+
   echo "</resources>" >> combined.xml
+
+  cat combined.xml
+
   mv combined.xml ../src/main/res/values/strings.xml
-  
+
   cd ..
-  
+
   rm -rf stable-values
 fi
 
@@ -67,17 +70,17 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   cd stable-values
   echo '<?xml version="1.0" encoding="utf-8"?>
   <resources>' >> combined.xml
-    
+
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
-  
+
   # plurals are hard to compare, so we take only master ones
   awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
-    
+
   echo "</resources>" >> combined.xml
   mv combined.xml ../app/src/main/res/values/strings.xml
-  
+
   cd ..
-  
+
   rm -rf stable-values
 fi
 
