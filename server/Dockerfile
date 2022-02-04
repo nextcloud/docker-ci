@@ -8,9 +8,9 @@ RUN apt-get update && \
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && \
     apt-get install -y php7.4-cli php7.4-common php7.4-mbstring \
-    php7.4-gd php-imagick php7.4-intl php7.4-bz2 php7.4-xml \
+    php7.4-gd php7.4-imagick php7.4-intl php7.4-bz2 php7.4-xml \
     php7.4-mysql php7.4-zip php7.4-dev curl php7.4-curl \
-    php-dompdf php-apcu redis-server php-redis php-smbclient \
+    php-dompdf php7.4-apcu redis-server php7.4-redis php7.4-smbclient \
     php7.4-ldap unzip php7.4-pgsql php7.4-sqlite make apache2 \
     php7.4-json php7.4-opcache libmagickcore-6.q16-2-extra \
     libapache2-mod-php7.4 && \
