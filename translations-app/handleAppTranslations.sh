@@ -32,16 +32,20 @@ do
   git checkout $version
 
   # ignore build folder logreader
-  if [ "$2" = "logreader" ] ; then
+  if [ "$version" = "stable21" ] || [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+    if [ "$2" = "logreader" ] ; then
       rm -rf build
+    fi
   fi
 
   # build POT files
   /translationtool.phar create-pot-files
 
   # ignore build folder logreader
-  if [ "$2" = "logreader" ] ; then
+  if [ "$version" = "stable21" ] || [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+    if [ "$2" = "logreader" ] ; then
       git checkout -- build
+    fi
   fi
 
   cd translationfiles/templates/
