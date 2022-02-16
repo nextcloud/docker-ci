@@ -67,7 +67,7 @@ class TranslatableApp {
 		$this->createFakeFileForVueFiles();
 		$this->createFakeFileForLocale();
 		$translatableFiles = $this->findTranslatableFiles(
-			['.php', '.js', '.jsx', '.html', '.ts', '.tsx'],
+			['.php', '.js', '.jsx', 'mjs', '.html', '.ts', '.tsx'],
 			['.min.js']
 		);
 
