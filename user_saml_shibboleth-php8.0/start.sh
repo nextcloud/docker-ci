@@ -2,6 +2,10 @@
 
 #set -x
 
+sed 's/^::1.*localhost/::1\tip6-localhost/g' /etc/hosts > /etc/hosts.tmp
+cat /etc/hosts.tmp > /etc/hosts
+rm -f /etc/hosts.tmp
+
 export JAVA_HOME=/opt/jre-home
 export PATH=$PATH:$JAVA_HOME/bin
 export JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=nextcloud
