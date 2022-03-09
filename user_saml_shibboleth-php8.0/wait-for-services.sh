@@ -10,3 +10,16 @@ do
    fi
    sleep 1
 done
+
+# wait for IdP becoming ready
+for i in {1..90}
+do
+   if curl -f --silent -I -k https://localhost:4443/idp/ > /dev/null ; then
+     exit 0
+     break
+   fi
+   sleep 1
+done
+
+echo "Jetty or IdP not ready"
+exit 1
