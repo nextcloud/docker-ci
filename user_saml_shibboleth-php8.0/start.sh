@@ -24,7 +24,7 @@ apachectl &
 /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir &
 
 # wait for LDAP
-for i in {1..90}
+for i in {1..300}
 do
    nc -zw 5 localhost 389
    IS_LDAP=$?
