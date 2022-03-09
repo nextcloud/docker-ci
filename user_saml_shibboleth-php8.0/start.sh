@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #set -x
 
@@ -24,7 +24,7 @@ apachectl &
 /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir &
 
 # wait for LDAP
-for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+for i in {1..90}
 do
    nc -zw 5 localhost 389
    IS_LDAP=$?
@@ -33,5 +33,9 @@ do
    fi
    sleep 1
 done
+if [ ${IS_LDAP} -ne 0 ]; then
+	echo "LDAP is not ready"
+	exit 1
+fi
 
 run-jetty.sh &
