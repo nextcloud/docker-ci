@@ -7,6 +7,15 @@ translationtool.phar: install-composer-deps
 install-composer-deps: composer.phar
 	php composer.phar install
 	php composer.phar install -d src
+	rm src/vendor/gettext/gettext/CHANGELOG.md
+	rm src/vendor/gettext/gettext/composer.json
+	rm src/vendor/gettext/gettext/CONTRIBUTING.md
+	rm src/vendor/gettext/gettext/LICENSE
+	rm src/vendor/gettext/gettext/phpcs.xml
+	rm src/vendor/gettext/gettext/README.md
+	rm src/vendor/gettext/languages/composer.json
+	rm src/vendor/gettext/languages/LICENSE
+	rm src/vendor/gettext/languages/UNICODE-LICENSE.txt
 
 composer.phar:
 	curl -sS https://getcomposer.org/installer | php
