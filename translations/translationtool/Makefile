@@ -1,6 +1,6 @@
 .PHONY: translationtool.phar
 
-translationtool.phar: install-composer-deps
+translationtool.phar: clean install-composer-deps
 	php -d phar.readonly=off vendor/bin/phar-composer build src
 	chmod +x translationtool.phar
 
@@ -22,4 +22,5 @@ composer.phar:
 
 clean:
 	rm -f translationtool.phar
+	rm -f composer.phar
 	rm -rf vendor src/vendor
