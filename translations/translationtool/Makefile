@@ -12,5 +12,5 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 clean:
-	rm -f translationtool.phar composer.lock src/composer.lock
+	rm -f translationtool.phar
 	rm -rf vendor src/vendor
