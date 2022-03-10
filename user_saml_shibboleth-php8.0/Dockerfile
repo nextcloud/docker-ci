@@ -16,7 +16,12 @@ RUN sed -i 's/updateSelinuxPolicy($inf);//g' /usr/lib64/dirsrv/perl/*
 ADD ldap/DSCreate.pm /usr/lib64/dirsrv/perl/DSCreate.pm
 ADD ldap/AdminServer.pm /usr/lib64/dirsrv/perl/AdminServer.pm
 RUN setup-ds-admin.pl --silent --file /ds-setup.inf
-RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir && sleep 20 && ldapmodify -H ldap:/// -f nextcloud.ldif -x -D "cn=Directory Manager" -w password && ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password
+RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
+    && sleep 20 \
+    && ldapmodify -H ldap:/// -f nextcloud.ldif -x -D "cn=Directory Manager" -w password \
+    && ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password \
+    ; kill -INT "$(ps -C ns-slapd -o pid h)"
+RUN rm -Rf /var/lock/dirsrv
 RUN rm /*.ldif
 
 # Install Apache and PHP 8.0 for Nextcloud
