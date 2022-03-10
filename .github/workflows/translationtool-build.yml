@@ -24,6 +24,12 @@ jobs:
         working-directory: translations/translationtool/
         run: make translationtool.phar
 
+      - name: Upload translationtool
+        uses: actions/upload-artifact@v2
+        with:
+          name: translationtool.phar
+          path: translations/translationtool/translationtool.phar
+
       - name: Check build changes
         run: |
           git status --porcelain translations/translationtool/
