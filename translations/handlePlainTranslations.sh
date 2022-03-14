@@ -36,7 +36,7 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   for version in $versions
   do
     git checkout $version
-    cp src/main/res/values/strings.xml stable-values/$version.xml
+    cp app/src/main/res/values/strings.xml stable-values/$version.xml
   done
 
   cd stable-values
@@ -52,7 +52,7 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
 
   cat combined.xml
 
-  mv combined.xml ../src/main/res/values/strings.xml
+  mv combined.xml ../app/src/main/res/values/strings.xml
 
   cd ..
 
@@ -92,7 +92,7 @@ tx push -s
 
 # undo local changes
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
-  git checkout -- src/main/res/values/strings.xml
+  git checkout -- app/src/main/res/values/strings.xml
   git checkout master
 fi
 
@@ -125,7 +125,7 @@ do
     # reset combined source file
     git checkout -- src/main/res/values/strings.xml
   fi
-  # for the Android talk app rename the informal german to the formal version
+  # for the Android talk and files app rename the informal german to the formal version
   if [ -d app/src/main/res ]; then
     rm -rf app/src/main/res/values-de
     mv app/src/main/res/values-de-rDE app/src/main/res/values-de
