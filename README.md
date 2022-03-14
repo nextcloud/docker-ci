@@ -9,7 +9,9 @@ The images are automatic builds on GitHub actions. You can find them at https://
 ### GitHub workflows
 To trigger a build of a specific container, go to https://github.com/nextcloud/docker-ci/actions/workflows/docker.yml and press "Run Workflow". Enter the following information:
 
-- Folder name (e.g. `client`)
+- Path to the folder (e.g. `translations`)
+- Path to Dockerfile: `Dockerfile-Plain` **IMPORTANT:** If you are not using `Dockerfile` but one with a suffix here, you also need to add the suffix on the image name in the next field (all lowercased)
+- Suffix to image name: `-plain`
 - Tag name (e.g. `latest`)
 
 This would result in the Dockerfile `/client/Dockerfile` being built and the binary being pushed to the GitHub Container Registry as `client:latest`.
