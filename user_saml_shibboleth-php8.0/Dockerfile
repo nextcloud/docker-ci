@@ -27,7 +27,6 @@ RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
     && sleep 20 \
     # debug output
     && ps -aux
-RUN rm -Rf /var/lock/dirsrv
 RUN rm /*.ldif
 
 # Install Apache and PHP 8.0 for Nextcloud
