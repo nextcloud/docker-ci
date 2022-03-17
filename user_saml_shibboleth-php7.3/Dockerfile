@@ -16,10 +16,16 @@ ADD ldap/DSCreate.pm /usr/lib64/dirsrv/perl/DSCreate.pm
 ADD ldap/AdminServer.pm /usr/lib64/dirsrv/perl/AdminServer.pm
 RUN setup-ds-admin.pl --silent --file /ds-setup.inf
 RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
-    && sleep 20 \
-    && ldapmodify -H ldap:/// -f nextcloud.ldif -x -D "cn=Directory Manager" -w password \
-    && ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password \
-    ; kill -INT "$(ps -C ns-slapd -o pid h)"
+	# ensure to have enough time for startup
+	&& sleep 40 \
+	&& ldapmodify -H ldap:/// -f nextcloud.ldif -x -D "cn=Directory Manager" -w password \
+	&& ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password \
+	&& sleep 10 \
+	&& kill -INT "$(ps -C ns-slapd -o pid h)" \
+	# ensure to have enough time for shut-down
+	&& sleep 20 \
+	# debug output
+	&& ps -aux
 RUN rm -Rf /var/lock/dirsrv
 RUN rm /*.ldif
 
