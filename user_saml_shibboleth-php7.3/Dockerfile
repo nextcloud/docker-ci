@@ -47,4 +47,4 @@ RUN chmod a+x /start.sh
 ADD wait-for-services.sh /wait-for-services.sh
 RUN chmod a+x /wait-for-services.sh
 
-CMD ["/start.sh"]
+CMD ["/bin/bash"]
