@@ -35,6 +35,7 @@ do
 done
 if [ ${IS_LDAP} -ne 0 ]; then
 	echo "LDAP is not ready"
+	cat /var/log/dirsrv/slapd-dir/errors
 	exit 1
 fi
 

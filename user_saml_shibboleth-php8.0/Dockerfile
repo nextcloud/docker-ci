@@ -28,6 +28,7 @@ RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
     # debug output
     && ps -aux
 RUN rm /*.ldif
+RUN echo '' > /var/log/dirsrv/slapd-dir/errors
 
 # Install Apache and PHP 8.0 for Nextcloud
 RUN yum install -y https://rpms.remirepo.net/enterprise/remi-release-7.rpm

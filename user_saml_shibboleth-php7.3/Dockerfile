@@ -27,6 +27,7 @@ RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
 	# debug output
 	&& ps -aux
 RUN rm /*.ldif
+RUN echo '' > /var/log/dirsrv/slapd-dir/errors
 
 # Install Apache and PHP 7.3 for Nextcloud
 RUN yum -y install centos-release-scl
