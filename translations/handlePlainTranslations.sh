@@ -12,9 +12,6 @@ gpg --list-keys
 git clone git@github.com:$1/$2 /app
 
 versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/")"
-if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
-  versions="master $(git branch -r | grep -E "origin\/stable\-13\.[0-9]+$" | cut -f2 -d"/")"
-fi
 
 # remove existing translations to cleanup not maintained languages
 # default Android app
