@@ -15,7 +15,7 @@ git clone git@github.com:$1/$2 /app
 
 versions='stable22 stable23 stable24 master main'
 if [ -f '/app/.tx/backport' ]; then
-  versions="$(cat /app/.tx/backport) master"
+  versions="$(cat /app/.tx/backport) master main"
 fi
 
 # build POT files for all versions
