@@ -7,8 +7,8 @@ cd /var/www/html/
 
 # Update code
 su www-data -c "
-git fetch origin $BRANCH:$BRANCH --depth 1
-git checkout $BRANCH
+git fetch --force --depth 1 origin $BRANCH:refs/remotes/origin/$BRANCH
+git checkout origin/$BRANCH -B $BRANCH
 git submodule update
 
 # Creating data
