@@ -28,7 +28,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         curl \
         jq \
         perl \
-        python \
+        python3 \
         software-properties-common \
         build-essential \
         mesa-common-dev \
@@ -100,7 +100,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # html documentation generation
         python3-sphinx && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y qt5-default && \
+    apt-get build-dep -y libqt5core5a && \
 # Cleaning up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -172,19 +172,18 @@ ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 # Install QtKeychain
 RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd /tmp && \
-    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.12.0 && \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
-    cmake ../ && \
-    make -j$(nproc) && \
-    make -j$(nproc) install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
     cd .. && \
     rm -rf qtkeychain \
     ; fi
 
 # Setup sonar-scanner
-ENV SONAR_SCANNER_VERSION 4.6.2.2472
+ENV SONAR_SCANNER_VERSION 4.7.0.2747
 ENV SONAR_SERVER_URL "https://sonarcloud.io"
 ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
 
