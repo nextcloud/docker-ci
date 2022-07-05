@@ -28,7 +28,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         curl \
         jq \
         perl \
-        python \
+        python3 \
         software-properties-common \
         build-essential \
         mesa-common-dev \
@@ -100,7 +100,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # html documentation generation
         python3-sphinx && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y qt5-default && \
+    apt-get build-dep -y libqt5core5a && \
 # Cleaning up
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -176,9 +176,8 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
-    cmake ../ && \
-    make -j$(nproc) && \
-    make -j$(nproc) install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
     cd .. && \
     rm -rf qtkeychain \
     ; fi
