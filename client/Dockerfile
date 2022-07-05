@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
 
@@ -34,11 +34,11 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         mesa-common-dev \
         pkg-config \
         ninja-build \
-        gcc-10 \
-        g++-10 \
-        clang-10 \
-        clang-format-10 \
-        clang-tidy-10 \
+        gcc-11 \
+        g++-11 \
+        clang-14 \
+        clang-format-14 \
+        clang-tidy-14 \
         clazy \
         cmake \
         zlib1g-dev \
@@ -89,8 +89,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libgstreamer1.0-dev \
         libgstreamer-plugins-base1.0-dev \
 # QDoc Documentation Generator Tool
-        libclang-10-dev \
-        llvm-10 \
+        libclang-14-dev \
+        llvm-14 \
 # generate png images from svg
         inkscape \
 # SonarCloud
