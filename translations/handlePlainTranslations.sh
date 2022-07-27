@@ -109,7 +109,11 @@ do
     continue
   fi
 
-  git checkout $version
+  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
+    git checkout -b branch-$version $version
+  else
+  	git checkout $version
+  fi
 
   # pull translations
   tx pull -f -a --minimum-perc=50
@@ -139,8 +143,14 @@ do
   fi
 
   # create git commit and push it
-  git add .
-  git commit -am "[tx-robot] updated from transifex" -s || true
-  git push origin $version
-  echo "done"
+  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
+  	git add .
+	git commit -am "[tx-robot] updated from transifex" -s || true
+  	gh pr create -t "[tx-robot] updated from transifex" --base $version --body ""
+  else
+	git add .
+	git commit -am "[tx-robot] updated from transifex" -s || true
+	git push origin $version
+	echo "done"
+  fi
 done
