@@ -8,6 +8,7 @@ ARG BUILD_QT
 ENV VER_QT 5.15
 ENV VER_QT_DATE 2021-08-18
 ENV VER_OPENSSL 1.1.1k
+ENV VER_KFRAMEWORKS 5.96.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -170,4 +171,29 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     make -j$(nproc) install && \
     cd .. && \
     rm -rf qtkeychain \
+    ; fi
+
+# Install KArchive
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/extra-cmake-modules.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd extra-cmake-modules && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
+    cd .. && \
+    rm -rf extra-cmake-modules \
+    ; fi
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/karchive.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd karchive && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
+    cd .. && \
+    rm -rf karchive \
     ; fi

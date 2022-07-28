@@ -8,6 +8,7 @@ ARG BUILD_QT
 ENV VER_QT 5.15
 ENV VER_QT_DATE 2022-07-05
 ENV VER_OPENSSL 3.0.4
+ENV VER_KFRAMEWORKS 5.96.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -29,6 +30,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         jq \
         perl \
         python3 \
+        python3-pip \
         software-properties-common \
         build-essential \
         mesa-common-dev \
@@ -183,6 +185,32 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     ninja install && \
     cd .. && \
     rm -rf qtkeychain \
+    ; fi
+
+# Install KArchive
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    pip3 install sphinxcontrib-qthelp && \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/extra-cmake-modules.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd extra-cmake-modules && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
+    cd .. && \
+    rm -rf extra-cmake-modules \
+    ; fi
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/karchive.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd karchive && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
+    cd .. && \
+    rm -rf karchive \
     ; fi
 
 # Setup sonar-scanner
