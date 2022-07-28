@@ -1,0 +1,12 @@
+--- ./include/openssl/engine.h  2022-06-21 15:30:58.000000000 +0200
++++ ./include/openssl/engine-mod.h      2022-07-28 12:31:53.098211984 +0200
+@@ -654,7 +654,7 @@
+  * discarded.
+  */
+ #  ifndef OPENSSL_NO_DEPRECATED_3_0
+-OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_get_default_RSA(void);
++ENGINE *ENGINE_get_default_RSA(void);
+ #  endif
+ /* Same for the other "methods" */
+ #  ifndef OPENSSL_NO_DEPRECATED_3_0
+

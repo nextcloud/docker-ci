@@ -6,8 +6,8 @@ MAINTAINER Felix Weilbach <felix.weilbach@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT 5.15
-ENV VER_QT_DATE 2021-08-18
-ENV VER_OPENSSL 1.1.1k
+ENV VER_QT_DATE 2022-07-05
+ENV VER_OPENSSL 3.0.4
 ENV VER_KFRAMEWORKS 5.96.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
@@ -109,11 +109,14 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 
 ###########################################################################
 
+COPY openssl-deprecation.patch /tmp/openssl-deprecation.patch
+
 # Install openssl
 RUN cd /tmp && \
     wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
     tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
     cd openssl-${VER_OPENSSL} && \
+    patch -p 0 < ../openssl-deprecation.patch && \
     ./config && \
     make -j$(nproc) && \
     make -j$(nproc) install && \
@@ -162,7 +165,7 @@ ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 # Install QtKeychain
 RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd /tmp && \
-    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.12.0 && \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
