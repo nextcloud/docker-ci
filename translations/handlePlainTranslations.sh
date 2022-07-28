@@ -146,7 +146,7 @@ do
   if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   	git add .
 	git commit -am "[tx-robot] updated from transifex" -s || true
-  	gh pr create -t "[tx-robot] updated from transifex" --base $version --body ""
+  	ghi pr create -t "[tx-robot] updated from transifex" --base $version --body ""
   else
 	git add .
 	git commit -am "[tx-robot] updated from transifex" -s || true
