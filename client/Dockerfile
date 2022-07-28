@@ -107,11 +107,14 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 
 ###########################################################################
 
+COPY openssl-deprecation.patch /tmp/openssl-deprecation.patch
+
 # Install openssl
 RUN cd /tmp && \
     wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
     tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
     cd openssl-${VER_OPENSSL} && \
+    patch -p 0 < ../openssl-deprecation.patch && \
     ./config && \
     make -j$(nproc) && \
     make -j$(nproc) install && \
