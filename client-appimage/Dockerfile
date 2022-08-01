@@ -5,9 +5,9 @@ MAINTAINER Felix Weilbach <felix.weilbach@nextcloud.com>
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT 5.15
-ENV VER_QT_DATE 2022-07-05
-ENV VER_OPENSSL 3.0.4
+ENV VER_QT v5.15.5-lts-lgpl
+ENV VER_QT_DATE 2022-08-01
+ENV VER_OPENSSL 3.0.5
 ENV VER_KFRAMEWORKS 5.96.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
@@ -67,7 +67,6 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libxslt-dev \
         ruby \
 # Qt WebEngine
-        libssl-dev \
         libxcursor-dev \
         libxcomposite-dev \
         libxdamage-dev \
