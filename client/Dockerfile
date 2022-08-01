@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-MAINTAINER Roeland Jago Douma <roeland@famdouma.nl>
+MAINTAINER Desktop Team <desktop@nextcloud.com>
 
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
