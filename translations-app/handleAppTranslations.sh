@@ -11,6 +11,18 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:$1/$2 /app
 
+if [ ! -f '/app/.tx/config' ]; then
+  echo "Missing transifex configuration file .tx/config"
+  exit 1
+fi
+
+grep 'MYAPP' '/app/.tx/config'
+INVALID_CONFIG=$?
+if [ "$INVALID_CONFIG" = "0" ]; then
+  echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
+  exit 2
+fi
+
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable22 stable23 stable24 master main'
