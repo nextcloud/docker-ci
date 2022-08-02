@@ -1,13 +1,13 @@
 FROM ubuntu:18.04
 
-MAINTAINER Felix Weilbach <felix.weilbach@nextcloud.com>
+MAINTAINER Desktop Team <desktop@nextcloud.com>
 
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT 5.15
-ENV VER_QT_DATE 2021-08-18
-ENV VER_OPENSSL 1.1.1k
+ENV VER_QT v5.15.5-lts-lgpl
+ENV VER_QT_DATE 2022-08-01
+ENV VER_OPENSSL 3.0.5
 ENV VER_KFRAMEWORKS 5.96.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
@@ -67,7 +67,6 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libxslt-dev \
         ruby \
 # Qt WebEngine
-        libssl-dev \
         libxcursor-dev \
         libxcomposite-dev \
         libxdamage-dev \
@@ -102,18 +101,22 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # for updating app images
         zsync && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y qt5-default && \
+    apt-get build-dep -y libqt5core5a && \
 # Cleaning up
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 ###########################################################################
+
+COPY openssl-deprecation.patch /tmp/openssl-deprecation.patch
 
 # Install openssl
 RUN cd /tmp && \
     wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
     tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
     cd openssl-${VER_OPENSSL} && \
+    patch -p 0 < ../openssl-deprecation.patch && \
     ./config && \
     make -j$(nproc) && \
     make -j$(nproc) install && \
@@ -162,13 +165,12 @@ ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 # Install QtKeychain
 RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd /tmp && \
-    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.10.0 && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.12.0 && \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
-    cmake ../ && \
-    make -j$(nproc) && \
-    make -j$(nproc) install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
     cd .. && \
     rm -rf qtkeychain \
     ; fi
