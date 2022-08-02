@@ -169,9 +169,8 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
-    cmake ../ && \
-    make -j$(nproc) && \
-    make -j$(nproc) install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && \
+    ninja install && \
     cd .. && \
     rm -rf qtkeychain \
     ; fi
