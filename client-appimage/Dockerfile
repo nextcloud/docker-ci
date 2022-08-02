@@ -101,8 +101,9 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # for updating app images
         zsync && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y qt5-default && \
+    apt-get build-dep -y libqt5core5a && \
 # Cleaning up
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
