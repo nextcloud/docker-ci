@@ -18,6 +18,10 @@ versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+if [ -d app/src/main/res ]; then
+  rm -rf app/src/main/res/values-*/strings.xml
+fi
+
 # Android news app
 if [ -d News-Android-App/src/main/res ]; then
   rm -rf News-Android-App/src/main/res/values-*/strings.xml
