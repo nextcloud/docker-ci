@@ -2,7 +2,7 @@
 name: "\U0001F523 Request translations"
 about: Request set up of translation syncing from transifex.
 title: ''
-labels: ''
+labels: 'transifex'
 assignees: ''
 
 ---
