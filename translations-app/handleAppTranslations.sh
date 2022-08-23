@@ -16,8 +16,11 @@ if [ ! -f '/app/.tx/config' ]; then
   exit 1
 fi
 
+# We actually want this command to fail
+set +e
 grep 'MYAPP' '/app/.tx/config'
 INVALID_CONFIG=$?
+set -e
 if [ "$INVALID_CONFIG" = "0" ]; then
   echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
   exit 2
