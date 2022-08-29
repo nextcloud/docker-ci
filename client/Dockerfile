@@ -100,9 +100,11 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # install xvfb to enable graphical tests
 		xvfb \
 # html documentation generation
-        python3-sphinx && \
+        python3-sphinx \
+# Qt Web Engine
+        nodejs && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y libqt5core5a && \
+    apt-get build-dep -y libqt5core5a libqt5webengine5 && \
 # Cleaning up
     DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
     apt-get clean && \
