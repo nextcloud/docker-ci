@@ -6,7 +6,7 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT kde-5.15
-ENV VER_QT_DATE 2022-08-29
+ENV VER_QT_DATE 2022-08-30
 ENV VER_OPENSSL 3.0.5
 ENV VER_KFRAMEWORKS 5.96.0
 
@@ -100,6 +100,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         python3-sphinx \
 # Qt Web Engine
         nodejs \
+        libxkbfile-dev \
 # for updating app images
         zsync && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
@@ -143,7 +144,8 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
     make -j$(nproc) && \
     make -j$(nproc) install && \
     cd .. && \
-    rm -rf qt5 && \
+    # Do not require matching versions of Qt dependencies for WebEngine modules
+    sed -i "s/5.15.11 /5.15.5 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
     tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
     ; fi
 
@@ -151,10 +153,14 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
 
 RUN if [ "$BUILD_QT" != "1" ] ; then \
-    echo Download precompiled Qt. && \
+    echo Download precompiled Qt 5.15.5/5.15.11 && \
     wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
     tar -xvf ${QT_TARBALL} && \
     rm ${QT_TARBALL} \
+    ; fi
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge qtbase5-dev \
     ; fi
 
 ###########################################################################
