@@ -142,10 +142,17 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
     cd qt5-${VER_QT}-linux-release && \
      OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ../qt5/configure -release -prefix ${QT_ROOT} -nomake examples -nomake tests -opensource -confirm-license -openssl-linked -skip qt3d && \
     make -j$(nproc) && \
-    make -j$(nproc) install && \
-    cd .. && \
+    make -j$(nproc) install \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
     # Do not require matching versions of Qt dependencies for WebEngine modules
     sed -i "s/5.15.11 /5.15.5 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
     tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
     ; fi
 
