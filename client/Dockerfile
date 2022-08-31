@@ -133,7 +133,14 @@ RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
     git clone https://invent.kde.org/qt/qt/qt5.git && \
     cd qt5 && \
     git checkout kde/5.15 && \
-    ./init-repository --module-subset=default,-qt3d \
+    ./init-repository --module-subset=default,-qt3d,-qtlocation \
+    ; fi
+
+COPY python2.patch /tmp/python2.patch
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    cd /qt5/qtwebengine && \
+    patch -p 1 < /tmp/python2.patch && \
+    cd / \
     ; fi
 
 # Build Qt
