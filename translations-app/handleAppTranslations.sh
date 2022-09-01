@@ -16,12 +16,8 @@ if [ ! -f '/app/.tx/config' ]; then
   exit 1
 fi
 
-# We actually want this command to fail
-set +e
-grep 'MYAPP' '/app/.tx/config'
-INVALID_CONFIG=$?
-set -e
-if [ "$INVALID_CONFIG" = "0" ]; then
+RESOURCE_ID=$(grep -oE '\[nextcloud\..*\]' .tx/config | sed -E 's/\[nextcloud.(.*)\]/\1/')
+if [ "$RESOURCE_ID" = "MYAPP" ]; then
   echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
   exit 2
 fi
@@ -66,7 +62,7 @@ do
   cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../../stable-templates/$version.$file
+    mv $file ../../stable-templates/$version.$RESOURCE_ID.pot
   done
   cd ../..
 done
