@@ -16,12 +16,9 @@ if [ ! -f '/app/.tx/config' ]; then
   exit 1
 fi
 
-# We actually want this command to fail
-set +e
-grep 'MYAPP' '/app/.tx/config'
-INVALID_CONFIG=$?
-set -e
-if [ "$INVALID_CONFIG" = "0" ]; then
+APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | sed -E 's/<id>(.*)<\/id>/\1/')
+RESOURCE_ID=$(grep -oE '\[nextcloud\..*\]' .tx/config | sed -E 's/\[nextcloud.(.*)\]/\1/')
+if [ "$RESOURCE_ID" = "MYAPP" ]; then
   echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
   exit 2
 fi
@@ -66,7 +63,7 @@ do
   cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../../stable-templates/$version.$file
+    mv $file ../../stable-templates/$version.$RESOURCE_ID.pot
   done
   cd ../..
 done
@@ -92,6 +89,22 @@ tx push -s
 
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5
+
+# Copy back the po files from transifex resource id to app id
+if [ "$RESOURCE_ID" = "$APP_ID" ] ; then
+  echo 'App id and transifex resource id are the same, not renaming po files …'
+else
+  echo "App id [$APP_ID] and transifex resource id [$RESOURCE_ID] mismatch"
+  echo 'Renaming po files …'
+  for file in $(ls translationfiles)
+  do
+    if [ "$file" = 'templates' ]; then
+      continue;
+    fi
+
+    mv translationfiles/$file/$RESOURCE_ID.po translationfiles/$file/$APP_ID.po
+  done
+fi
 
 # reverse version list to apply backports
 backportVersions=$(echo $versions | awk '{for(i=NF;i>=1;i--) printf "%s ", $i;print ""}')
