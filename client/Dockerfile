@@ -5,8 +5,8 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT v5.15.5-lts-lgpl
-ENV VER_QT_DATE 2022-08-02
+ENV VER_QT kde-5.15
+ENV VER_QT_DATE 2022-08-31
 ENV VER_OPENSSL 3.0.5
 ENV VER_KFRAMEWORKS 5.96.0
 
@@ -100,9 +100,11 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # install xvfb to enable graphical tests
 		xvfb \
 # html documentation generation
-        python3-sphinx && \
+        python3-sphinx \
+# Qt Web Engine
+        nodejs && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
-    apt-get build-dep -y libqt5core5a && \
+    apt-get build-dep -y libqt5core5a libqt5webengine5 && \
 # Cleaning up
     DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
     apt-get clean && \
@@ -128,10 +130,17 @@ RUN cd /tmp && \
 
 # Download Qt sources
 RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
-    git clone git://code.qt.io/qt/qt5.git && \
+    git clone https://invent.kde.org/qt/qt/qt5.git && \
     cd qt5 && \
-    git checkout ${VER_QT} && \
-    ./init-repository --module-subset=default,-qt3d \
+    git checkout kde/5.15 && \
+    ./init-repository --module-subset=default,-qt3d,-qtlocation \
+    ; fi
+
+COPY python2.patch /tmp/python2.patch
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    cd /qt5/qtwebengine && \
+    patch -p 1 < /tmp/python2.patch && \
+    cd / \
     ; fi
 
 # Build Qt
@@ -140,9 +149,17 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
     cd qt5-${VER_QT}-linux-release && \
      OPENSSL_LIBS='-L/usr/local/lib -lssl -lcrypto' ../qt5/configure -release -prefix ${QT_ROOT} -nomake examples -nomake tests -opensource -confirm-license -openssl-linked -skip qt3d && \
     make -j$(nproc) && \
-    make -j$(nproc) install && \
-    cd .. && \
-    rm -rf qt5 && \
+    make -j$(nproc) install \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    # Do not require matching versions of Qt dependencies for WebEngine modules
+    sed -i "s/5.15.11 /5.15.5 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
     tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
     ; fi
 
@@ -166,6 +183,10 @@ RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
       wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
       tar -xvf ${QT_TARBALL} && \
       rm ${QT_TARBALL} \
+    ; fi
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge qtbase5-dev \
     ; fi
 
 ###########################################################################

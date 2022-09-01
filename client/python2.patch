@@ -1,0 +1,25 @@
+Description: use python2 instead of unversioned python
+Author: Dmitry Shachnev <mitya57@debian.org>
+Forwarded: no
+Last-Update: 2021-03-11
+
+--- a/src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
++++ b/src/3rdparty/chromium/third_party/catapult/common/py_vulcanize/py_vulcanize/generate.py
+@@ -83,7 +83,7 @@ def _MinifyJS(input_js):
+ 
+   with tempfile.NamedTemporaryFile() as _:
+     args = [
+-        'python',
++        'python2',
+         rjsmin_path
+     ]
+     p = subprocess.Popen(args,
+@@ -203,7 +203,7 @@ def _MinifyCSS(css_text):
+       os.path.join(py_vulcanize_path, 'third_party', 'rcssmin', 'rcssmin.py'))
+ 
+   with tempfile.NamedTemporaryFile() as _:
+-    rcssmin_args = ['python', rcssmin_path]
++    rcssmin_args = ['python2', rcssmin_path]
+     p = subprocess.Popen(rcssmin_args,
+                          stdin=subprocess.PIPE,
+                          stdout=subprocess.PIPE,
