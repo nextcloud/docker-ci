@@ -16,7 +16,7 @@ if [ ! -f '/app/.tx/config' ]; then
   exit 1
 fi
 
-APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | sed -E 's/<id>(.*)<\/id>/\1/')
+APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
 RESOURCE_ID=$(grep -oE '\[nextcloud\..*\]' .tx/config | sed -E 's/\[nextcloud.(.*)\]/\1/')
 if [ "$RESOURCE_ID" = "MYAPP" ]; then
   echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
