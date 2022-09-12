@@ -16,8 +16,10 @@ if [ ! -f '/app/.tx/config' ]; then
   exit 1
 fi
 
-APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | sed -E 's/<id>(.*)<\/id>/\1/')
+APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
 RESOURCE_ID=$(grep -oE '\[nextcloud\..*\]' .tx/config | sed -E 's/\[nextcloud.(.*)\]/\1/')
+SOURCE_FILE=$( grep -oE '^source_file\s*=\s*(.+)$' | sed -E 's/source_file\s*=\s*(.+)/\1/')
+
 if [ "$RESOURCE_ID" = "MYAPP" ]; then
   echo "Invalid transifex configuration file .tx/config (translating MYAPP instead of real value)"
   exit 2
@@ -72,13 +74,13 @@ done
 for file in $(ls stable-templates/master.*)
 do
   name=$(echo $file | cut -b 25- )
-  msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
+  msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
 done
 # alternative merge of main branch
 for file in $(ls stable-templates/main.*)
 do
   name=$(echo $file | cut -b 23- )
-  msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
+  msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
 done
 
 # remove intermediate POT files
