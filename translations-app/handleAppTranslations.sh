@@ -104,7 +104,11 @@ else
       continue;
     fi
 
-    mv translationfiles/$file/$RESOURCE_ID.po translationfiles/$file/$APP_ID.po
+    # Some special handling for apps where the resource name is reserved by transifex (transfer, analytics, ...)
+    # in that case the downloaded ".po" files already have the correct name, so we skip the renaming.
+    if [ -f translationfiles/$file/$RESOURCE_ID.po ]; then
+      mv translationfiles/$file/$RESOURCE_ID.po translationfiles/$file/$APP_ID.po
+    fi
   done
 fi
 
