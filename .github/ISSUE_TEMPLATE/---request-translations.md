@@ -13,6 +13,7 @@ assignees: ''
 
 **To be done by you**
 
+- [ ] Link to your repository: 
 - [ ] If the app is personal repository: Invite `nextcloud-bot` with write permissions
 - [ ] Create file `l10n/.gitkeep` with empty content
 - [ ] Add `.l10nignore` to exclude compiled JS files and thirdparty code, e.g. ignoring compiled javascript assets and composer PHP dependencies in the vendor/ directory:
