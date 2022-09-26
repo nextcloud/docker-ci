@@ -65,7 +65,7 @@ do
   cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../../stable-templates/$version.$RESOURCE_ID.pot
+    mv $file ../../stable-templates/${version/\//-}.$RESOURCE_ID.pot
   done
   cd ../..
 done
