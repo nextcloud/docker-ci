@@ -147,7 +147,7 @@ foreach ($jobs as $job) {
 
 			// send email in case of trouble
 			if ($result->errorMessage !== '') {
-				@mail('joas@nextcloud.com,tobias@nextcloud.com', 'Transifex sync job failed', 'This is the log:' . PHP_EOL . $result->errorMessage, ['From' => 'no-reply@nextcloud.com']);
+				@mail('joas@nextcloud.com,tobias@nextcloud.com', 'Transifex sync job failed for ' . $arguments, 'This is the log:' . PHP_EOL . $result->errorMessage, ['From' => 'no-reply@nextcloud.com']);
 			}
 		}
 	}
