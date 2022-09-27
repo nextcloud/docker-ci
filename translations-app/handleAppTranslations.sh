@@ -65,7 +65,8 @@ do
   cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../../stable-templates/${version/\//-}.$RESOURCE_ID.pot
+    FILE_SAVE_VERSION=$(echo $version | sed -E 's/\//-/')
+    mv $file ../../stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot
   done
   cd ../..
 done
