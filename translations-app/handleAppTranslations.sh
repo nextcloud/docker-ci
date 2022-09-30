@@ -11,6 +11,14 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:$1/$2 /app
 
+# Migrate the transifex config to the new client version
+cd /app
+tx migrate
+git add .tx/config
+git commit -am "[tx-robot] Update transifex configuration" -s || true
+git push
+cd -
+
 if [ ! -f '/app/.tx/config' ]; then
   echo "Missing transifex configuration file .tx/config"
   exit 1
