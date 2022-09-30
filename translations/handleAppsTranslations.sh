@@ -18,7 +18,7 @@ do
   if [ ! -d "$app/.tx" ]; then
     continue
   fi
-  
+
   cd "$app"
 
   # build POT files
@@ -27,7 +27,7 @@ do
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f l10n/*.js l10n/*.json
 
-  if [ -e "translationfiles/templates/*.pot" ]; then
+  if [ -e "translationfiles/templates/$app.pot" ]; then
     # push sources
     tx push -s
 
