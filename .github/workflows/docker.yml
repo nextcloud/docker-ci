@@ -18,12 +18,12 @@ on:
         description: "Tag name"
         required: true
         default: 'latest'
-        
+
 jobs:
   push_to_registry:
     runs-on: ubuntu-latest
 
-    name: Push Docker image ${{ github.event.inputs.folderPath }}:${{ github.event.inputs.tagName }} to GitHub Packages
+    name: Push Docker image ${{ github.event.inputs.folderPath }}${{ github.event.inputs.suffix }}:${{ github.event.inputs.tagName }} to GitHub Packages
 
     permissions:
       packages: write

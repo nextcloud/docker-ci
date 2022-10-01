@@ -1,12 +1,5 @@
-FROM nextcloudci/translations:translations-31
+FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
-
-# Install awk
-RUN apk update && \
-    apk add gawk && \
-#    wget https://github.com/cli/cli/releases/download/v2.14.3/gh_2.14.3_linux_386.tar.gz -O /tmp/gh.tar.gz && \
-#    cd /tmp/ && tar xf gh.tar.gz && mv gh*/bin/gh /usr/local/bin/ && rm gh* -rvf && \
-    rm -rf /var/cache/apk/*
 
 ADD handlePlainTranslations.sh /handleTranslations.sh

@@ -10,22 +10,22 @@ RUN apt-get update -q && \
         git \
         gnupg \
         make \
+        curl \
         openssh-client \
+        ca-certificates \
         php7.4-cli \
         php7.4-json \
         php7.4-xml \
-        python3 \
-        python3-pip \
-        python3-setuptools \
-        python3-wheel \
         qttools5-dev-tools \
     && apt-get clean
 
-# Install Transifex client
-RUN pip3 install transifex-client
+RUN update-ca-certificates
 
-# Add sym link for php & python
-RUN ln -s /usr/bin/python3 /usr/bin/python
+# Install Transifex client
+RUN cd /root
+RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+
+ENV PATH=${PATH}:/
 
 RUN mkdir -p /app
 

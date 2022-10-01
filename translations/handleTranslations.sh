@@ -11,6 +11,15 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/server /app
 
+# Migrate the transifex config to the new client version
+cd /app
+tx migrate
+git add .tx/config
+rm .tx/config_*
+git commit -am "[tx-robot] Update transifex configuration" -s || true
+git push
+cd -
+
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable22 stable23 stable24 master'

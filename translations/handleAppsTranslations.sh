@@ -18,8 +18,16 @@ do
   if [ ! -d "$app/.tx" ]; then
     continue
   fi
-  
+
   cd "$app"
+
+  # Migrate the transifex config to the new client version
+  tx migrate
+  git add .tx/config
+  rm .tx/config_*
+  git commit -am "[tx-robot] Update transifex configuration" -s || true
+  git push
+
 
   # build POT files
   /translationtool.phar create-pot-files
@@ -27,7 +35,7 @@ do
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f l10n/*.js l10n/*.json
 
-  if [ -e "translationfiles/templates/*.pot" ]; then
+  if [ -e "translationfiles/templates/$app.pot" ]; then
     # push sources
     tx push -s
 

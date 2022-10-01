@@ -1,5 +1,17 @@
-FROM nextcloudci/translations:translations-31
+FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
+
+# Install python
+RUN apt-get update -q && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        python3-wheel \
+    && apt-get clean
+
+# Add sym link for python
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 ADD handleAppstoreTranslations.sh /handleTranslations.sh
