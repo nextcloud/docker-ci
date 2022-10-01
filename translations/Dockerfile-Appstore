@@ -9,7 +9,7 @@ RUN apt-get update -q && \
         python3-pip \
         python3-setuptools \
         python3-wheel \
-    && apt-get clean \
+    && apt-get clean
 
 # Add sym link for python
 RUN ln -s /usr/bin/python3 /usr/bin/python
