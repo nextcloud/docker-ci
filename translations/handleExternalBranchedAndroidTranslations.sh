@@ -19,7 +19,7 @@ tx migrate
 git add .tx/config
 rm .tx/config_*
 git commit -am "[tx-robot] Update transifex configuration" -s || true
-git push
+git push origin $3
 
 # push sources
 tx push -s
