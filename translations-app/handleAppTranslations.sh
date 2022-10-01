@@ -14,7 +14,7 @@ git clone git@github.com:$1/$2 /app
 # Migrate the transifex config to the new client version
 cd /app
 tx migrate
-git add .tx/config
+git add --force .tx/config
 git commit -am "[tx-robot] Update transifex configuration" -s || true
 git push
 cd -
