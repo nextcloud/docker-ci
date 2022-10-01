@@ -24,6 +24,7 @@ do
   # Migrate the transifex config to the new client version
   tx migrate
   git add .tx/config
+  rm .tx/config_*
   git commit -am "[tx-robot] Update transifex configuration" -s || true
   git push
 
