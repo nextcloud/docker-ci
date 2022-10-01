@@ -17,6 +17,13 @@ pip3 install Django==1.9.8
 # create po files
 ./manage.py makemessages
 
+# Migrate the transifex config to the new client version
+tx migrate
+git add .tx/config
+rm .tx/config_*
+git commit -am "[tx-robot] Update transifex configuration" -s || true
+git push origin master
+
 # push sources
 tx push -s
 
