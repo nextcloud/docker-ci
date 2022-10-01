@@ -14,6 +14,13 @@ git clone git@github.com:$1/$2 /app
 # create or reset translation branch
 git checkout -B $3
 
+# Migrate the transifex config to the new client version
+tx migrate
+git add .tx/config
+rm .tx/config_*
+git commit -am "[tx-robot] Update transifex configuration" -s || true
+git push
+
 # push sources
 tx push -s
 
