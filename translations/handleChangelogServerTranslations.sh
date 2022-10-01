@@ -14,6 +14,15 @@ git clone git@github.com:$1/$2 /app
 # extract l10n strings into POT
 php /translationtool/extract-l10n.php /app/data/
 
+# Migrate the transifex config to the new client version
+cd /app
+tx migrate
+git add .tx/config
+rm .tx/config_*
+git commit -am "[tx-robot] Update transifex configuration" -s || true
+git push
+cd -
+
 # push sources
 tx push -s
 
