@@ -1,0 +1,137 @@
+FROM ubuntu:22.04
+
+MAINTAINER Desktop Team <desktop@nextcloud.com>
+
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+ARG BUILD_QT
+
+ENV VER_QT kde-5.15
+ENV VER_QT_DATE 2022-08-31
+ENV VER_OPENSSL 3.0.5
+ENV VER_KFRAMEWORKS 5.96.0
+
+ENV QT_ROOT /opt/qt${VER_QT}
+
+# https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
+RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
+    # Ubuntus version of inkscape is outdated
+    apt-get update && \
+    apt-get install -y apt-transport-https && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y software-properties-common && \
+    rm -rf /var/lib/apt/lists/* && \
+    add-apt-repository -y ppa:inkscape.dev/stable && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+        wget \
+        libsqlite3-dev \
+        git \
+        ninja-build \
+        curl \
+        jq \
+        perl \
+        python3 \
+        python3-pip \
+        software-properties-common \
+        build-essential \
+        mesa-common-dev \
+        pkg-config \
+        ninja-build \
+        gcc-11 \
+        g++-11 \
+        clang-14 \
+        clang-format-14 \
+        clang-tidy-14 \
+        clazy \
+        cmake \
+        zlib1g-dev \
+        xz-utils \
+# For cmocka based csync tests
+        libcmocka-dev \
+# Add libsecret for qtkeychain
+        libsecret-1-dev \
+# Add Qt build dependencies
+        libclang-dev \
+        gperf \
+        flex \
+        bison \
+# Libxcb, libxcb-xinerama0-dev
+        '^libxcb.*-dev' \
+        libx11-xcb-dev \
+        libglu1-mesa-dev \
+        libxrender-dev \
+        libxi-dev \
+# OpenGL support
+        libicu-dev \
+        libxslt-dev \
+        ruby \
+# Qt WebEngine
+        libssl-dev \
+        libxcursor-dev \
+        libxcomposite-dev \
+        libxdamage-dev \
+        libxrandr-dev \
+        libdbus-1-dev \
+        libfontconfig1-dev \
+        libcap-dev \
+        libxtst-dev \
+        libpulse-dev \
+        libudev-dev \
+        libpci-dev \
+        libnss3-dev \
+        libasound2-dev \
+        libxss-dev \
+        libegl1-mesa-dev \
+        libbz2-dev \
+        libgcrypt20-dev \
+        libdrm-dev \
+        libcups2-dev \
+        libatkmm-1.6-dev \
+# Qt Multimedia
+        libasound2-dev \
+        libgstreamer1.0-dev \
+        libgstreamer-plugins-base1.0-dev \
+# QDoc Documentation Generator Tool
+        libclang-14-dev \
+        llvm-14 \
+# generate png images from svg
+        inkscape \
+# SonarCloud
+        openjdk-11-jdk \
+# install xvfb to enable graphical tests
+		xvfb \
+# html documentation generation
+        python3-sphinx \
+# Qt Web Engine
+        nodejs && \
+# https://wiki.qt.io/Building_Qt_5_from_Git
+    apt-get build-dep -y libqt5core5a libqt5webengine5 && \
+# Cleaning up
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+###########################################################################
+
+COPY openssl-deprecation.patch /tmp/openssl-deprecation.patch
+
+# Install openssl
+RUN cd /tmp && \
+    wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
+    tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
+    cd openssl-${VER_OPENSSL} && \
+    patch -p 0 < ../openssl-deprecation.patch && \
+    ./config && \
+    make -j$(nproc) && \
+    make -j$(nproc) install && \
+    cd .. && \
+    rm -rf openssl*
+
+###########################################################################
+
+# Download Qt sources
+RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
+    git clone https://invent.kde.org/qt/qt/qt5.git && \
+    cd qt5 && \
+    git checkout kde/5.15 && \
+    ./init-repository --module-subset=default,-qt3d,-qtlocation \
+    ; fi
