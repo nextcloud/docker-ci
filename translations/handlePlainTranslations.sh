@@ -18,6 +18,7 @@ versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+# Android talk app
 if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-*/strings.xml
 fi
@@ -25,10 +26,6 @@ fi
 # Android news app
 if [ -d News-Android-App/src/main/res ]; then
   rm -rf News-Android-App/src/main/res/values-*/strings.xml
-fi
-# Android talk app
-if [ -d app/src/main/res ]; then
-  rm -rf app/src/main/res/values-*/strings.xml
 fi
 
 # combine stable branches to keep freshly removed translations
