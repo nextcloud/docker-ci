@@ -26,7 +26,7 @@ if [ ! -f '/app/.tx/config' ]; then
 fi
 
 APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
-RESOURCE_ID=$(grep -oE '\[nextcloud\..*\]' .tx/config | sed -E 's/\[nextcloud.(.*)\]/\1/')
+RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
 SOURCE_FILE=$(grep -oE '^source_file\s*=\s*(.+)$' .tx/config | sed -E 's/source_file\s*=\s*(.+)/\1/')
 
 if [ "$RESOURCE_ID" = "MYAPP" ]; then
