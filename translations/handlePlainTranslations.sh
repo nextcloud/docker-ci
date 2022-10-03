@@ -18,6 +18,7 @@ versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+# Android talk app
 if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-*/strings.xml
 fi
@@ -25,10 +26,6 @@ fi
 # Android news app
 if [ -d News-Android-App/src/main/res ]; then
   rm -rf News-Android-App/src/main/res/values-*/strings.xml
-fi
-# Android talk app
-if [ -d app/src/main/res ]; then
-  rm -rf app/src/main/res/values-*/strings.xml
 fi
 
 # combine stable branches to keep freshly removed translations
@@ -129,23 +126,9 @@ do
   # pull translations
   tx pull -f -a --minimum-perc=50
 
-  # for the default Android app rename the informal german to the formal version
+  # reset combined source file
   if [ -d src/main/res ]; then
-    rm -rf src/main/res/values-de
-    mv src/main/res/values-de-rDE src/main/res/values-de
-
-    # reset combined source file
     git checkout -- src/main/res/values/strings.xml
-  fi
-  # for the Android talk and files app rename the informal german to the formal version
-  if [ -d app/src/main/res ]; then
-    rm -rf app/src/main/res/values-de
-    mv app/src/main/res/values-de-rDE app/src/main/res/values-de
-  fi
-  # for the Android news app rename the informal german to the formal version
-  if [ -d News-Android-App/src/main/res ]; then
-    rm -rf News-Android-App/src/main/res/values-de
-    mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
   fi
 
   if [ -e "scripts/metadata/generate_metadata.py" ]; then
