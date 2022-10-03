@@ -24,12 +24,11 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
     apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
     # Install packages
-    apt-key update && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-        wget \
         libsqlite3-dev \
         git \
+        ninja-build \
         curl \
         jq \
         perl \
@@ -67,6 +66,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         libxslt-dev \
         ruby \
 # Qt WebEngine
+        libssl-dev \
         libxcursor-dev \
         libxcomposite-dev \
         libxdamage-dev \
@@ -133,7 +133,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
     git clone https://invent.kde.org/qt/qt/qt5.git && \
     cd qt5 && \
     git checkout kde/5.15 && \
-    ./init-repository --module-subset=default,-qt3d \
+    ./init-repository --module-subset=default,-qt3d,-qtlocation \
     ; fi
 
 # Build Qt
@@ -155,6 +155,19 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 RUN if [ "$BUILD_QT" = "1" ] ; then \
     tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
     ; fi
+
+#
+# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
+#
+# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
+#
+# This is why we're going to use our own precompiled version here.
+#
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+# on a dedicated build machine:
+#
+#   docker build . -t client-5.15 . --build-arg BUILD_QT=1
+#
 
 # Download Qt precompiled
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz

@@ -14,15 +14,14 @@ ENV QT_ROOT /opt/qt${VER_QT}
 
 # https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
-    # Ubuntus version of inkscape is outdated
     apt-get update && \
-    apt-get install -y apt-transport-https && \
+    apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y software-properties-common && \
     rm -rf /var/lib/apt/lists/* && \
+    # Ubuntus version of inkscape is outdated
     add-apt-repository -y ppa:inkscape.dev/stable && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-        wget \
         libsqlite3-dev \
         git \
         ninja-build \
@@ -102,7 +101,8 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # html documentation generation
         python3-sphinx \
 # Qt Web Engine
-        nodejs && \
+        nodejs \
+        libxkbfile-dev && \
 # https://wiki.qt.io/Building_Qt_5_from_Git
     apt-get build-dep -y libqt5core5a libqt5webengine5 && \
 # Cleaning up
@@ -155,7 +155,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Build Qt
 RUN if [ "$BUILD_QT" = "1" ] ; then \
     # Do not require matching versions of Qt dependencies for WebEngine modules
-    sed -i "s/5.15.6 /5.15.5 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
+    sed -i "s/5.15.11 /5.15.6 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
     ; fi
 
 # Build Qt
@@ -179,10 +179,10 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Download Qt precompiled
 ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
 
-RUN if [ "$BUILD_QT" != "1" ] ; then echo Download precompiled Qt. && \
-      wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
-      tar -xvf ${QT_TARBALL} && \
-      rm ${QT_TARBALL} \
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
+    tar -xvf ${QT_TARBALL} && \
+    rm ${QT_TARBALL} \
     ; fi
 
 RUN if [ "$BUILD_QT" != "1" ] ; then \
