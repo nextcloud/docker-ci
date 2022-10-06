@@ -11,17 +11,17 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/talk-ios /app
 
-# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
-rm -r NextcloudTalk/*.lproj
-git checkout -- NextcloudTalk/Base.lproj
-git checkout -- NextcloudTalk/en.lproj
-
 # Migrate the transifex config to the new client version
 tx migrate
 git add .tx/config
 rm .tx/config_*
 git commit -am "[tx-robot] Update transifex configuration" -s || true
 git push
+
+# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
+rm -r NextcloudTalk/*.lproj
+git checkout -- NextcloudTalk/Base.lproj
+git checkout -- NextcloudTalk/en.lproj
 
 # push sources
 tx push -s

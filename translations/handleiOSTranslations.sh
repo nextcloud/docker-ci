@@ -13,16 +13,16 @@ git clone git@github.com:nextcloud/ios /app
 git checkout -b develop origin/develop
 cd iOSClient
 
-# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
-rm -r Supporting\ Files/*.lproj
-git checkout -- Supporting\ Files/en.lproj
-
 # Migrate the transifex config to the new client version
 tx migrate
 git add .tx/config
 rm .tx/config_*
 git commit -am "[tx-robot] Update transifex configuration" -s || true
 git push
+
+# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
+rm -r Supporting\ Files/*.lproj
+git checkout -- Supporting\ Files/en.lproj
 
 # push sources
 tx push -s
