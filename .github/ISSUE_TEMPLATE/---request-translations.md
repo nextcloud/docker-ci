@@ -24,14 +24,14 @@ vendor/
 - [ ] Create file `.tx/config` with the following content, replace `{{APPID}}` with your app id 3 times:
 ```ini
 [main]
-host = https://www.transifex.com
-lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
+host     = https://www.transifex.com
+lang_map = hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja, bg_BG: bg, cs_CZ: cs, fi_FI: fi
 
-[nextcloud.{{APPID}}]
+[o:nextcloud:p:nextcloud:r:{{APPID}}]
 file_filter = translationfiles/<lang>/{{APPID}}.po
 source_file = translationfiles/templates/{{APPID}}.pot
 source_lang = en
-type = PO
+type        = PO
 ```
 
 # 🏗️ Sysadmin team
