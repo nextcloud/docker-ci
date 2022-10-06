@@ -14,7 +14,9 @@ assignees: ''
 **To be done by you**
 
 - [ ] Link to your repository: 
-- [ ] If the app is personal repository: Invite `nextcloud-bot` with write permissions
+- [ ] If the app is personal repository
+    - [ ] Invite `nextcloud-bot` with write permissions
+    - [ ] Make sure all translated branches do **not** have branch protection enabled, see https://docs.nextcloud.com/server/latest/developer_manual/basics/front-end/l10n.html#setup-of-the-transifex-sync for more details
 - [ ] Create file `l10n/.gitkeep` with empty content
 - [ ] Add `.l10nignore` to exclude compiled JS files and thirdparty code, e.g. ignoring compiled javascript assets and composer PHP dependencies in the vendor/ directory:
 ```
