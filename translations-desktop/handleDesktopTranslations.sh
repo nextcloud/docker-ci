@@ -57,6 +57,8 @@ lconvert -i /branches/*.ts -o /merged_en.ts
 # Fix paths, changed by lconvert
 sed -e 's/<numerusform><\/numerusform>/<numerusform><\/numerusform><numerusform><\/numerusform>/' -e 's/app\/desktop\/src/src/' /merged_en.ts > translations/client_en.ts
 
+# Migrate the transifex config to the new client version
+tx migrate
 # push sources
 tx push -s
 
