@@ -98,6 +98,7 @@
         "nextcloud twofactor_u2f",
         "nextcloud twofactor_webauthn",
         "nextcloud user_retention",
+        "nextcloud user_migration",
         "nextcloud user_saml",
         "nextcloud viewer",
         "nextcloud weather",
