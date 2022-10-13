@@ -39,7 +39,9 @@ type        = PO
 # 🏗️ Sysadmin team
 - [ ] 👀 Ensure access:
     - [ ] Nextcloud-Org repository: Add `nextcloud-bot` with admin permissions
-    - [ ] Other repositories: Ensure the invite was accepted
+    - [ ] Other repositories:
+        - [ ] Ensure the invite was accepted
+        - [ ] Ensure the app certificate is linked to the same repository/author
 - [ ] ⚙️ Ensure repository setup:
     - [ ] `.tx/config`
     - [ ] `l10n/.gitkeep`
