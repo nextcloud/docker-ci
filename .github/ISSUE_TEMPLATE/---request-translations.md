@@ -41,7 +41,7 @@ type        = PO
     - [ ] Nextcloud-Org repository: Add `nextcloud-bot` with admin permissions
     - [ ] Other repositories:
         - [ ] Ensure the invite was accepted
-        - [ ] Ensure the app certificate is linked to the same repository/author
+        - [ ] Ensure the app certificate is linked to the same repository/author https://github.com/nextcloud/app-certificate-requests
 - [ ] ⚙️ Ensure repository setup:
     - [ ] `.tx/config`
     - [ ] `l10n/.gitkeep`
