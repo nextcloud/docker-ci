@@ -46,10 +46,6 @@ type        = PO
     - [ ] `.l10ignore`
 - [ ] ➕ Add `"Owner Repository",` into https://github.com/nextcloud/docker-ci/edit/master/translations/config.json
     - [ ] Pull request:
-- [ ] 🏷️ Tag the master branch
-```sh
-git tag -a -s translations-app-XXX
-```
 - [ ] 🏃Run action: https://github.com/nextcloud/docker-ci/actions/workflows/docker.yml
    1. Path: `translations-app`
    2. File: `Dockerfile`
@@ -58,8 +54,7 @@ git tag -a -s translations-app-XXX
 - [ ] 🔑 SSH into translation machine: `ssh root@transifex-sync.nextcloud.com`
 - [ ] ↩️ Change dir: `cd /srv/docker-ci`
 - [ ] ⬇️ Pull: `git pull origin master`
-- [ ] 🌍 Log in to https://transifex-sync.nextcloud.com/ and trigger a sync for the app
-- [ ] 🧑‍💻 If the app does not show up in the list run the docker manually:
+- [ ] 🧑‍💻 Run the first sync manually:
 
 ```sh
 docker run -v /srv/cronie-data/transifexrc:/root/.transifexrc \
