@@ -132,6 +132,24 @@ do
     git checkout -- src/main/res/values/strings.xml
   fi
 
+  # for the default Android app rename the informal german to the formal version
+  if [ -d src/main/res ]; then
+    rm -rf src/main/res/values-de
+    mv src/main/res/values-de-rDE src/main/res/values-de
+  fi
+
+  # for the Android talk and files app rename the informal german to the formal version
+  if [ -d app/src/main/res ]; then
+    rm -rf app/src/main/res/values-de
+    mv app/src/main/res/values-de-rDE app/src/main/res/values-de
+  fi
+
+  # for the Android news app rename the informal german to the formal version
+  if [ -d News-Android-App/src/main/res ]; then
+    rm -rf News-Android-App/src/main/res/values-de
+    mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
+  fi
+
   if [ -e "scripts/metadata/generate_metadata.py" ]; then
     # copy transifex strings to fastlane
     python3 scripts/metadata/generate_metadata.py
