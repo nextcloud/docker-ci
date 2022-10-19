@@ -13,13 +13,6 @@ git clone git@github.com:$1/$2 /app
 
 versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/")"
 
-# Migrate the transifex config to the new client version
-tx migrate
-git add .tx/config
-rm .tx/config_*
-git commit -am "[tx-robot] Update transifex configuration" -s || true
-git push
-
 # remove existing translations to cleanup not maintained languages
 # default Android app
 if [ -d src/main/res ]; then
@@ -69,6 +62,14 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   for version in $versions
   do
     git checkout $version
+
+    # Migrate the transifex config to the new client version
+    tx migrate
+    git add .tx/config
+    rm .tx/config_*
+    git commit -am "[tx-robot] Update transifex configuration" -s || true
+    git push
+
     cp app/src/main/res/values/strings.xml stable-values/$version.xml
   done
 
@@ -129,6 +130,24 @@ do
   # reset combined source file
   if [ -d src/main/res ]; then
     git checkout -- src/main/res/values/strings.xml
+  fi
+
+  # for the default Android app rename the informal german to the formal version
+  if [ -d src/main/res ]; then
+    rm -rf src/main/res/values-de
+    mv src/main/res/values-de-rDE src/main/res/values-de
+  fi
+
+  # for the Android talk and files app rename the informal german to the formal version
+  if [ -d app/src/main/res ]; then
+    rm -rf app/src/main/res/values-de
+    mv app/src/main/res/values-de-rDE app/src/main/res/values-de
+  fi
+
+  # for the Android news app rename the informal german to the formal version
+  if [ -d News-Android-App/src/main/res ]; then
+    rm -rf News-Android-App/src/main/res/values-de
+    mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
   fi
 
   if [ -e "scripts/metadata/generate_metadata.py" ]; then
