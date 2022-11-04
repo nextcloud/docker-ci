@@ -27,7 +27,7 @@ fi
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable22 stable23 stable24 master main'
+versions='stable23 stable24 stable25 master main'
 if [ -f '/app/.tx/backport' ]; then
   versions="$(cat /app/.tx/backport) master main"
 fi
@@ -53,7 +53,7 @@ do
   git push
 
   # ignore build folder logreader
-  if [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+  if [ "$version" = "stable23" ] ; then
     if [ "$2" = "logreader" ] ; then
       rm -rf build
     fi
@@ -63,7 +63,7 @@ do
   /translationtool.phar create-pot-files
 
   # ignore build folder logreader
-  if [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+  if [ "$version" = "stable23" ] ; then
     if [ "$2" = "logreader" ] ; then
       git checkout -- build
     fi
