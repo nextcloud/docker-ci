@@ -53,7 +53,7 @@ do
   git push
 
   # ignore build folder logreader
-  if [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+  if [ "$version" = "stable23" ] ; then
     if [ "$2" = "logreader" ] ; then
       rm -rf build
     fi
@@ -63,7 +63,7 @@ do
   /translationtool.phar create-pot-files
 
   # ignore build folder logreader
-  if [ "$version" = "stable22" ] || [ "$version" = "stable23" ] ; then
+  if [ "$version" = "stable23" ] ; then
     if [ "$2" = "logreader" ] ; then
       git checkout -- build
     fi
