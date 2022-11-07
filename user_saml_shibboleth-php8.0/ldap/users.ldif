@@ -9,8 +9,9 @@ dn: uid=student1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
-objectClass: ownCloud
+objectClass: nextcloudUser
 givenName: Stud
 uid: student1
 sn: Ent
@@ -23,8 +24,9 @@ dn: uid=student2,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
-objectClass: ownCloud
+objectClass: nextcloudUser
 givenName: Stud
 uid: student2
 sn: Ent2
@@ -37,8 +39,9 @@ dn: uid=staff1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
-objectClass: ownCloud
+objectClass: nextcloudUser
 givenName: St
 uid: staff1
 sn: aff

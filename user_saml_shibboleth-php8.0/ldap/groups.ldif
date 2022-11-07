@@ -1,0 +1,18 @@
+dn: cn=Students,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Students
+member: uid=student1,ou=People,dc=idptestbed
+member: uid=student2,ou=People,dc=idptestbed
+
+dn: cn=Professors,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Professors
+member: uid=staff1,ou=People,dc=idptestbed
+
+dn: cn=Astrophysics,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Astrophysics
+member: uid=student1,ou=People,dc=idptestbed
+member: uid=staff1,ou=People,dc=idptestbed
+
+

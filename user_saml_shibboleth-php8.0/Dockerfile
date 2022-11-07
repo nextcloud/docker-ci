@@ -10,7 +10,9 @@ RUN yum install -y --enablerepo=centosplus 389-ds
 RUN rm -fr /var/lock /usr/lib/systemd/system
 ADD ldap/ds-setup.inf /ds-setup.inf
 ADD ldap/users.ldif /users.ldif
+ADD ldap/groups.ldif /groups.ldif
 ADD ldap/nextcloud.ldif /nextcloud.ldif
+ADD ldap/memberof.ldif /memberof.ldif
 RUN sed -i 's/checkHostname {/checkHostname {\nreturn();/g' /usr/lib64/dirsrv/perl/DSUtil.pm
 RUN sed -i 's/updateSelinuxPolicy($inf);//g' /usr/lib64/dirsrv/perl/*
 ADD ldap/DSCreate.pm /usr/lib64/dirsrv/perl/DSCreate.pm
@@ -20,11 +22,19 @@ RUN /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
     # ensure to have enough time for startup
     && sleep 40 \
     && ldapmodify -H ldap:/// -f nextcloud.ldif -x -D "cn=Directory Manager" -w password \
-    && ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password \
-    && sleep 10 \
+    && ldapmodify -H ldap:/// -f memberof.ldif -x -D "cn=Directory Manager" -w password \
+    # restart is necessary to activate the memberOf plugin
     && kill -TERM "$(ps -C ns-slapd -o pid h)" \
     # ensure to have enough time for shut-down
     && sleep 20 \
+	&& /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-dir \
+    # ensure to have enough time for startup
+    && sleep 30 \
+    && ldapadd -H ldap:/// -f users.ldif -x -D "cn=Directory Manager" -w password \
+    && ldapadd -H ldap:/// -f groups.ldif -x -D "cn=Directory Manager" -w password \
+    && kill -TERM "$(ps -C ns-slapd -o pid h)" \
+    # ensure to have enough time for shut-down
+    && sleep 10 \
     # debug output
     && ps -aux
 RUN rm /*.ldif

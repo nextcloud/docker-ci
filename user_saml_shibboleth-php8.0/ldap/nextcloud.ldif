@@ -19,7 +19,7 @@
 dn: cn=schema
 changetype: modify
 add: attributetypes
-attributetypes: ( 1.3.6.1.4.1.39430.1.1.1 NAME 'quota' DESC 'User Quota (e.g. 2 GB)' EQUALITY caseExactMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+attributetypes: ( 1.3.6.1.4.1.49213.1.1.1 NAME 'quota' DESC 'User Quota (e.g. 2 GB)' EQUALITY caseExactMatch SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 -
 add: objectclasses
-objectclasses: ( 1.3.6.1.4.1.39430.1.2.1 NAME 'ownCloud' DESC 'ownCloud LDAP Schema' AUXILIARY MAY ( quota ) )
+objectclasses: ( 1.3.6.1.4.1.49213.1.2.1 NAME 'nextcloudUser' DESC 'Nextcloud User' AUXILIARY MAY ( quota ) )

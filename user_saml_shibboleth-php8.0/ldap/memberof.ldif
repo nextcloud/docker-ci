@@ -1,0 +1,7 @@
+dn: cn=MemberOf Plugin,cn=plugins,cn=config
+changetype: modify
+add: memberofAutoAddOC
+memberofAutoAddOC: inetOrgPerson
+-
+replace: nsslapd-pluginEnabled
+nsslapd-pluginEnabled: on
