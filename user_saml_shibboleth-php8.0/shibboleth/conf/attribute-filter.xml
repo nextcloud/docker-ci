@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-    This file is an EXAMPLE policy file.  While the policy presented in this 
+<!--
+    This file is an EXAMPLE policy file.  While the policy presented in this
     example file is illustrative of some simple cases, it relies on the names of
     non-existent example services and the example attributes demonstrated in the
     default attribute-resolver.xml file.
-    
+
     Deployers should refer to the documentation for a complete list of components
     and their options.
 -->
@@ -20,10 +20,6 @@
     <!-- Release some attributes to an SP. -->
     <afp:AttributeFilterPolicy id="example1">
         <afp:PolicyRequirementRule xsi:type="basic:AttributeRequesterString" value="http://localhost/index.php/apps/user_saml/saml/metadata" />
-
-        <afp:AttributeRule attributeID="eduPersonPrincipalName">
-            <afp:PermitValueRule xsi:type="basic:ANY" />
-        </afp:AttributeRule>
 
         <afp:AttributeRule attributeID="uid">
             <afp:PermitValueRule xsi:type="basic:ANY" />
@@ -41,10 +37,13 @@
             <afp:PermitValueRule xsi:type="basic:ANY" />
         </afp:AttributeRule>
 
-        <afp:AttributeRule attributeID="eduPersonPrincipalName">
-            <afp:PermitValueRule xsi:type="basic:ANY" />
-        </afp:AttributeRule>
+		<afp:AttributeRule attributeID="quota">
+			<afp:PermitValueRule xsi:type="basic:ANY"/>
+		</afp:AttributeRule>
 
+		<afp:AttributeRule attributeID="groups">
+			<afp:PermitValueRule xsi:type="basic:ANY"/>
+		</afp:AttributeRule>
 
     </afp:AttributeFilterPolicy>
 
