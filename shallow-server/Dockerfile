@@ -25,7 +25,7 @@ RUN rm -rf /var/www/html
 RUN mkdir -p /var/www/html
 
 RUN git clone --depth 1 https://github.com/nextcloud/server.git .
-RUN git submodule update --init
+RUN git submodule update --init --depth 1
 
 RUN chown -R www-data:www-data .
 RUN chsh -s /bin/bash www-data
