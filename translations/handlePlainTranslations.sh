@@ -158,6 +158,12 @@ do
     mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
   fi
 
+  # for the Android Single Sign On app rename the informal german to the formal version
+    if [ -d lib/src/main/res ]; then
+      rm -rf lib/src/main/res/values-de
+      mv lib/src/main/res/values-de-rDE lib/src/main/res/values-de
+    fi
+
   if [ -e "scripts/metadata/generate_metadata.py" ]; then
     # copy transifex strings to fastlane
     python3 scripts/metadata/generate_metadata.py
