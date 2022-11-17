@@ -9,7 +9,7 @@ cd /var/www/html/
 su www-data -c "
 git fetch --force --depth 1 origin $BRANCH:refs/remotes/origin/$BRANCH
 git checkout origin/$BRANCH -B $BRANCH
-git submodule update
+git submodule update --depth 1
 
 # Creating data
 mkdir -p /var/www/html/data
