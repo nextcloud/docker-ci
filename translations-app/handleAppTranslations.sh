@@ -27,7 +27,7 @@ fi
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable23 stable24 stable25 master main'
+versions='stable24 stable25 master main'
 if [ -f '/app/.tx/backport' ]; then
   versions="$(cat /app/.tx/backport) master main"
 fi
@@ -52,22 +52,8 @@ do
   git commit -am "[tx-robot] Update transifex configuration" -s || true
   git push
 
-  # ignore build folder logreader
-  if [ "$version" = "stable23" ] ; then
-    if [ "$2" = "logreader" ] ; then
-      rm -rf build
-    fi
-  fi
-
   # build POT files
   /translationtool.phar create-pot-files
-
-  # ignore build folder logreader
-  if [ "$version" = "stable23" ] ; then
-    if [ "$2" = "logreader" ] ; then
-      git checkout -- build
-    fi
-  fi
 
   cd translationfiles/templates/
   for file in $(ls)
