@@ -39,7 +39,7 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
     tx migrate
     git add .tx/config
     rm .tx/config_*
-    git commit -am "[tx-robot] Update transifex configuration" -s || true
+    git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
     git push
 
     cp app/src/main/res/values/strings.xml stable-values/$version.xml
@@ -75,7 +75,7 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
     tx migrate
     git add .tx/config
     rm .tx/config_*
-    git commit -am "[tx-robot] Update transifex configuration" -s || true
+    git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
     git push
 
     cp app/src/main/res/values/strings.xml stable-values/$version.xml
@@ -172,11 +172,11 @@ do
   # create git commit and push it
 #  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
 #    git add .
-#    git commit -am "[tx-robot] updated from transifex" -s || true
-#    gh pr create -t "[tx-robot] updated from transifex" --base $version --body ""
+#    git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
+#    gh pr create -t "Fix(l10n): 🔠 Update translations from Transifex" --base $version --body ""
 #  else
     git add .
-    git commit -am "[tx-robot] updated from transifex" -s || true
+    git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
     git push origin $version
     echo "done"
 #  fi

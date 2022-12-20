@@ -18,7 +18,7 @@ git checkout -B $3
 tx migrate
 git add .tx/config
 rm .tx/config_*
-git commit -am "[tx-robot] Update transifex configuration" -s || true
+git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
 git push -f origin $3
 
 # push sources
@@ -35,6 +35,6 @@ fi
 
 # create git commit and push it
 git add .
-git commit -am "[tx-robot] updated from transifex" -s || true
+git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
 git push -f origin $3
 echo "done"
