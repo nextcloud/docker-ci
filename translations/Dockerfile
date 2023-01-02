@@ -14,7 +14,6 @@ RUN apt-get update -q && \
         openssh-client \
         ca-certificates \
         php8.1-cli \
-        php8.1-json \
         php8.1-xml \
         qttools5-dev-tools \
     && apt-get clean
