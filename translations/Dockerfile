@@ -8,7 +8,7 @@ RUN apt-get update -q && \
         gawk \
         gettext \
         git \
-        gnupg \
+        gnupg1 \
         make \
         curl \
         openssh-client \
