@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y wget gnupg2 libzip4 apt-transport-https
     apt-get update && apt-get install -y php7.4-intl php7.4-gd git curl \
     php7.4-cli php7.4-curl php7.4-pgsql php7.4-ldap \
     php7.4-sqlite php7.4-mysql php7.4-zip php7.4-xml \
-    php7.4-mbstring php7.4-dev make libmagickcore-6.q16-2-extra unzip \
+    php7.4-mbstring make libmagickcore-6.q16-2-extra unzip \
     php7.4-redis php7.4-imagick php7.4-dev php7.4-xdebug php7.4-apcu \
     libsystemd-dev && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
