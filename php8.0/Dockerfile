@@ -19,4 +19,5 @@ RUN curl -O -L https://getcomposer.org/download/1.10.15/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
+RUN phpdismod xdebug
 ADD nextcloud.ini /etc/php/8.0/cli/conf.d/nextcloud.ini
