@@ -95,7 +95,6 @@
         "nextcloud twofactor_gateway",
         "nextcloud twofactor_nextcloud_notification",
         "nextcloud twofactor_totp",
-        "nextcloud twofactor_u2f",
         "nextcloud twofactor_webauthn",
         "nextcloud unsplash",
         "nextcloud user_migration",
