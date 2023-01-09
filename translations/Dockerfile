@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
@@ -13,8 +13,9 @@ RUN apt-get update -q && \
         curl \
         openssh-client \
         ca-certificates \
-        php8.1-cli \
-        php8.1-xml \
+        php7.4-cli \
+        php7.4-json \
+        php7.4-xml \
         qttools5-dev-tools \
     && apt-get clean
 
