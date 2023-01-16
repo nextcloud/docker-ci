@@ -193,13 +193,13 @@
         "nextcloud android",
         "nextcloud Android-SingleSignOn",
         "nextcloud news-android",
+        "nextcloud notes-android",
         "nextcloud passman-android",
         "nextcloud passman-webextension",
         "nextcloud talk-android",
         "nerzhul ownCloud-SMS-App",
-	    "nextcloud notes-android",
-	    "stefan-niedermann nextcloud-deck"
-	  ]
+        "stefan-niedermann nextcloud-deck"
+      ]
     },
     {
       "name": "externalandroid-branched",
