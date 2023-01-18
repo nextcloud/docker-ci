@@ -141,7 +141,7 @@
     <resolver:AttributeDefinition xsi:type="ad:Simple" id="quota" sourceAttributeID="quota">
         <resolver:Dependency ref="myLDAP" />
         <resolver:AttributeEncoder xsi:type="enc:SAML1String" name="urn:mace:dir:attribute-def:quota" encodeType="false" />
-        <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="quota" friendlyName="quota" encodeType="false" />
+        <resolver:AttributeEncoder xsi:type="enc:SAML2String" name="urn:oid:1.3.6.1.4.1.49213.1.1.1" friendlyName="quota" encodeType="false" />
     </resolver:AttributeDefinition>
 
 	<resolver:AttributeDefinition id="groups" xsi:type="ad:Simple" sourceAttributeID="cn">
@@ -294,6 +294,7 @@
                 %{idp.attribute.resolver.LDAP.searchFilter}
             ]]>
         </dc:FilterTemplate>
+		<ReturnAttributes>* +</ReturnAttributes>
         <!--
         <dc:StartTLSTrustCredential id="LDAPtoIdPCredential" xsi:type="sec:X509ResourceBacked">
             <sec:Certificate>%{idp.attribute.resolver.LDAP.trustCertificates}</sec:Certificate>
