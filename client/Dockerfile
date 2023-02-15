@@ -40,6 +40,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         clang-14 \
         clang-format-14 \
         clang-tidy-14 \
+        clang-tidy \
         clazy \
         cmake \
         zlib1g-dev \
