@@ -77,7 +77,12 @@ do
   git checkout $version
 
   # pull translations
-  tx pull -f --minimum-perc=25 --languages="af,ca,de_DE,en,es_CL,es_DO,es_HN,es,fa,gl,hu,it,lt_LT,nb_NO,pl,ro,sk,sv,TW,zh_HK,bg,cs,el,eo,es_CO,es_EC,es_MX,et,fi,he,id,ja,lv,nl,pt_BR,ru,sl,th,uk,zh_TW,br,da,en_GB,es_AR,es_CR,es_GT,es_SV,eu,fr,hr,is,ko,mk,oc,pt,sc,sr,tr,zh_CN"
+  tx pull -f --minimum-perc=25 -a
+
+  rm -rf translations/client_de.ts
+  mv translations/client_de_DE.ts translations/client_de.ts
+  rm -rf nextcloud.client-desktop/de_translation.desktop
+  mv nextcloud.client-desktop/de_DE_translation.desktop nextcloud.client-desktop/de_translation.desktop
 
   # create git commit and push it
   git add .
