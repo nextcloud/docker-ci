@@ -3,7 +3,7 @@ FROM alpine
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
 RUN apk update && \
-    apk add gnupg git openssh php7 composer curl && \
+    apk add gnupg git openssh php composer curl && \
     rm -rf /var/cache/apk/*
 
 RUN mkdir -p /app
