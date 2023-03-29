@@ -25,6 +25,11 @@ if [ "$RESOURCE_ID" = "MYAPP" ]; then
   exit 2
 fi
 
+if [ "$RESOURCE_ID" = "talk_desktop" ]; then
+  # Desktop client has no appinfo/info.xml
+  APP_ID="talk_desktop"
+fi
+
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
 versions='stable24 stable25 stable26 master main'
