@@ -19,7 +19,7 @@ cd /app
 tx migrate
 git add .tx/config
 rm .tx/config_*
-git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
+git commit -am "Fix(l10n): Update Transifex configuration" -s || true
 git push
 cd -
 
@@ -34,6 +34,6 @@ php /translationtool/generate-xml.php /app/data/
 
 # create git commit and push it
 git add .
-git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
+git commit -am "Fix(l10n): Update translations from Transifex" -s || true
 git push origin master
 echo "done"

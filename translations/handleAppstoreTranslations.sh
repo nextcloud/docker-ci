@@ -21,7 +21,7 @@ pip3 install Django==1.9.8
 tx migrate
 git add .tx/config
 rm .tx/config_*
-git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
+git commit -am "Fix(l10n): Update Transifex configuration" -s || true
 git push origin master
 
 # push sources
@@ -35,6 +35,6 @@ rm -rf locale/de_DE/
 
 # create git commit and push it
 git add locale/
-git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
+git commit -am "Fix(l10n): Update translations from Transifex" -s || true
 git push origin master
 echo "done"

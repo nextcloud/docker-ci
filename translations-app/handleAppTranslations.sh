@@ -54,7 +54,7 @@ do
   tx migrate
   git add --force .tx/config
   rm .tx/config_*
-  git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
+  git commit -am "Fix(l10n): Update Transifex configuration" -s || true
   git push
 
   # build POT files
@@ -138,7 +138,7 @@ do
 
   # create git commit and push it
   git add l10n/*.js l10n/*.json
-  git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
+  git commit -am "Fix(l10n): Update translations from Transifex" -s || true
   git push origin $version
 
   echo "done with $version"
