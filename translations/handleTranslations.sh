@@ -16,7 +16,7 @@ cd /app
 tx migrate
 git add .tx/config
 rm .tx/config_*
-git commit -am "Fix(l10n): 🛠️ Update Transifex configuration" -s || true
+git commit -am "Fix(l10n): Update Transifex configuration" -s || true
 git push
 cd -
 
@@ -96,7 +96,7 @@ do
   # create git commit and push it
   git add apps core lib
 
-  git commit -am "Fix(l10n): 🔠 Update translations from Transifex" -s || true
+  git commit -am "Fix(l10n): Update translations from Transifex" -s || true
   git push origin $version
 
   echo "done with $version"
