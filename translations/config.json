@@ -56,6 +56,7 @@
         "nextcloud integration_jira",
         "nextcloud integration_mastodon",
         "nextcloud integration_moodle",
+        "nextcloud integration_notion",
         "nextcloud integration_openproject",
         "nextcloud integration_reddit",
         "nextcloud integration_twitter",
