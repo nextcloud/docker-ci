@@ -1,13 +1,13 @@
-FROM debian:buster
+FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y apt-utils software-properties-common
-RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-11-jdk curl qrencode git && \
+RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales unzip openjdk-17-jdk curl qrencode git && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN mkdir /opt/android-sdk-linux && \
     cd /opt/android-sdk-linux && \
-    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip && \
+    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && \
     unzip android-sdk.zip && \
     rm -f android-sdk.zip && \
     mkdir cmdline-tools/latest && \
@@ -30,21 +30,23 @@ RUN yes | sdkmanager --licenses
 
 RUN cd /gradle && \
     wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle -O build.gradle && \
-    wget https://raw.githubusercontent.com/nextcloud/android/master/gplay.gradle && \
-    sed -i s"/.*NC_TEST.*//" build.gradle
+    sed -i s"/.*NC_TEST.*//" build.gradle && \
+    mkdir -p app && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/app/build.gradle -O app/build.gradle
 
 RUN yes | sdkmanager --update
 
-RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint && \
-    ./gradlew clean
-    
-RUN cd /gradle && \
-    wget https://raw.githubusercontent.com/nextcloud/android-library/master/build.gradle -O build.gradle && \
-    sed -i s"/.*NC_TEST.*//" build.gradle
+# RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint && \
+#     ./gradlew clean
+
+# RUN cd /gradle && \
+#     wget https://raw.githubusercontent.com/nextcloud/android-library/master/build.gradle -O build.gradle && \
+#     sed -i s"/.*NC_TEST.*//" build.gradle
 
 RUN yes | sdkmanager --update
 
-RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint && \
+# RUN cd /gradle && ./gradlew clean assemble assembleAndroidTest lint && \
+RUN cd /gradle && ./gradlew clean  && \
     ./gradlew clean && \
     rm -rf /root/.gradle/wrapper/dists/*/*/*.zip
 
