@@ -9,6 +9,7 @@
     {
       "name": "app",
       "arguments": [
+        "nextcloud spreed",
         "nextcloud activity",
         "nextcloud announcementcenter",
         "nextcloud approval",
@@ -95,7 +96,6 @@
         "nextcloud serverinfo",
         "nextcloud sharepoint",
         "nextcloud social",
-        "nextcloud spreed",
         "nextcloud stt_whisper",
         "nextcloud survey_client",
         "nextcloud suspicious_login",
