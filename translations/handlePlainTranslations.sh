@@ -11,7 +11,8 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:$1/$2 /app
 
-versions="master $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/")"
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/")"
 
 # remove existing translations to cleanup not maintained languages
 # default Android app
@@ -51,8 +52,8 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
 
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
 
-  # plurals are hard to compare, so we take only master ones
-  awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
+  # plurals are hard to compare, so we take only master/main ones
+  awk '/<plurals/,/<\/plurals>/' "$default_branch.xml" >> combined.xml
 
   echo "</resources>" >> combined.xml
 
@@ -87,8 +88,8 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
 
   grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
 
-  # plurals are hard to compare, so we take only master ones
-  awk '/<plurals/,/<\/plurals>/' master.xml >> combined.xml
+  # plurals are hard to compare, so we take only master/main ones
+  awk '/<plurals/,/<\/plurals>/' "$default_branch.xml" >> combined.xml
 
   echo "</resources>" >> combined.xml
 
@@ -107,12 +108,12 @@ tx push -s
 # undo local changes
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
   git checkout -- app/src/main/res/values/strings.xml
-  git checkout master
+  git checkout $default_branch
 fi
 
 if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   git checkout -- app/src/main/res/values/strings.xml
-  git checkout master
+  git checkout $default_branch
 fi
 
 for version in $versions
