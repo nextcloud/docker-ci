@@ -40,6 +40,7 @@ ADD ssl/default-ssl.conf /etc/apache2/conf-available/ssl-params.conf
 ADD ssl/nextcloud.crt /etc/ssl/certs/nextcloud.crt
 ADD ssl/nextcloud.key /etc/ssl/private/nextcloud.key
 ADD ssl/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+ADD default-nextcloud.conf /etc/apache2/sites-enabled/default-nextcloud.conf
 
 RUN chmod +x /usr/local/bin/*
 
