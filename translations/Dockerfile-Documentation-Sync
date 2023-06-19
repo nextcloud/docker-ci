@@ -11,7 +11,7 @@ RUN mkdir -p /app
 WORKDIR /app
 
 RUN git clone https://github.com/nextcloud/nextcloud-config-converter.git .
-RUN composer install
+RUN composer install --ignore-platform-req=ext-ctype
 
 ADD gitconfig /root/.gitconfig
 ADD known_hosts /root/.ssh/known_hosts
