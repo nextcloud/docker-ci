@@ -70,6 +70,7 @@
         "nextcloud integration_zammad",
         "nextcloud jitsi",
         "nextcloud limit_login_to_ip",
+        "nextcloud llm",
         "nextcloud logreader",
         "nextcloud mail",
         "nextcloud maps",
