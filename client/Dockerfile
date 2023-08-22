@@ -6,20 +6,15 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT kde-5.15
-ENV VER_QT_DATE 2023-01-06
-ENV VER_OPENSSL 3.0.7
-ENV VER_KFRAMEWORKS 5.101.0
+ENV VER_QT_DATE 2022-10-03
+ENV VER_OPENSSL 3.0.5
+ENV VER_KFRAMEWORKS 5.98.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
-# https://askubuntu.com/questions/158871/how-do-i-enable-the-source-code-repositories
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     apt-get update && \
     apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y software-properties-common && \
-    rm -rf /var/lib/apt/lists/* && \
-    # Ubuntus version of inkscape is outdated
-    add-apt-repository -y ppa:inkscape.dev/stable && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
         libsqlite3-dev \
@@ -96,7 +91,7 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
 # generate png images from svg
         inkscape \
 # SonarCloud
-        openjdk-11-jdk \
+        openjdk-19-jdk \
 # install xvfb to enable graphical tests
 		xvfb \
 # html documentation generation
@@ -237,7 +232,7 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     ; fi
 
 # Setup sonar-scanner
-ENV SONAR_SCANNER_VERSION 4.7.0.2747
+ENV SONAR_SCANNER_VERSION 5.0.1.3006
 ENV SONAR_SERVER_URL "https://sonarcloud.io"
 ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
 
