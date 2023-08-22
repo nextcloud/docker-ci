@@ -6,9 +6,9 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT kde-5.15
-ENV VER_QT_DATE 2023-01-07
-ENV VER_OPENSSL 3.0.7
-ENV VER_KFRAMEWORKS 5.101.0
+ENV VER_QT_DATE 2023-08-22
+ENV VER_OPENSSL 3.0.10
+ENV VER_KFRAMEWORKS 5.107.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -148,7 +148,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Build Qt
 RUN if [ "$BUILD_QT" = "1" ] ; then \
     # Do not require matching versions of Qt dependencies for WebEngine modules
-    sed -i "s/5.15.11 /5.15.6 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
+    sed -i "s/5.15.14 /5.15.10 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
     ; fi
 
 # Build Qt
