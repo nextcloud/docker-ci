@@ -8,6 +8,7 @@ ARG BUILD_QT
 ENV VER_QT kde-5.15
 ENV VER_QT_DATE 2023-08-21
 ENV VER_OPENSSL 3.0.10
+ENV VER_LIBP11 libp11-0.4.12
 ENV VER_KFRAMEWORKS 5.107.0
 
 ENV QT_ROOT /opt/qt${VER_QT}
@@ -121,6 +122,16 @@ RUN cd /tmp && \
     make -j$(nproc) install && \
     cd .. && \
     rm -rf openssl*
+
+# Install libp11 for PKCS#11 encryption
+RUN cd /tmp && \
+    wget https://github.com/OpenSC/libp11/releases/download/${VER_LIBP11}/${VER_LIBP11}.tar.gz && \
+    tar xvf ${VER_LIBP11}.tar.gz && \
+    cd ${VER_LIBP11} && \
+    export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig && \
+    ./configure && make && make install && \
+    cd .. && \
+    rm -rf ${VER_LIBP11}
 
 ###########################################################################
 
