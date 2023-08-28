@@ -10,6 +10,8 @@ ENV VER_QT_DATE 2023-08-21
 ENV VER_OPENSSL 3.0.10
 ENV VER_LIBP11 libp11-0.4.12
 ENV VER_KFRAMEWORKS 5.107.0
+ENV VER_SQLITE 3430000
+ENV VER_SQLITE_YEAR 2023
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -18,7 +20,6 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
-        libsqlite3-dev \
         git \
         ninja-build \
         curl \
@@ -132,6 +133,16 @@ RUN cd /tmp && \
     ./configure && make && make install && \
     cd .. && \
     rm -rf ${VER_LIBP11}
+
+# Install sqlite3 from https://www.sqlite.org/amalgamation.html
+# https://www3.sqlite.org/src/dir?ci=tip&name=autoconf
+RUN cd /tmp && \
+    wget https://www.sqlite.org/${VER_SQLITE_YEAR}/sqlite-autoconf-${VER_SQLITE}.tar.gz && \
+    tar xvf sqlite-autoconf-${VER_SQLITE}.tar.gz && \
+    cd sqlite-autoconf-${VER_SQLITE} && \
+    ./configure && make && make install && \
+    cd .. && \
+    rm -rf sqlite-autoconf-${VER_SQLITE}
 
 ###########################################################################
 
