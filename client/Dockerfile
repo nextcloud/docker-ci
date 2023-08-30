@@ -204,7 +204,7 @@ RUN if [ "$BUILD_QT" != "1" ] ; then \
     ; fi
 
 RUN if [ "$BUILD_QT" != "1" ] ; then \
-    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge qtbase5-dev \
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge qtbase5-dev libsqlite3-dev \
     ; fi
 
 ###########################################################################
