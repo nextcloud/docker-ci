@@ -100,6 +100,7 @@
         "nextcloud serverinfo",
         "nextcloud sharepoint",
         "nextcloud social",
+        "nextcloud stt_helper",
         "nextcloud stt_whisper",
         "nextcloud survey_client",
         "nextcloud suspicious_login",
