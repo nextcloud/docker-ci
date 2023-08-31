@@ -140,7 +140,7 @@ RUN cd /tmp && \
     wget https://www.sqlite.org/${VER_SQLITE_YEAR}/sqlite-autoconf-${VER_SQLITE}.tar.gz && \
     tar xvf sqlite-autoconf-${VER_SQLITE}.tar.gz && \
     cd sqlite-autoconf-${VER_SQLITE} && \
-    ./configure && make && make install && \
+    ./configure --prefix=/usr/local/lib64/sqlite && make && make install && \
     cd .. && \
     rm -rf sqlite-autoconf-${VER_SQLITE}
 
