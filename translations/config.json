@@ -110,6 +110,7 @@
         "nextcloud terms_of_service",
         "nextcloud text",
         "nextcloud text_templates",
+        "nextcloud twofactor_admin",
         "nextcloud twofactor_gateway",
         "nextcloud twofactor_nextcloud_notification",
         "nextcloud twofactor_totp",
