@@ -10,4 +10,5 @@ export JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD=nextcloud
 export JETTY_BROWSER_SSL_KEYSTORE_PASSWORD=nextcloud
 
 init-idp.sh
+rm /opt/shibboleth-idp/conf/oidc-credentials.xml
 $JAVA_HOME/bin/java -jar $JETTY_HOME/start.jar jetty.home=$JETTY_HOME jetty.base=$JETTY_BASE -Djetty.sslContext.keyStorePassword=$JETTY_KEYSTORE_PASSWORD -Djetty.sslContext.keyStorePath=$JETTY_KEYSTORE_PATH
