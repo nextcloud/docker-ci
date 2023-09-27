@@ -5,23 +5,13 @@
 
      This metadata is not dynamic - it will not change as your configuration changes.
 -->
-<EntityDescriptor  xmlns="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" entityID="https://shibboleth-integration-nextcloud.localdomain/idp/shibboleth">
+<EntityDescriptor
+	xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	entityID="https://shibboleth-integration-nextcloud.localdomain/idp/shibboleth"
+>
 
     <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol urn:mace:shibboleth:1.0">
-
-        <Extensions>
-            <shibmd:Scope regexp="false">example.org</shibmd:Scope>
-<!--
-    Fill in the details for your IdP here 
-
-            <mdui:UIInfo>
-                <mdui:DisplayName xml:lang="en">A Name for the IdP at shibboleth-integration-nextcloud.localdomain</mdui:DisplayName>
-                <mdui:Description xml:lang="en">Enter a description of your IdP at shibboleth-integration-nextcloud.localdomain</mdui:Description>
-                <mdui:Logo height="80" width="80">https://shibboleth-integration-nextcloud.localdomain/Path/To/Logo.png</mdui:Logo>
-            </mdui:UIInfo>
--->
-        </Extensions>
-
         <KeyDescriptor use="signing">
             <ds:KeyInfo>
                     <ds:X509Data>
@@ -129,10 +119,6 @@ GrYd+TvG2duNh6z69Ppj2WuD
 
 
     <AttributeAuthorityDescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:1.1:protocol">
-
-        <Extensions>
-            <shibmd:Scope regexp="false">example.org</shibmd:Scope>
-        </Extensions>
 
         <KeyDescriptor use="signing">
             <ds:KeyInfo>
