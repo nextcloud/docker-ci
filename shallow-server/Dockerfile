@@ -21,7 +21,9 @@ COPY opcache-recommended.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www/html
 
-RUN rm -rf /var/www/html
+# Looks like there's an issue on self-hosted runners with fuse-overlayfs that prevents us deleting the directory directly
+# so rename it first and then remove it
+RUN mv /var/www/html/ /var/www/html2/ && rm -rf /var/www/html2/
 RUN mkdir -p /var/www/html
 
 RUN git clone --depth 1 https://github.com/nextcloud/server.git .
