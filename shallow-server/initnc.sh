@@ -5,6 +5,11 @@ export BRANCH=${BRANCH:=master}
 # Where we do all the work
 cd /var/www/html/
 
+# Run 'apt-get update' to unlock files. This seems neccessary on self hosted runners with fuse-overlayfs,
+# otherwise git checkout will error out with 'file exists' error. Needs to be run here, doesn't work when 
+# done inside the Dockerfile
+apt-get update
+
 # Update code
 su www-data -c "
 git fetch --force --depth 1 origin $BRANCH:refs/remotes/origin/$BRANCH
