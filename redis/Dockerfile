@@ -1,1 +1,1 @@
-FROM redis
+FROM redis:alpine
