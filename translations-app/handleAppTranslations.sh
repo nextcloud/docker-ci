@@ -32,7 +32,7 @@ fi
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable25 stable26 stable27 master main'
+versions='stable26 stable27 stable28 master main'
 if [ -f '/app/.tx/backport' ]; then
   versions="$(cat /app/.tx/backport) master main"
 fi
