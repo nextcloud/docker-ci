@@ -45,7 +45,7 @@ type        = PO
 - [ ] ⚙️ Ensure repository setup:
     - [ ] `.tx/config`
     - [ ] `l10n/.gitkeep`
-    - [ ] `.l10ignore`
+    - [ ] `.l10nignore`
 - [ ] ➕ Add `"Owner Repository",` into https://github.com/nextcloud/docker-ci/edit/master/translations/config.json
     - [ ] Pull request:
 - [ ] 🔑 SSH into translation machine: `ssh root@transifex-sync.nextcloud.com`
