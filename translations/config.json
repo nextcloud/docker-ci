@@ -49,6 +49,7 @@
         "nextcloud forms",
         "nextcloud fulltextsearch",
         "nextcloud fulltextsearch_elasticsearch",
+        "nextcloud gptfreeprompt",
         "nextcloud groupfolders",
         "nextcloud guests",
         "nextcloud health",
