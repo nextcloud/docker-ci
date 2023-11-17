@@ -32,9 +32,9 @@ fi
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='stable26 stable27 stable28 master main'
+versions='main master stable28 stable27 stable26'
 if [ -f '/app/.tx/backport' ]; then
-  versions="$(cat /app/.tx/backport) master main"
+  versions="main master $(cat /app/.tx/backport)"
 fi
 
 # build POT files for all versions
@@ -111,9 +111,7 @@ else
   done
 fi
 
-# reverse version list to apply backports
-backportVersions=$(echo $versions | awk '{for(i=NF;i>=1;i--) printf "%s ", $i;print ""}')
-for version in $backportVersions
+for version in $versions
 do
   # skip if the branch doesn't exist
   if git branch -r | egrep "^\W*origin/$version$" ; then
