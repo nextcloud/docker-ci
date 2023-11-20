@@ -37,6 +37,14 @@
             <PermitValueRule xsi:type="ANY" />
         </AttributeRule>
 
+		<AttributeRule attributeID="quota">
+			<PermitValueRule xsi:type="ANY" />
+		</AttributeRule>
+
+		<AttributeRule attributeID="groups">
+			<PermitValueRule xsi:type="ANY" />
+		</AttributeRule>
+
         <AttributeRule attributeID="eduPersonPrincipalName">
             <PermitValueRule xsi:type="ANY" />
         </AttributeRule>

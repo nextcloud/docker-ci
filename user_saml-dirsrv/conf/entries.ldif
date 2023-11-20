@@ -1,3 +1,4 @@
+# Structure
 
 dn: dc=idptestbed
 objectClass: top
@@ -23,10 +24,13 @@ objectClass: top
 objectClass: organizationalunit
 ou: People
 
+# Users
+
 dn: uid=student1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
 objectClass: nextcloudUser
 givenName: Stud
@@ -41,6 +45,7 @@ dn: uid=student2,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
 objectClass: nextcloudUser
 givenName: Stud
@@ -55,6 +60,7 @@ dn: uid=staff1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
+objectClass: inetuser
 objectClass: inetOrgPerson
 objectClass: nextcloudUser
 givenName: St
@@ -63,3 +69,23 @@ sn: aff
 cn: St aff
 mail: staff1@idptestbed.edu
 userPassword: password
+
+
+# Groups
+
+dn: cn=Students,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Students
+member: uid=student1,ou=People,dc=idptestbed
+member: uid=student2,ou=People,dc=idptestbed
+
+dn: cn=Professors,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Professors
+member: uid=staff1,ou=People,dc=idptestbed
+
+dn: cn=Astrophysics,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: Astrophysics
+member: uid=student1,ou=People,dc=idptestbed
+member: uid=staff1,ou=People,dc=idptestbed

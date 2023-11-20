@@ -129,10 +129,15 @@
     </AttributeDefinition>
 
     <AttributeDefinition xsi:type="Simple" id="quota">
-		<InputDataConnector ref="myLDAP" attributeNames="quota" />
+		<InputDataConnector ref="myLDAP" attributeNames="nextcloudQuota" />
         <AttributeEncoder xsi:type="SAML1String" name="urn:mace:dir:attribute-def:quota" encodeType="false" />
-        <AttributeEncoder xsi:type="SAML2String" name="urn:oid:quota" friendlyName="quota" encodeType="false" />
+        <AttributeEncoder xsi:type="SAML2String" name="urn:oid:1.3.6.1.4.1.49213.1.1.2" friendlyName="quota" encodeType="false" />
     </AttributeDefinition>
+
+	<AttributeDefinition xsi:type="Simple" id="groups">
+		<InputDataConnector ref="groupMemberships" attributeNames="cn" />
+		<AttributeEncoder xsi:type="SAML2String" name="groups" friendlyName="groups" encodeType="false" />
+	</AttributeDefinition>
 <!--
     <resolver:AttributeDefinition xsi:type="ad:Simple" id="initials" sourceAttributeID="initials">
         <resolver:Dependency ref="myLDAP" />
@@ -285,5 +290,20 @@
         </dc:StartTLSTrustCredential>
     -->
     </DataConnector>
+
+	<DataConnector id="groupMemberships" xsi:type="LDAPDirectory"
+				   ldapURL="%{idp.attribute.resolver.LDAP.ldapURL}"
+				   baseDN="%{idp.attribute.resolver.LDAP.groupBaseDN}"
+				   principal="%{idp.attribute.resolver.LDAP.bindDN}"
+				   principalCredential="%{idp.attribute.resolver.LDAP.bindDNCredential}"
+				   useStartTLS="%{idp.attribute.resolver.LDAP.useStartTLS:true}"
+				   maxResultSize="0">
+		<FilterTemplate>
+			<![CDATA[
+				%{idp.attribute.resolver.LDAP.groupFilter}
+			]]>
+		</FilterTemplate>
+		<ReturnAttributes>cn</ReturnAttributes>
+	</DataConnector>
 
 </AttributeResolver>

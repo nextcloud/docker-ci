@@ -23,6 +23,11 @@ RUN /usr/libexec/dirsrv/dscontainer -r & \
     dsconf localhost backend create --suffix dc=idptestbed --be-name ci_root; \
     mv /var/opt/98nextcloud-schema.ldif /etc/dirsrv/slapd-localhost/schema/; \
     dsconf localhost schema reload; \
+    dsconf localhost plugin memberof enable; \
+    dsconf localhost plugin memberof set --autoaddoc inetOrgPerson; \
+    dsctl localhost restart; \
+    dsconf localhost plugin memberof status; \
+    dsconf localhost plugin memberof show; \
     dsconf localhost backend import "dc=idptestbed" /var/opt/entries.ldif; \
     rm /var/opt/entries.ldif;
 
