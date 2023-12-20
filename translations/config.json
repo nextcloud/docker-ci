@@ -132,6 +132,7 @@
         "allotropia nextcloud_files_libreoffice_edit",
         "baimard gestion",
         "cloud-py-api cloud_py_api",
+        "cloud-py-api app_api",
         "cloud-py-api mediadc",
         "CollaboraOnline richdocumentscode",
         "cwilby nextcloud-workflow-media-converter",
