@@ -361,7 +361,35 @@ class TranslatableApp {
 
 		$position = strpos($content, $translation);
 		$contentBefore = substr($content, 0, $position);
+		$contentAfter = substr($content, $position);
 		$lineNumber = substr_count($contentBefore, "\n") + 1;
+
+		$linesBefore = explode("\n", $contentBefore);
+		$linesAfter = explode("\n", $contentAfter);
+		$previousLine = $linesBefore[$lineNumber - 2];
+		$currentLine = $linesAfter[0];
+
+		// If we have a translation hint in the current line, we use it
+		// This prevents mismatching hints if we have two translations
+		// over consecutive lines
+		// Like https://github.com/nextcloud/forms/blob/5c905b36b1ce3ca1848175d39d813581732e159d/src/views/Results.vue#L261-L263
+		$searchComment = strpos($currentLine, 'TRANSLATORS') !== false
+			? $currentLine
+			: $previousLine;
+
+		// We try to find a comment with the translators hint
+		// <!-- TRANSLATORS: This is a comment -->
+		// <!-- TRANSLATORS : This is a comment -->
+		// <!-- TRANSLATORS This is a comment -->
+		// t('forms', 'Save to home') // TRANSLATORS: Export the file to the home path
+		$re = '/TRANSLATORS[: ]*(.*)(-->|\n)?/m';
+		preg_match_all($re, $searchComment, $matches, PREG_SET_ORDER, 0);
+
+		// If we have a comment, we use it
+		if (count($matches) > 0 && count($matches[0]) > 1) {
+			// Remove double spaces
+			return str_replace('  ', ' ', '// TRANSLATORS ' . $matches[0][1] . " ($relativeVuePath:$lineNumber)" . PHP_EOL);
+		}
 
 		return '// TRANSLATORS ' . $relativeVuePath . ':' . $lineNumber . PHP_EOL;
 	}
