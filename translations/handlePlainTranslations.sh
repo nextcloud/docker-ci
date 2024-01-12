@@ -36,13 +36,6 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   do
     git checkout $version
 
-    # Migrate the transifex config to the new client version
-    tx migrate
-    git add .tx/config
-    rm .tx/config_*
-    git commit -am "Fix(l10n): Update Transifex configuration" -s || true
-    git push
-
     cp app/src/main/res/values/strings.xml stable-values/$version.xml
   done
 
@@ -71,13 +64,6 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   for version in $versions
   do
     git checkout $version
-
-    # Migrate the transifex config to the new client version
-    tx migrate
-    git add .tx/config
-    rm .tx/config_*
-    git commit -am "Fix(l10n): Update Transifex configuration" -s || true
-    git push
 
     cp app/src/main/res/values/strings.xml stable-values/$version.xml
   done
