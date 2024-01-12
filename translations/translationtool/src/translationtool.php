@@ -382,13 +382,20 @@ class TranslatableApp {
 		// <!-- TRANSLATORS : This is a comment -->
 		// <!-- TRANSLATORS This is a comment -->
 		// t('forms', 'Save to home') // TRANSLATORS: Export the file to the home path
-		$re = '/TRANSLATORS[: ]*(.*)(-->|\n)?/m';
+		$re = '/TRANSLATORS[: ]*(.*)/m';
 		preg_match_all($re, $searchComment, $matches, PREG_SET_ORDER, 0);
 
 		// If we have a comment, we use it
 		if (count($matches) > 0 && count($matches[0]) > 1) {
 			// Remove double spaces
-			return str_replace('  ', ' ', '// TRANSLATORS ' . $matches[0][1] . " ($relativeVuePath:$lineNumber)" . PHP_EOL);
+			$comment = str_replace('  ', ' ', $matches[0][1]);
+			// Remove leading and trailing spaces
+			$comment = trim($comment);
+			// Remove newlines
+			$comment = str_replace("\n", '', $comment);
+			// Remove html end comment
+			$comment = str_replace('-->', '', $comment);
+			return str_replace('  ', ' ', '// TRANSLATORS ' . $comment . " ($relativeVuePath:$lineNumber)" . PHP_EOL);
 		}
 
 		return '// TRANSLATORS ' . $relativeVuePath . ':' . $lineNumber . PHP_EOL;
