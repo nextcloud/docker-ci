@@ -1,7 +1,9 @@
-FROM httpd:alpine
+FROM httpd:latest
 
 # Create webdav directory
 RUN mkdir -p /usr/local/apache2/webdav; chown www-data /usr/local/apache2/webdav
+# Create lock DB directory
+RUN mkdir -p /usr/local/apache2/var; chown www-data /usr/local/apache2/var
 # Copy config
 COPY ./webdav.conf /usr/local/apache2/conf/webdav.conf
 # Add password file
