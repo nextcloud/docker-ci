@@ -217,7 +217,7 @@ ENV PKG_CONFIG_PATH ${QT_ROOT}/lib/pkgconfig:${PKG_CONFIG_PATH}
 # Install QtKeychain
 RUN if [ "$BUILD_QT" != "1" ] ; then \
     cd /tmp && \
-    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b v0.12.0 && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b 0.14.2 && \
     cd qtkeychain && \
     mkdir build && \
     cd build && \
