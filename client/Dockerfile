@@ -6,20 +6,20 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT kde-5.15
-ENV VER_QT_DATE 2023-08-21
-ENV VER_OPENSSL 3.0.10
+ENV VER_QT_DATE 2024-02-03
+ENV VER_OPENSSL 3.1.4
 ENV VER_LIBP11 libp11-0.4.12
 ENV VER_KFRAMEWORKS 5.107.0
-ENV VER_SQLITE 3430000
-ENV VER_SQLITE_YEAR 2023
+ENV VER_SQLITE 3450100
+ENV VER_SQLITE_YEAR 2024
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget && \
+    apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg software-properties-common wget && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -q -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -q -y \
         git \
         ninja-build \
         curl \
@@ -173,7 +173,7 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
 # Build Qt
 RUN if [ "$BUILD_QT" = "1" ] ; then \
     # Do not require matching versions of Qt dependencies for WebEngine modules
-    sed -i "s/5.15.14 /5.15.10 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
+    sed -i "s/5.15.17 /5.15.12 /" ${QT_ROOT}/lib/cmake/*/*Config.cmake \
     ; fi
 
 # Build Qt
