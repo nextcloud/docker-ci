@@ -1,12 +1,18 @@
-FROM ubuntu:23.04
+FROM ubuntu:22.04
 
 MAINTAINER Desktop Team <desktop@nextcloud.com>
 
-ENV VER_OPENSSL 3.0.10
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+ARG BUILD_QT
+
+ENV VER_QT 6.6.3
+ENV VER_QT_DATE 2024-04-09
+ENV VER_OPENSSL 3.1.5
 ENV VER_LIBP11 libp11-0.4.12
-ENV VER_KFRAMEWORKS 5.110.0
-ENV VER_SQLITE 3430000
-ENV VER_SQLITE_YEAR 2023
+ENV VER_KFRAMEWORKS 6.0.0
+ENV VER_SQLITE 3450200
+ENV VER_SQLITE_YEAR 2024
+ENV VER_QTKEYCHAIN 0.14.2
 
 ENV QT_ROOT /opt/qt${VER_QT}
 
@@ -29,44 +35,46 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         ninja-build \
         gcc-11 \
         g++-11 \
-        clang-14 \
-        clang-format-14 \
-        clang-tidy-14 \
-        clang-tidy \
-        clazy \
+        clang-15 \
+        clang-format-15 \
+        clang-tidy-15 \
+        libclang-15-dev \
         cmake \
         zlib1g-dev \
         xz-utils \
-        qtkeychain-qt6-dev \
-        qt6-base-dev \
-        qt6-base-dev-tools \
-        qt6-l10n-tools \
-        qt6-declarative-dev-tools \
-        qt6-connectivity-dev \
-        qt6-multimedia-dev \
-        qt6-webengine-dev \
-        qt6-webengine-dev-tools \
-        qt6-websockets-dev \
-        qt6-tools-dev \
-        qt6-tools-dev-tools \
-        qt6-5compat-dev \
-        qt6-declarative-dev \
-        qt6-qmllint-plugins \
-        qt6-qmltooling-plugins \
-        qt6-l10n-tools \
-        qt6-quick3d-dev \
-        qt6-translations-l10n \
-        qt6-svg-dev \
-        qml6-module-qtquick3d-spatialaudio \
-        libqt6sql6-sqlite \
         liblzma-dev \
         libzstd-dev \
         libbz2-dev \
+        libfontconfig1-dev \
+        libfreetype6-dev \
+        libx11-dev \
+        libx11-xcb-dev \
+        libxext-dev \
+        libxfixes-dev \
+        libxi-dev \
+        libxrender-dev \
+        libxcb1-dev \
+        libxcb-cursor-dev \
+        libxcb-glx0-dev \
+        libxcb-keysyms1-dev \
+        libxcb-image0-dev \
+        libxcb-shm0-dev \
+        libxcb-icccm4-dev \
+        libxcb-sync-dev \
+        libxcb-xfixes0-dev \
+        libxcb-shape0-dev \
+        libxcb-randr0-dev \
+        libxcb-render-util0-dev \
+        libxcb-util-dev \
+        libxcb-xinerama0-dev \
+        libxcb-xkb-dev \
+        libxkbcommon-dev \
+        libxkbcommon-x11-dev \
         python3-sphinxcontrib.serializinghtml \
         python3-sphinxcontrib.qthelp \
         python3-sphinx \
         unzip \
-        qt6-base-private-dev \
+        libsecret-1-dev \
 # For cmocka based csync tests
         libcmocka-dev \
 # generate png images from svg
@@ -77,6 +85,23 @@ RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
         xvfb \
 # html documentation generation
         python3-sphinx && \
+        apt-get build-dep -q -y \
+        qt6-base-dev \
+        qt6-base-dev-tools \
+        qt6-l10n-tools \
+        qt6-declarative-dev-tools \
+        qt6-connectivity-dev \
+        qt6-multimedia-dev \
+        qt6-webengine-dev \
+        qt6-webengine-dev-tools \
+        qt6-tools-dev \
+        qt6-tools-dev-tools \
+        qt6-declarative-dev \
+        qt6-l10n-tools \
+        qt6-quick3d-dev \
+        qt6-translations-l10n \
+        libqt6sql6-sqlite && \
+        apt-get remove -y -q --purge libqt6core6 nodejs && \
 # Cleaning up
         DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libssl-dev && \
         apt-get clean && \
@@ -117,27 +142,97 @@ RUN cd /tmp && \
 
 ###########################################################################
 
-# Install KArchive
+# Download Qt sources
+RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
+    git clone --depth=1 --recurse-submodules --shallow-submodules --branch=v${VER_QT} https://code.qt.io/qt/qt5.git qt6 \
+    ; fi
+
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    wget https://nodejs.org/dist/v18.20.1/node-v18.20.1-linux-x64.tar.xz && \
+    tar xf node-v18.20.1-linux-x64.tar.xz \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    mkdir qt6-${VER_QT}-linux-release && \
+    cd qt6-${VER_QT}-linux-release && \
+    export PATH=${PATH}:/node-v18.20.1-linux-x64/bin && \
+    /qt6/configure -release -nomake examples -nomake tests -opensource -confirm-license -skip qt3d -- -DCMAKE_INSTALL_PREFIX=${QT_ROOT} -DOPENSSL_ROOT_DIR=/usr/local -DQT_BUILD_TESTS=OFF -DQT_BUILD_EXAMPLES=ON -DQT_FEATURE_thread=ON -DQT_FEATURE_xcb=ON && \
+    cmake --build . --parallel && \
+    cmake --install . \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
+    ; fi
+
+#
+# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
+#
+# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
+#
+# This is why we're going to use our own precompiled version here.
+#
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+# on a dedicated build machine:
+#
+#   docker build . -t client-5.15 . --build-arg BUILD_QT=1
+#
+
+# Download Qt precompiled
+ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
+    tar -xvf ${QT_TARBALL} && \
+    rm ${QT_TARBALL} \
+    ; fi
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    DEBIAN_FRONTEND=noninteractive apt-get remove -q -y --purge libsqlite3-dev \
+    ; fi
+
+###########################################################################
+
+# Install QtKeychain
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b ${VER_QTKEYCHAIN} && \
+    cd qtkeychain && \
+    mkdir build && \
+    cd build && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    cmake --build . --parallel && \
+    cmake --install . && \
+    cd .. && \
+    rm -rf qtkeychain \
+    ; fi
+
+# Install extra-cmake-modules
 RUN \
     cd /tmp && \
     git clone https://invent.kde.org/frameworks/extra-cmake-modules.git --depth 1 -b v${VER_KFRAMEWORKS} && \
     cd extra-cmake-modules && \
     mkdir build && \
     cd build && \
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 .. && \
-    ninja install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    cmake --build . --parallel && \
+    cmake --install . && \
     cd .. && \
     rm -rf extra-cmake-modules \
     ;
 
+# Install KArchive
 RUN \
     cd /tmp && \
     git clone https://invent.kde.org/frameworks/karchive.git --depth 1 -b v${VER_KFRAMEWORKS} && \
     cd karchive && \
     mkdir build && \
     cd build && \
-    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 .. && \
-    ninja install && \
+    cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    cmake --build . --parallel && \
+    cmake --install . && \
     cd .. && \
     rm -rf karchive \
     ;
