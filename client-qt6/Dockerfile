@@ -6,7 +6,7 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 ARG BUILD_QT
 
 ENV VER_QT 6.6.3
-ENV VER_QT_DATE 2024-04-09
+ENV VER_QT_DATE 2024-04-22
 ENV VER_OPENSSL 3.1.5
 ENV VER_LIBP11 libp11-0.4.12
 ENV VER_KFRAMEWORKS 6.0.0
@@ -157,7 +157,8 @@ RUN if [ "$BUILD_QT" = "1" ] ; then \
     mkdir qt6-${VER_QT}-linux-release && \
     cd qt6-${VER_QT}-linux-release && \
     export PATH=${PATH}:/node-v18.20.1-linux-x64/bin && \
-    /qt6/configure -release -nomake examples -nomake tests -opensource -confirm-license -skip qt3d -- -DCMAKE_INSTALL_PREFIX=${QT_ROOT} -DOPENSSL_ROOT_DIR=/usr/local -DQT_BUILD_TESTS=OFF -DQT_BUILD_EXAMPLES=ON -DQT_FEATURE_thread=ON -DQT_FEATURE_xcb=ON && \
+    /qt6/configure -release -nomake examples -nomake tests -opensource -confirm-license -openssl-linked -skip qt3d -- \
+        -DCMAKE_INSTALL_PREFIX=${QT_ROOT} -DOPENSSL_ROOT_DIR=/usr/local/lib64 -DQT_BUILD_TESTS=OFF -DQT_BUILD_EXAMPLES=ON -DQT_FEATURE_thread=ON -DQT_FEATURE_xcb=ON -DQT_FEATURE_openssl_runtime=OFF -DQT_FEATURE_openssl_linked=ON && \
     cmake --build . --parallel && \
     cmake --install . \
     ; fi
