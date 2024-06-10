@@ -6,7 +6,7 @@ export BRANCH=${BRANCH:=master}
 cd /var/www/html/
 
 # Run 'apt-get update' to unlock files. This seems neccessary on self hosted runners with fuse-overlayfs,
-# otherwise git checkout will error out with 'file exists' error. Needs to be run here, doesn't work when 
+# otherwise git checkout will error out with 'file exists' error. Needs to be run here, doesn't work when
 # done inside the Dockerfile
 apt-get update
 
@@ -40,7 +40,7 @@ else
 fi
 
 
-if test -z "$REDIS" 
+if test -z "$REDIS"
 then
 	  echo "\$REDIS not set, ignoring..."
 else

@@ -3,6 +3,8 @@
 set -e
 cd /var/www/html/
 
+echo "Listen 8080" >> /etc/apache2/ports.conf
+
 . /etc/apache2/envvars
 
 # allow php and apache2 to create their run socket

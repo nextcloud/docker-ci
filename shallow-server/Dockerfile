@@ -41,6 +41,8 @@ ADD ssl/dhparam.pem /etc/ssl/certs/
 ADD ssl/default-ssl.conf /etc/apache2/conf-available/ssl-params.conf
 ADD ssl/nextcloud.crt /etc/ssl/certs/nextcloud.crt
 ADD ssl/nextcloud.key /etc/ssl/private/nextcloud.key
+ADD ssl/dev-test-key.crt /etc/ssl/certs/dev-test-key.crt
+ADD ssl/dev-test-key.key /etc/ssl/private/dev-test-key.key
 ADD ssl/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 ADD default-nextcloud.conf /etc/apache2/sites-enabled/default-nextcloud.conf
 ADD nextcloud.ini /etc/php/8.1/apache2/conf.d/nextcloud.ini
