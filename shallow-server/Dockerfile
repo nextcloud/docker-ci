@@ -25,11 +25,13 @@ WORKDIR /var/www/html
 # so rename it first and then remove it
 RUN mv /var/www/html/ /var/www/html2/ && rm -rf /var/www/html2/
 RUN mkdir -p /var/www/html
+RUN chown www-data:www-data .
 
+USER www-data
 RUN git clone --depth 1 https://github.com/nextcloud/server.git .
 RUN git submodule update --init --depth 1
+USER root
 
-RUN chown -R www-data:www-data .
 RUN chsh -s /bin/bash www-data
 
 ADD initnc.sh /usr/local/bin/
