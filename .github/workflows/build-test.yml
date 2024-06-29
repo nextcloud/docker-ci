@@ -33,7 +33,7 @@ jobs:
       id: dockerfile
       run: |
         FILES=$( echo '${{ steps.files.outputs.added_modified }}' | jq -c 'map(select(. | endswith("Dockerfile")))' )
-        echo "::set-output name=matrix::$FILES"
+        echo "matrix=$FILES" >> "$GITHUB_OUTPUT"
 
   build:
     runs-on: ubuntu-latest
