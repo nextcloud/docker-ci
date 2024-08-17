@@ -61,7 +61,7 @@ class TranslatableApp {
 		print_r($this->ignoreFiles);
 	}
 
-	public function createOrCheckPotFile(bool $checkFiles=false) {
+	public function createOrCheckPotFile(bool $checkFiles = false) {
 		$pathToPotFile = $this->translationsPath . '/templates/' . $this->name . '.pot';
 
 		// Gather required data
