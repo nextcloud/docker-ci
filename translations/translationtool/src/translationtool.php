@@ -536,7 +536,7 @@ class TranslationTool {
 		// we assume the first line looks like this 'xgettext (GNU gettext-tools) 0.19.3'
 		$version = trim(substr($output[0], 29));
 
-		$this->log("xgettext version : ". $version);
+		$this->log("xgettext version: ". $version);
 
 		if (version_compare($version, '0.18.3', '<')) {
 			echo 'Minimum expected version of xgettext is 0.18.3. Detected: ' . $version . '".' . PHP_EOL;
