@@ -680,8 +680,10 @@ if(empty($task) && !$usage) {
 }
 
 if ($usage) {
-	echo 'call "' . $TOOLNAME . ' $task [$appName]' . PHP_EOL;
-	echo '$task: create-pot-files || convert-po-files || check-files' . PHP_EOL;
+	echo 'Usage:' . PHP_EOL;
+	echo ' ' . $TOOLNAME . ' <task> [<appName>]' . PHP_EOL;
+	echo 'Arguments:' . PHP_EOL;
+	echo ' task:            One of: create-pot-files, convert-po-files, check-files' . PHP_EOL;
 	echo "Options:". PHP_EOL;
 	echo " -v, --verbose    Verbose mode". PHP_EOL;
 	echo " -h, --help       Display command usage". PHP_EOL;
