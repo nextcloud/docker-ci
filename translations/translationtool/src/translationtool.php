@@ -140,7 +140,7 @@ class TranslatableApp {
 					continue;
 				}
 				if ($first) {
-					echo '** Warning : Check potentially missing translations sentences : ' . $this->name . ' ' . $entry . PHP_EOL;
+					echo '** Warning: Check potentially missing translations sentences: ' . $this->name . ' ' . $entry . PHP_EOL;
 					$first = false;
 				}
 				if ($translation->hasReferences()) {
