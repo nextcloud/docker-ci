@@ -17,7 +17,8 @@ RUN apt-get update && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-COPY opcache-recommended.ini /usr/local/etc/php/conf.d/
+COPY opcache-recommended.ini /etc/php/8.1/cli/conf.d/99-opcache-recommended.ini
+COPY apc-cli-enable.ini /etc/php/8.1/cli/conf.d/99-apc-cli-enable.ini
 
 WORKDIR /var/www/html
 

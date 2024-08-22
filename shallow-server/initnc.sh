@@ -47,3 +47,14 @@ else
 	php occ config:system:set --type string --value '\\OC\\Memcache\\Redis' memcache.distributed
 	"
 fi
+
+if test -z "$APCU" 
+then
+	  echo "\$APCU not set, ignoring..."
+else
+    su www-data -c "
+	php occ config:system:set memcache.local --value '\OC\Memcache\APCu'
+	php occ config:system:set memcache.distributed --value '\OC\Memcache\APCu'
+	php occ config:system:set hashing_default_password --value true --type boolean
+	"
+fi
