@@ -5,10 +5,12 @@ on:
     branches: [ master ]
     paths:
       - '*/Dockerfile'
+      - '.github/workflows/build-test.yml'
   pull_request:
     branches: [ master ]
     paths:
       - '*/Dockerfile'
+      - '.github/workflows/build-test.yml'      
 
 jobs:
   files:
