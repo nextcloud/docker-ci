@@ -52,7 +52,7 @@ do
     fi
   fi
 
-  # prepate git commit
+  # prepare git commit
   git add l10n/*.js l10n/*.json || true
 
   cd ..
