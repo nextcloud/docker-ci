@@ -30,10 +30,12 @@ class TranslatableApp {
 	private $fakeLocaleFile;
 	private $ignoreFiles;
 	private $translationsPath;
+	private $tool;
 
-	public function __construct($appPath, $translationsPath) {
+	public function __construct($appPath, $translationsPath, $tool) {
 		$this->appPath = $appPath;
 		$this->translationsPath = $translationsPath;
+		$this->tool = $tool;
 
 		$this->ignoreFiles = [];
 		$this->fakeAppInfoFile = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
@@ -59,7 +61,7 @@ class TranslatableApp {
 		print_r($this->ignoreFiles);
 	}
 
-	public function createPotFile() {
+	public function createOrCheckPotFile(bool $checkFiles = false) {
 		$pathToPotFile = $this->translationsPath . '/templates/' . $this->name . '.pot';
 
 		// Gather required data
@@ -95,13 +97,60 @@ class TranslatableApp {
 				$joinexisting = '--join-existing';
 			}
 
-			exec('xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments);
+			$extractAll = $tmpfname = $skipErrors = '';
+			if ($checkFiles) {
+				$extractAll = '--extract-all';
+
+				// modify output
+				$tmpfname =  tempnam(sys_get_temp_dir(), 'checkpot');
+				$output = '--output=' . $tmpfname;
+				// extract-all generates a recurrent warning
+				$skipErrors = "2>/dev/null";
+			}
+
+			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' ' . $skipErrors;
+			$this->tool->log($xgetCmd);
+			exec($xgetCmd);
+
+			// checking files
+			if ($checkFiles) {
+				$this->checkMissingTranslations($entry, $tmpfname);
+				unlink($tmpfname);
+			}
 		}
 
 		// Don't forget to remove the temporary file
 		$this->deleteFakeFileForAppInfo();
 		$this->deleteFakeFileForVueFiles();
 		$this->deleteFakeFileForLocale();
+	}
+
+	private function checkMissingTranslations(string $entry, string $tmpfname) {
+		$translations = Gettext\Translations::fromPoFile($tmpfname);
+		$first=true;
+		foreach($translations as $translation) {
+			if (preg_match_all('/(^|[^a-zA-Z_]+)(t\([^\)]*\))/', $translation->getOriginal(), $matches)) {
+				$suspects = [];
+				foreach($matches[2] as $miss) {
+					if (preg_match('/["\']'.$this->name.'["\']/', $miss )) {
+						$suspects[] = $miss;
+					}
+				}
+				if (empty($suspects)) {
+					continue;
+				}
+				if ($first) {
+					echo '** Warning: Check potentially missing translations sentences: ' . $this->name . ' ' . $entry . PHP_EOL;
+					$first = false;
+				}
+				if ($translation->hasReferences()) {
+					echo '> Starting at line ' . $translation->getReferences()[0][1] . PHP_EOL;
+				}
+				foreach($suspects as $suspect) {
+					echo '  -> ' . $suspect . PHP_EOL;
+				}
+			}
+		}
 	}
 
 	public function createNextcloudFiles() {
@@ -464,6 +513,7 @@ class TranslatableApp {
 class TranslationTool {
 	private $translationPath;
 	private $appPaths;
+	private $verbose = 0;
 
 	public function __construct(){
 		$this->translationPath = getcwd() . '/translationfiles';
@@ -474,6 +524,10 @@ class TranslationTool {
 		}
 	}
 
+	public function setVerbose(int $verbose) {
+		$this->verbose = $verbose;
+	}
+
 	public function checkEnvironment() {
 		// Check if the version of xgettext is at least 0.18.3
 		$output = [];
@@ -481,6 +535,8 @@ class TranslationTool {
 
 		// we assume the first line looks like this 'xgettext (GNU gettext-tools) 0.19.3'
 		$version = trim(substr($output[0], 29));
+
+		$this->log("xgettext version: ". $version);
 
 		if (version_compare($version, '0.18.3', '<')) {
 			echo 'Minimum expected version of xgettext is 0.18.3. Detected: ' . $version . '".' . PHP_EOL;
@@ -503,15 +559,27 @@ class TranslationTool {
 
 		// iterate over all apps
 		foreach ($this->appPaths as $appPath) {
-			$app = new TranslatableApp($appPath, $this->translationPath);
-			$app->createPotFile();
+			$this->log('Application path: ' . $appPath);
+			$app = new TranslatableApp($appPath, $this->translationPath, $this);
+			$app->createOrCheckPotFile();
 		}
 	}
 
 	public function convertPoFiles() {
 		foreach ($this->appPaths as $appPath) {
-			$app = new TranslatableApp($appPath, $this->translationPath);
+			$this->log('Application path: ' . $appPath);
+			$app = new TranslatableApp($appPath, $this->translationPath, $this);
 			$app->createNextcloudFiles();
+		}
+	}
+
+	public function checkFiles() {
+
+		// iterate over all apps
+		foreach ($this->appPaths as $appPath) {
+			$this->log('Application path: ' . $appPath);
+			$app = new TranslatableApp($appPath, $this->translationPath, $this);
+			$app->createOrCheckPotFile(true);
 		}
 	}
 
@@ -539,7 +607,6 @@ class TranslationTool {
 		}
 	}
 
-
 	private function rrmdir($path) {
 		if (!is_dir($path)) {
 			return;
@@ -561,18 +628,70 @@ class TranslationTool {
 
 		rmdir($path);
 	}
+
+	public function log(string $message) {
+		if ($this->verbose == 0) {
+			return;
+		}
+		echo " > " . $message . PHP_EOL;
+	}
+}
+
+// arguments handle
+$task = '';
+$usage = false;
+$verbose = 0;
+$returnValue = true;
+
+$index = 0;
+foreach ($argv as $arg) {
+	$index++;
+	if ($index == 1) {
+		$TOOLNAME = $arg;
+		continue;
+	}
+	switch($arg) {
+		case '-h':
+		case '--help':
+			$usage = true;
+			break;
+		case '-v':
+		case '--verbose':
+			$verbose++;
+			break;
+		case 'create-pot-files':
+		case 'convert-po-files':
+		case 'check-files':
+			$task = $arg;
+			break;
+		default:
+			echo "Unknown command parameter : " . $arg . PHP_EOL;
+			$usage = true;
+			$returnValue = false;
+			break;
+		}
 }
 
 // read the command line arguments
-if(count($argv) < 2) {
+if(empty($task) && !$usage) {
 	echo 'Missing arguments' . PHP_EOL;
-	echo 'call "' . $argv[0] . ' $task [$appName]' . PHP_EOL;
-	echo '$task: create-pot-files || convert-po-files' . PHP_EOL;
-	return false;
+	$usage = true;
+	$returnValue = false;
 }
-$task = $argv[1];
+
+if ($usage) {
+	echo 'Usage:' . PHP_EOL;
+	echo ' ' . $TOOLNAME . ' <task> [<appName>]' . PHP_EOL;
+	echo 'Arguments:' . PHP_EOL;
+	echo ' task:            One of: create-pot-files, convert-po-files, check-files' . PHP_EOL;
+	echo "Options:". PHP_EOL;
+	echo " -v, --verbose    Verbose mode". PHP_EOL;
+	echo " -h, --help       Display command usage". PHP_EOL;
+	return $returnValue;
+}
 
 $tool = new TranslationTool();
+$tool->setVerbose($verbose);
 if (!$tool->checkEnvironment()) {
 	return false;
 }
@@ -581,6 +700,8 @@ if ($task === 'create-pot-files') {
 	$tool->createPotFiles();
 } elseif ($task === 'convert-po-files') {
 	$tool->convertPoFiles();
+} elseif ($task === 'check-files') {
+	$tool->checkFiles();
 } else {
 	echo 'Unknown task: "' . $task . '".' . PHP_EOL;
 	return false;
