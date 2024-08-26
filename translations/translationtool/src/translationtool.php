@@ -1,43 +1,29 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Jakob Sack <nextcloud@jakobsack.de>
- *
- * @author Jakob Sack <nextcloud@jakobsack.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 Jakob Sack <nextcloud@jakobsack.de>
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 require __DIR__ . '/vendor/autoload.php';
 
 class TranslatableApp {
-	private $appPath;
-	private $name;
-	private $fakeAppInfoFile;
-	private $fakeVueFile;
-	private $fakeLocaleFile;
-	private $ignoreFiles;
-	private $translationsPath;
-	private $tool;
+	private string $appPath;
+	private string $name = '';
+	private string $fakeAppInfoFile;
+	private string $fakeVueFile;
+	private string $fakeLocaleFile;
+	private array $ignoreFiles = [];
+	private string $translationsPath;
+	private TranslationTool $tool;
 
-	public function __construct($appPath, $translationsPath, $tool) {
+	public function __construct(string $appPath, string $translationsPath, TranslationTool $tool) {
 		$this->appPath = $appPath;
 		$this->translationsPath = $translationsPath;
 		$this->tool = $tool;
 
-		$this->ignoreFiles = [];
 		$this->fakeAppInfoFile = $this->appPath . '/specialAppInfoFakeDummyForL10nScript.php';
 		$this->fakeVueFile = $this->appPath . '/specialVueFakeDummyForL10nScript.js';
 		$this->fakeLocaleFile = $this->appPath . '/specialLocaleFakeDummyForL10nScript.php';
@@ -61,7 +47,7 @@ class TranslatableApp {
 		print_r($this->ignoreFiles);
 	}
 
-	public function createOrCheckPotFile(bool $checkFiles = false) {
+	public function createOrCheckPotFile(bool $checkFiles = false): void {
 		$pathToPotFile = $this->translationsPath . '/templates/' . $this->name . '.pot';
 
 		// Gather required data
@@ -102,10 +88,10 @@ class TranslatableApp {
 				$extractAll = '--extract-all';
 
 				// modify output
-				$tmpfname =  tempnam(sys_get_temp_dir(), 'checkpot');
+				$tmpfname = tempnam(sys_get_temp_dir(), 'checkpot');
 				$output = '--output=' . $tmpfname;
 				// extract-all generates a recurrent warning
-				$skipErrors = "2>/dev/null";
+				$skipErrors = '2>/dev/null';
 			}
 
 			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' ' . $skipErrors;
@@ -125,14 +111,14 @@ class TranslatableApp {
 		$this->deleteFakeFileForLocale();
 	}
 
-	private function checkMissingTranslations(string $entry, string $tmpfname) {
+	private function checkMissingTranslations(string $entry, string $tmpfname): void {
 		$translations = Gettext\Translations::fromPoFile($tmpfname);
-		$first=true;
+		$first = true;
 		foreach($translations as $translation) {
 			if (preg_match_all('/(^|[^a-zA-Z_]+)(t\([^\)]*\))/', $translation->getOriginal(), $matches)) {
 				$suspects = [];
 				foreach($matches[2] as $miss) {
-					if (preg_match('/["\']'.$this->name.'["\']/', $miss )) {
+					if (preg_match('/["\']'.$this->name.'["\']/', $miss)) {
 						$suspects[] = $miss;
 					}
 				}
@@ -153,7 +139,7 @@ class TranslatableApp {
 		}
 	}
 
-	public function createNextcloudFiles() {
+	public function createNextcloudFiles(): void {
 		foreach ($this->findLanguages() as $language) {
 			$poFile = $this->translationsPath . '/' . $language . '/' . $this->name . '.po';
 			$translations = Gettext\Translations::fromPoFile($poFile);
@@ -195,7 +181,7 @@ class TranslatableApp {
 		}
 	}
 
-	private function writeJsFile($language, $plurals, $strings) {
+	private function writeJsFile(string $language, string $plurals, array $strings): void {
 		$outfile = fopen($this->appPath . '/l10n/' . $language . '.js', 'w');
 		fwrite($outfile, 'OC.L10N.register(' . PHP_EOL);
 		fwrite($outfile, '    "' . $this->name . '",' . PHP_EOL);
@@ -207,7 +193,7 @@ class TranslatableApp {
 		fclose($outfile);
 	}
 
-	private function writeJsonFile($language, $plurals, $strings){
+	private function writeJsonFile(string $language, string $plurals, array $strings): void {
 		$outfile = fopen($this->appPath . '/l10n/' . $language . '.json', 'w');
 		fwrite($outfile, '{ "translations": {' . PHP_EOL);
 		fwrite($outfile, '    ');
@@ -216,11 +202,11 @@ class TranslatableApp {
 		fclose($outfile);
 	}
 
-	private function escape($string) {
+	private function escape(string $string): string {
 		return Gettext\Generators\Po::convertString($string);
 	}
 
-	private function hasExtension($fileName, $extensions) {
+	private function hasExtension(string $fileName, string $extensions): bool {
 		foreach ($extensions as $ext) {
 			if (substr($fileName, -strlen($ext)) === $ext) {
 				return true;
@@ -229,7 +215,7 @@ class TranslatableApp {
 		return false;
 	}
 
-	private function findTranslatableFiles(array $extensions, array $ignoredExtensions = [], $path = '') {
+	private function findTranslatableFiles(array $extensions, array $ignoredExtensions = [], string $path = ''): array {
 		$realPath = $path === '' ? $this->appPath : $this->appPath . '/' . $path;
 		$translatable = [];
 
@@ -250,7 +236,7 @@ class TranslatableApp {
 					continue 2;
 				}
 			}
-			if (is_dir($newRealPath) && $entry != 'l10n' && $entry != 'node_modules') {
+			if (is_dir($newRealPath) && $entry !== 'l10n' && $entry !== 'node_modules') {
 				$translatable = array_merge($translatable, $this->findTranslatableFiles($extensions, $ignoredExtensions, $newPath));
 			}
 			if (is_file($newRealPath)) {
@@ -264,10 +250,10 @@ class TranslatableApp {
 		return $translatable;
 	}
 
-	private function findLanguages() {
+	private function findLanguages(): array {
 		$languages = [];
-		$directoryectoryContent = scandir($this->translationsPath);
-		foreach ($directoryectoryContent as $entry) {
+		$directoryContent = scandir($this->translationsPath);
+		foreach ($directoryContent as $entry) {
 			if ($entry[0] === '.' || $entry === 'templates' || !is_dir($this->translationsPath . '/' . $entry)) {
 				continue;
 			}
@@ -288,7 +274,7 @@ class TranslatableApp {
 		}
 
 		$strings = [];
-		$xml = simplexml_load_file($entryName);
+		$xml = simplexml_load_string(file_get_contents($entryName));
 
 		if ($xml->name) {
 			$strings[] = $xml->name->__toString();
@@ -365,13 +351,13 @@ class TranslatableApp {
 		file_put_contents($this->fakeAppInfoFile, $content);
 	}
 
-	private function createFakeFileForVueFiles() {
+	private function createFakeFileForVueFiles(): void {
 		$fakeFileContent = '';
 
 		foreach ($this->findTranslatableFiles(['.vue']) as $vueFile) {
 			$vueSource = file_get_contents($vueFile);
 			if ($vueSource === false) {
-				echo "Warning: could not read " . $vueFile . PHP_EOL;
+				echo 'Warning: could not read ' . $vueFile . PHP_EOL;
 				continue;
 			}
 
@@ -397,7 +383,7 @@ class TranslatableApp {
 			foreach (array_keys($matches2) as $k) {
 				$match2 = $matches2[$k];
 				$match3 = $matches3[$k];
-				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource,$matches0[$k]);
+				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
 				$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match2) . "', '" . preg_replace('/\s+/', ' ', $match3) . "');" . PHP_EOL;
 			}
 		}
@@ -450,19 +436,19 @@ class TranslatableApp {
 		return '// TRANSLATORS ' . $relativeVuePath . ':' . $lineNumber . PHP_EOL;
 	}
 
-	private function deleteFakeFileForAppInfo() {
-		if (is_file($this->fakeAppInfoFile)){
+	private function deleteFakeFileForAppInfo(): void {
+		if (is_file($this->fakeAppInfoFile)) {
 			unlink($this->fakeAppInfoFile);
 		}
 	}
 
-	private function deleteFakeFileForVueFiles() {
-		if (is_file($this->fakeVueFile)){
+	private function deleteFakeFileForVueFiles(): void {
+		if (is_file($this->fakeVueFile)) {
 			unlink($this->fakeVueFile);
 		}
 	}
 
-	private function setAppName() {
+	private function setAppName(): void {
 		$xmlFile = $this->appPath . '/appinfo/info.xml';
 
 		$this->name = basename($this->appPath);
@@ -471,7 +457,7 @@ class TranslatableApp {
 			return;
 		}
 
-		$xml = simplexml_load_file($xmlFile);
+		$xml = simplexml_load_string(file_get_contents($xmlFile));
 
 		if ($xml->name) {
 			$this->name = $xml->id->__toString();
@@ -503,19 +489,19 @@ class TranslatableApp {
 		file_put_contents($this->fakeLocaleFile, $content);
 	}
 
-	private function deleteFakeFileForLocale() {
-		if (is_file($this->fakeLocaleFile)){
+	private function deleteFakeFileForLocale(): void {
+		if (is_file($this->fakeLocaleFile)) {
 			unlink($this->fakeLocaleFile);
 		}
 	}
 }
 
 class TranslationTool {
-	private $translationPath;
-	private $appPaths;
-	private $verbose = 0;
+	private string $translationPath;
+	private array $appPaths;
+	private int $verbose = 0;
 
-	public function __construct(){
+	public function __construct() {
 		$this->translationPath = getcwd() . '/translationfiles';
 		$this->appPaths = [];
 
@@ -524,11 +510,11 @@ class TranslationTool {
 		}
 	}
 
-	public function setVerbose(int $verbose) {
+	public function setVerbose(int $verbose): void {
 		$this->verbose = $verbose;
 	}
 
-	public function checkEnvironment() {
+	public function checkEnvironment(): bool {
 		// Check if the version of xgettext is at least 0.18.3
 		$output = [];
 		exec('xgettext --version', $output);
@@ -536,7 +522,7 @@ class TranslationTool {
 		// we assume the first line looks like this 'xgettext (GNU gettext-tools) 0.19.3'
 		$version = trim(substr($output[0], 29));
 
-		$this->log("xgettext version: ". $version);
+		$this->log('xgettext version: '. $version);
 
 		if (version_compare($version, '0.18.3', '<')) {
 			echo 'Minimum expected version of xgettext is 0.18.3. Detected: ' . $version . '".' . PHP_EOL;
@@ -552,7 +538,7 @@ class TranslationTool {
 		return true;
 	}
 
-	public function createPotFiles() {
+	public function createPotFiles(): void {
 		// Recreate folder for the templates
 		$this->rrmdir($this->translationPath . '/templates');
 		mkdir($this->translationPath . '/templates');
@@ -565,7 +551,7 @@ class TranslationTool {
 		}
 	}
 
-	public function convertPoFiles() {
+	public function convertPoFiles(): void {
 		foreach ($this->appPaths as $appPath) {
 			$this->log('Application path: ' . $appPath);
 			$app = new TranslatableApp($appPath, $this->translationPath, $this);
@@ -573,8 +559,7 @@ class TranslationTool {
 		}
 	}
 
-	public function checkFiles() {
-
+	public function checkFiles(): void {
 		// iterate over all apps
 		foreach ($this->appPaths as $appPath) {
 			$this->log('Application path: ' . $appPath);
@@ -583,7 +568,7 @@ class TranslationTool {
 		}
 	}
 
-	private function findApps($path){
+	private function findApps(string $path): void {
 		$directoryectoryContent = scandir($path);
 		foreach ($directoryectoryContent as $entry) {
 			if ($entry[0] === '.') {
@@ -607,7 +592,7 @@ class TranslationTool {
 		}
 	}
 
-	private function rrmdir($path) {
+	private function rrmdir(string $path): void {
 		if (!is_dir($path)) {
 			return;
 		}
@@ -629,11 +614,11 @@ class TranslationTool {
 		rmdir($path);
 	}
 
-	public function log(string $message) {
-		if ($this->verbose == 0) {
+	public function log(string $message): void {
+		if ($this->verbose === 0) {
 			return;
 		}
-		echo " > " . $message . PHP_EOL;
+		echo ' > ' . $message . PHP_EOL;
 	}
 }
 
@@ -641,13 +626,14 @@ class TranslationTool {
 $task = '';
 $usage = false;
 $verbose = 0;
-$returnValue = true;
+$returnValue = 0;
+$toolName = 'translationtool';
 
 $index = 0;
 foreach ($argv as $arg) {
 	$index++;
-	if ($index == 1) {
-		$TOOLNAME = $arg;
+	if ($index === 1) {
+		$toolName = $arg;
 		continue;
 	}
 	switch($arg) {
@@ -665,35 +651,35 @@ foreach ($argv as $arg) {
 			$task = $arg;
 			break;
 		default:
-			echo "Unknown command parameter : " . $arg . PHP_EOL;
+			echo 'Unknown command parameter : ' . $arg . PHP_EOL;
 			$usage = true;
-			$returnValue = false;
+			$returnValue = 1;
 			break;
-		}
+	}
 }
 
 // read the command line arguments
 if(empty($task) && !$usage) {
 	echo 'Missing arguments' . PHP_EOL;
 	$usage = true;
-	$returnValue = false;
+	$returnValue = 1;
 }
 
 if ($usage) {
 	echo 'Usage:' . PHP_EOL;
-	echo ' ' . $TOOLNAME . ' <task> [<appName>]' . PHP_EOL;
+	echo ' ' . $toolName . ' <task> [<appName>]' . PHP_EOL;
 	echo 'Arguments:' . PHP_EOL;
 	echo ' task:            One of: create-pot-files, convert-po-files, check-files' . PHP_EOL;
-	echo "Options:". PHP_EOL;
-	echo " -v, --verbose    Verbose mode". PHP_EOL;
-	echo " -h, --help       Display command usage". PHP_EOL;
-	return $returnValue;
+	echo 'Options:'. PHP_EOL;
+	echo ' -v, --verbose    Verbose mode'. PHP_EOL;
+	echo ' -h, --help       Display command usage'. PHP_EOL;
+	exit($returnValue);
 }
 
 $tool = new TranslationTool();
 $tool->setVerbose($verbose);
 if (!$tool->checkEnvironment()) {
-	return false;
+	exit(1);
 }
 
 if ($task === 'create-pot-files') {
@@ -704,5 +690,5 @@ if ($task === 'create-pot-files') {
 	$tool->checkFiles();
 } else {
 	echo 'Unknown task: "' . $task . '".' . PHP_EOL;
-	return false;
+	exit(1);
 }
