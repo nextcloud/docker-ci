@@ -88,10 +88,10 @@ class TranslatableApp {
 				$extractAll = '--extract-all';
 
 				// modify output
-				$tmpfname =  tempnam(sys_get_temp_dir(), 'checkpot');
+				$tmpfname = tempnam(sys_get_temp_dir(), 'checkpot');
 				$output = '--output=' . $tmpfname;
 				// extract-all generates a recurrent warning
-				$skipErrors = "2>/dev/null";
+				$skipErrors = '2>/dev/null';
 			}
 
 			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' ' . $skipErrors;
@@ -118,7 +118,7 @@ class TranslatableApp {
 			if (preg_match_all('/(^|[^a-zA-Z_]+)(t\([^\)]*\))/', $translation->getOriginal(), $matches)) {
 				$suspects = [];
 				foreach($matches[2] as $miss) {
-					if (preg_match('/["\']'.$this->name.'["\']/', $miss )) {
+					if (preg_match('/["\']'.$this->name.'["\']/', $miss)) {
 						$suspects[] = $miss;
 					}
 				}
@@ -357,7 +357,7 @@ class TranslatableApp {
 		foreach ($this->findTranslatableFiles(['.vue']) as $vueFile) {
 			$vueSource = file_get_contents($vueFile);
 			if ($vueSource === false) {
-				echo "Warning: could not read " . $vueFile . PHP_EOL;
+				echo 'Warning: could not read ' . $vueFile . PHP_EOL;
 				continue;
 			}
 
@@ -383,7 +383,7 @@ class TranslatableApp {
 			foreach (array_keys($matches2) as $k) {
 				$match2 = $matches2[$k];
 				$match3 = $matches3[$k];
-				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource,$matches0[$k]);
+				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
 				$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match2) . "', '" . preg_replace('/\s+/', ' ', $match3) . "');" . PHP_EOL;
 			}
 		}
@@ -437,13 +437,13 @@ class TranslatableApp {
 	}
 
 	private function deleteFakeFileForAppInfo(): void {
-		if (is_file($this->fakeAppInfoFile)){
+		if (is_file($this->fakeAppInfoFile)) {
 			unlink($this->fakeAppInfoFile);
 		}
 	}
 
 	private function deleteFakeFileForVueFiles(): void {
-		if (is_file($this->fakeVueFile)){
+		if (is_file($this->fakeVueFile)) {
 			unlink($this->fakeVueFile);
 		}
 	}
@@ -490,7 +490,7 @@ class TranslatableApp {
 	}
 
 	private function deleteFakeFileForLocale(): void {
-		if (is_file($this->fakeLocaleFile)){
+		if (is_file($this->fakeLocaleFile)) {
 			unlink($this->fakeLocaleFile);
 		}
 	}
@@ -501,7 +501,7 @@ class TranslationTool {
 	private array $appPaths;
 	private int $verbose = 0;
 
-	public function __construct(){
+	public function __construct() {
 		$this->translationPath = getcwd() . '/translationfiles';
 		$this->appPaths = [];
 
@@ -522,7 +522,7 @@ class TranslationTool {
 		// we assume the first line looks like this 'xgettext (GNU gettext-tools) 0.19.3'
 		$version = trim(substr($output[0], 29));
 
-		$this->log("xgettext version: ". $version);
+		$this->log('xgettext version: '. $version);
 
 		if (version_compare($version, '0.18.3', '<')) {
 			echo 'Minimum expected version of xgettext is 0.18.3. Detected: ' . $version . '".' . PHP_EOL;
@@ -618,7 +618,7 @@ class TranslationTool {
 		if ($this->verbose === 0) {
 			return;
 		}
-		echo " > " . $message . PHP_EOL;
+		echo ' > ' . $message . PHP_EOL;
 	}
 }
 
@@ -651,11 +651,11 @@ foreach ($argv as $arg) {
 			$task = $arg;
 			break;
 		default:
-			echo "Unknown command parameter : " . $arg . PHP_EOL;
+			echo 'Unknown command parameter : ' . $arg . PHP_EOL;
 			$usage = true;
 			$returnValue = 1;
 			break;
-		}
+	}
 }
 
 // read the command line arguments
@@ -670,9 +670,9 @@ if ($usage) {
 	echo ' ' . $toolName . ' <task> [<appName>]' . PHP_EOL;
 	echo 'Arguments:' . PHP_EOL;
 	echo ' task:            One of: create-pot-files, convert-po-files, check-files' . PHP_EOL;
-	echo "Options:". PHP_EOL;
-	echo " -v, --verbose    Verbose mode". PHP_EOL;
-	echo " -h, --help       Display command usage". PHP_EOL;
+	echo 'Options:'. PHP_EOL;
+	echo ' -v, --verbose    Verbose mode'. PHP_EOL;
+	echo ' -h, --help       Display command usage'. PHP_EOL;
 	exit($returnValue);
 }
 
