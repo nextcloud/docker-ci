@@ -256,3 +256,8 @@ RUN curl -sSLo /opt/sonar/build-wrapper-linux-x86.zip ${BUILD_WRAPPER_DOWNLOAD_U
           unzip -o /opt/sonar/build-wrapper-linux-x86.zip -d /opt/sonar/
 
 ENV PATH=/opt/sonar/build-wrapper-linux-x86:${PATH}
+
+# Install Python properly (e.g. for clang-tidy-pr-comments)
+ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+ENV RUNNER_TOOL_CACHE=/opt/hostedtoolcache
+RUN mkdir -p "${AGENT_TOOLSDIRECTORY}"
