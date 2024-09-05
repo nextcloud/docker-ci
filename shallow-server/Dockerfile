@@ -13,7 +13,7 @@ RUN apt-get update && \
     php-dompdf php8.1-apcu redis-server php8.1-redis php8.1-smbclient \
     php8.1-ldap unzip php8.1-pgsql php8.1-sqlite make apache2 \
     php8.1-opcache libmagickcore-6.q16-2-extra \
-    libapache2-mod-php8.1 && \
+    libapache2-mod-php8.1 fonts-roboto && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
