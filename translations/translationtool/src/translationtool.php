@@ -206,7 +206,7 @@ class TranslatableApp {
 		return Gettext\Generators\Po::convertString($string);
 	}
 
-	private function hasExtension(string $fileName, string $extensions): bool {
+	private function hasExtension(string $fileName, array $extensions): bool {
 		foreach ($extensions as $ext) {
 			if (substr($fileName, -strlen($ext)) === $ext) {
 				return true;
