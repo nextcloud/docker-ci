@@ -21,6 +21,8 @@
 	"scripts": {
 		"cs:check": "php-cs-fixer fix --dry-run --diff",
 		"cs:fix": "php-cs-fixer fix",
+		"test": "cd tests && bash test.sh",
+
 		"post-install-cmd": [
 			"@composer bin all install --ansi"
 		],

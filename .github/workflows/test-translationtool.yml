@@ -1,0 +1,53 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Test translationtool
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: test-translationtool-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Install gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install gettext
+
+      - name: Set up php8.1
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2.31.1
+        with:
+          php-version: 8.1
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: none
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies of translationtool/ directory
+        working-directory: translations/translationtool/
+        run: composer i
+
+      - name: Install dependencies of translationtool.php
+        working-directory: translations/translationtool/src
+        run: composer i
+
+      - name: Create POT files
+        working-directory: translations/translationtool/
+        run: composer run test
