@@ -1,0 +1,168 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Nextcloud package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+
+#. TRANSLATORS PHP string with plain text
+#: lib/php.php:12
+msgid "PHP String"
+msgstr ""
+
+#. TRANSLATORS PHP string with parameters
+#: lib/php.php:14
+#, php-format
+msgid "PHP String with %s"
+msgstr ""
+
+#. TRANSLATORS PHP string with positional parameters
+#: lib/php.php:16
+#, php-format
+msgid "PHP String with positional %1$s"
+msgstr ""
+
+#. TRANSLATORS PHP plural with plain text
+#: lib/php.php:21
+msgid "PHP %n Plural"
+msgid_plural "PHP %n Plurals"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS PHP plural with parameters
+#: lib/php.php:23
+msgid "PHP %n Plural with %s"
+msgid_plural "PHP %n Plurals with %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS PHP plural with positional parameters
+#: lib/php.php:27
+msgid "PHP %n Plural with positional %1$s"
+msgid_plural "PHP %n Plurals with positional %1$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS VUE string with plain text (src/vue.vue:8)
+#: specialVueFakeDummyForL10nScript.js:2
+msgid "VUE String"
+msgstr ""
+
+#. TRANSLATORS VUE string with parameters (src/vue.vue:10)
+#: specialVueFakeDummyForL10nScript.js:4
+msgid "VUE String with inline {parameter}"
+msgstr ""
+
+#. TRANSLATORS VUE string with wrapped parameters (src/vue.vue:12)
+#: specialVueFakeDummyForL10nScript.js:6
+msgid "VUE String with wrapped {parameter}"
+msgstr ""
+
+#. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 1 (src/vue.vue:26)
+#: specialVueFakeDummyForL10nScript.js:8
+msgid "VUE String testing"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:8
+msgid "VUE String not"
+msgstr ""
+
+#. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 2 (src/vue.vue:29)
+#: specialVueFakeDummyForL10nScript.js:10
+msgid "VUE String with followup double quotes"
+msgstr ""
+
+#. TRANSLATORS VUE plural with plain text (src/vue.vue:17)
+#: specialVueFakeDummyForL10nScript.js:12
+msgid "VUE %n Plural"
+msgid_plural "VUE %n Plurals"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS VUE plural with wrapped parameters (src/vue.vue:21)
+#: specialVueFakeDummyForL10nScript.js:16
+msgid "VUE %n Plural with wrapped %s"
+msgid_plural "VUE %n Plurals with wrapped %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS VUE plural with parameters (src/vue.vue:19)
+#: specialVueFakeDummyForL10nScript.js:14
+msgid "VUE %n Plural with %s"
+msgid_plural "VUE %n Plurals with %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS JS string with plain text
+#: src/js.js:7
+msgid "JS String"
+msgstr ""
+
+#. TRANSLATORS JS string with parameters
+#: src/js.js:9
+msgid "JS String with inline {parameter}"
+msgstr ""
+
+#. TRANSLATORS JS string with wrapped parameters
+#: src/js.js:11
+msgid "JS String with wrapped {parameter}"
+msgstr ""
+
+#. TRANSLATORS JS plural with plain text
+#: src/js.js:16
+msgid "JS %n Plural"
+msgid_plural "JS %n Plurals"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS JS plural with parameters
+#: src/js.js:18
+msgid "JS %n Plural with %s"
+msgid_plural "JS %n Plurals with %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS JS plural with wrapped parameters
+#: src/js.js:20
+msgid "JS %n Plural with wrapped %s"
+msgid_plural "JS %n Plurals with wrapped %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS TS string with plain text
+#: src/ts.ts:7
+msgid "TS String"
+msgstr ""
+
+#. TRANSLATORS TS string with parameters
+#: src/ts.ts:9
+msgid "TS String with inline {parameter}"
+msgstr ""
+
+#. TRANSLATORS TS string with wrapped parameters
+#: src/ts.ts:11
+msgid "TS String with wrapped {parameter}"
+msgstr ""
+
+#. TRANSLATORS TS plural with plain text
+#: src/ts.ts:16
+msgid "TS %n Plural"
+msgid_plural "TS %n Plurals"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS TS plural with parameters
+#: src/ts.ts:18
+msgid "TS %n Plural with %s"
+msgid_plural "TS %n Plurals with %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS TS plural with wrapped parameters
+#: src/ts.ts:20
+msgid "TS %n Plural with wrapped %s"
+msgid_plural "TS %n Plurals with wrapped %s"
+msgstr[0] ""
+msgstr[1] ""

@@ -2,3 +2,4 @@ vendor
 composer.phar
 .vscode
 .php-cs-fixer.cache
+/tests/translationfiles/templates/tests.pot
