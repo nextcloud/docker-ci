@@ -234,12 +234,6 @@
       ]
     },
     {
-      "name": "externalandroid-branched",
-      "arguments": [
-        "teifun2 nextcloud-cookbook-flutter transifex"
-      ]
-    },
-    {
       "name": "appstore",
       "arguments": [
         "appstore"
