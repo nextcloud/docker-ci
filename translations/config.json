@@ -36,6 +36,7 @@
         "nextcloud files_confidential",
         "nextcloud files_downloadactivity",
         "nextcloud files_downloadlimit",
+        "nextcloud files_emailviewer",
         "nextcloud files_filter",
         "nextcloud files_fulltextsearch",
         "nextcloud files_lock",
