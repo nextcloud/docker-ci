@@ -69,6 +69,7 @@
         "nextcloud integration_openstreetmap",
         "nextcloud integration_peertube",
         "nextcloud integration_slack",
+        "nextcloud integration_swp",
         "nextcloud integration_reddit",
         "nextcloud integration_replicate",
         "nextcloud integration_tmdb",
