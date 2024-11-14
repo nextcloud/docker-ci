@@ -224,6 +224,7 @@
       "name": "plain",
       "arguments": [
         "nextcloud android",
+        "nextcloud android-library",
         "nextcloud Android-SingleSignOn",
         "nextcloud news-android",
         "nextcloud notes-android",
