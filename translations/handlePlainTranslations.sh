@@ -19,6 +19,10 @@ versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" 
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+# Android library
+if [ -d library/src/main/res ]; then
+  rm -rf library/src/main/res/values-*/strings.xml
+fi
 # Android talk app
 if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-*/strings.xml
@@ -53,6 +57,35 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   cat combined.xml
 
   mv combined.xml ../app/src/main/res/values/strings.xml
+
+  cd ..
+
+  rm -rf stable-values
+fi
+
+if [ $1 = "nextcloud" -a $2 = "android-library" ]; then
+  mkdir stable-values
+  for version in $versions
+  do
+    git checkout $version
+
+    cp library/src/main/res/values/strings.xml stable-values/$version.xml
+  done
+
+  cd stable-values
+  echo '<?xml version="1.0" encoding="utf-8"?>
+  <resources>' >> combined.xml
+
+  grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
+
+  # plurals are hard to compare, so we take only master/main ones
+  awk '/<plurals/,/<\/plurals>/' "$default_branch.xml" >> combined.xml
+
+  echo "</resources>" >> combined.xml
+
+  cat combined.xml
+
+  mv combined.xml ../library/src/main/res/values/strings.xml
 
   cd ..
 
@@ -97,6 +130,11 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   git checkout $default_branch
 fi
 
+if [ $1 = "nextcloud" -a $2 = "android-library" ]; then
+  git checkout -- library/src/main/res/values/strings.xml
+  git checkout $default_branch
+fi
+
 if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   git checkout -- app/src/main/res/values/strings.xml
   git checkout $default_branch
@@ -131,6 +169,12 @@ do
   if [ -d src/main/res ]; then
     rm -rf src/main/res/values-de
     mv src/main/res/values-de-rDE src/main/res/values-de
+  fi
+
+  # for the Android library rename the informal german to the formal version
+  if [ -d library/src/main/res ]; then
+    rm -rf library/src/main/res/values-de
+    mv library/src/main/res/values-de-rDE library/src/main/res/values-de
   fi
 
   # for the Android talk and files app rename the informal german to the formal version
