@@ -56,6 +56,7 @@
         "nextcloud health",
         "nextcloud impersonate",
         "nextcloud integration_discourse",
+        "nextcloud integration_documenso",
         "nextcloud integration_giphy",
         "nextcloud integration_github",
         "nextcloud integration_gitlab",
