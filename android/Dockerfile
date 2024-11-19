@@ -7,7 +7,7 @@ RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales u
 
 RUN mkdir /opt/android-sdk-linux && \
     cd /opt/android-sdk-linux && \
-    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && \
+    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip && \
     unzip android-sdk.zip && \
     rm -f android-sdk.zip && \
     mkdir cmdline-tools/latest && \
