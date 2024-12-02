@@ -5,8 +5,8 @@ MAINTAINER Desktop Team <desktop@nextcloud.com>
 # Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
 ARG BUILD_QT
 
-ENV VER_QT 6.7.3
-ENV VER_QT_DATE 2024-11-21
+ENV VER_QT 6.8.0
+ENV VER_QT_DATE 2024-12-02
 ENV VER_OPENSSL 3.3.2
 ENV VER_LIBP11 libp11-0.4.12
 ENV VER_KFRAMEWORKS 6.7.0
