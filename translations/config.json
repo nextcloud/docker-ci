@@ -216,6 +216,12 @@
       ]
     },
     {
+	  "name": "iosnotes",
+	  "arguments": [
+	    ""
+	  ]
+    },
+    {
       "name": "desktop",
       "arguments": [
         ""
