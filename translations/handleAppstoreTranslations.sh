@@ -33,6 +33,9 @@ tx pull -f -a --minimum-perc=75
 # don't add de_DE translation
 rm -rf locale/de_DE/
 
+# Remove UG translation as they break the HTML markup too regularly which causes deployment issues
+rm -rf locale/ug/
+
 # create git commit and push it
 git add locale/
 git commit -am "Fix(l10n): Update translations from Transifex" -s || true
