@@ -145,7 +145,7 @@ class TranslatableApp {
 			$translations = Gettext\Translations::fromPoFile($poFile);
 
 			$strings = [];
-			$plurals = $translations->getHeader('Plural-Forms');
+			$plurals = $translations->getHeader('Plural-Forms') ?? 'nplurals=2; plural=(n != 1);';
 
 			foreach ($translations as $translation) {
 				if (!$translation->hasTranslation()) {
