@@ -14,7 +14,7 @@ ENV VER_SQLITE 3460100
 ENV VER_SQLITE_YEAR 2024
 ENV VER_QTKEYCHAIN 0.14.3
 
-ENV QT_ROOT /opt/qt${VER_QT}
+ENV QT_ROOT /opt/qt
 
 RUN sed -i '/deb-src/s/^# //' /etc/apt/sources.list && \
     apt-get update && \
