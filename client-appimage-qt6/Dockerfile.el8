@@ -1,0 +1,268 @@
+FROM almalinux/8-base 
+
+MAINTAINER Desktop Team <desktop@nextcloud.com>
+
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+ARG BUILD_QT
+
+ENV VER_QT 6.8.1
+ENV VER_QT_DATE 2025-01-21
+ENV VER_OPENSSL 3.4.0
+ENV VER_LIBP11 libp11-0.4.12
+ENV VER_KFRAMEWORKS 6.10.0
+ENV VER_SQLITE 3460100
+ENV VER_SQLITE_YEAR 2024
+ENV VER_QTKEYCHAIN 0.14.3
+
+ENV QT_ROOT /opt/qt
+
+RUN dnf update -y && \
+    dnf install -y epel-release && \
+    dnf config-manager --set-enabled powertools && \
+    dnf update -y && \
+    dnf install -y \
+        '@Development Tools' \
+        alsa-lib-devel \
+        at-spi2-core-devel \
+        clang \
+        clang-devel \
+        cmake \
+        cups-devel \
+        curl \
+        dbus-devel \
+        dbus-x11 \
+        desktop-file-utils \
+        expat-devel \
+        fontconfig-devel \
+        freetype-devel \
+        gcc-toolset-11 \
+        gcc-toolset-11-libatomic-devel \
+        git \
+        glib2-devel \
+        glx-utils \
+        gperf \
+        gstreamer1-devel \
+        gstreamer1-plugins-bad-free-devel \
+        gstreamer1-plugins-base-devel \
+        gtk3-devel \
+        harfbuzz-devel \
+        inkscape \
+        jsoncpp-devel \
+        krb5-devel \
+        lcms2-devel \
+        libICE-devel \
+        libSM-devel \
+        libX11-devel \
+        libXScrnSaver-devel \
+        libXcomposite-devel \
+        libXcursor-devel \
+        libXdamage-devel \
+        libXext-devel \
+        libXfixes-devel \
+        libXi-devel \
+        libXinerama-devel \
+        libXrandr-devel \
+        libXrender-devel \
+        libXtst-devel \
+        libXv-devel \
+        libcap-devel \
+        libcmocka-devel \
+        libdrm-devel \
+        libevent-devel \
+        libglvnd-devel \
+        libinput-devel \
+        libjpeg-turbo-devel \
+        libmng-devel \
+        libpng-devel \
+        libpq-devel \
+        libproxy-devel \
+        libsecret-devel \
+        libstdc++-static \
+        libtiff-devel \
+        libwebp-devel \
+        libxcb-devel \
+        libxkbcommon-devel \
+        libxkbcommon-x11-devel \
+        libxkbfile-devel \
+        libxshmfence-devel \
+        llvm-devel \
+        mariadb-connector-c-devel \
+        mesa-dri-drivers \
+        mesa-libEGL-devel \
+        mesa-libGL-devel \
+        mesa-libgbm-devel \
+        ninja-build \
+        nss-devel \
+        openal-soft-devel \
+        opus-devel \
+        pciutils-devel \
+        perl \
+        poppler-cpp-devel \
+        pulseaudio-libs-devel \
+        python3-sphinx \
+        python3.12 \
+        python3.12-pip \
+        qt5-rpm-macros \
+        re2-devel \
+        systemd-devel \
+        tar \
+        time \
+        unixODBC-devel \
+        unzip \
+        wayland-devel \
+        wget \
+        xcb-util-cursor-devel \
+        xcb-util-devel \
+        xcb-util-image-devel \
+        xcb-util-keysyms-devel \
+        xcb-util-renderutil-devel \
+        xcb-util-wm-devel \
+        xkeyboard-config-devel \
+        xorg-x11-server-Xvfb \
+        xorg-x11-xkb-utils-devel \
+        xz \
+        xz-devel \
+        zlib-devel && \
+    alternatives --set python /usr/bin/python3.12 && \
+    alternatives --set python3 /usr/bin/python3.12 && \
+    echo $'/usr/local/lib\n/usr/local/lib64' > /etc/ld.so.conf.d/local-lib.conf && ldconfig
+
+ENV PKG_CONFIG_PATH="/usr/local/lib64/pkgconfig:/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+###########################################################################
+
+# Install openssl
+RUN cd /tmp && \
+    wget https://www.openssl.org/source/openssl-${VER_OPENSSL}.tar.gz && \
+    tar -xvf openssl-${VER_OPENSSL}.tar.gz && \
+    cd openssl-${VER_OPENSSL} && \
+    scl run gcc-toolset-11 -- ./config && \
+    scl run gcc-toolset-11 -- make -j$(nproc) && \
+    scl run gcc-toolset-11 -- make -j$(nproc) install && \
+    cd .. && \
+    rm -rf openssl*
+
+# Install libp11 for PKCS#11 encryption
+RUN cd /tmp && \
+    wget https://github.com/OpenSC/libp11/releases/download/${VER_LIBP11}/${VER_LIBP11}.tar.gz && \
+    tar xvf ${VER_LIBP11}.tar.gz && \
+    cd ${VER_LIBP11} && \
+    export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig && \
+    scl run gcc-toolset-11 -- ./configure && \
+    scl run gcc-toolset-11 -- make && \
+    scl run gcc-toolset-11 -- make install && \
+    cd .. && \
+    rm -rf ${VER_LIBP11}
+
+# Install sqlite3 from https://www.sqlite.org/amalgamation.html
+# https://www3.sqlite.org/src/dir?ci=tip&name=autoconf
+RUN cd /tmp && \
+    wget https://www.sqlite.org/${VER_SQLITE_YEAR}/sqlite-autoconf-${VER_SQLITE}.tar.gz && \
+    tar xvf sqlite-autoconf-${VER_SQLITE}.tar.gz && \
+    cd sqlite-autoconf-${VER_SQLITE} && \
+    scl run gcc-toolset-11 -- ./configure && \
+    scl run gcc-toolset-11 -- make && \
+    scl run gcc-toolset-11 -- make install && \
+    cd .. && \
+    rm -rf sqlite-autoconf-${VER_SQLITE}
+
+# Ensure ld cache is up-to-date after building openssl/libp11/sqlite
+RUN ldconfig
+
+###########################################################################
+
+# Download Qt sources
+RUN if [ "$BUILD_QT" = "1" ] ; then echo Build Qt from source. && \
+    git clone --depth=1 --recurse-submodules --shallow-submodules --branch=v${VER_QT} https://code.qt.io/qt/qt5.git qt6 \
+    ; fi
+
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    wget https://nodejs.org/dist/v18.20.1/node-v18.20.1-linux-x64.tar.xz && \
+    tar xf node-v18.20.1-linux-x64.tar.xz \
+    ; fi
+
+RUN if [ "$BUILD_QT" = "1" ]; then \
+    pip3.12 install html5lib \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    mkdir qt6-${VER_QT}-linux-release && \
+    cd qt6-${VER_QT}-linux-release && \
+    export PATH=${PATH}:/node-v18.20.1-linux-x64/bin && \
+    scl run gcc-toolset-11 -- /qt6/configure -release -nomake examples -nomake tests -opensource -confirm-license -openssl-linked -skip qt3d -- \
+        -DCMAKE_INSTALL_PREFIX=${QT_ROOT} -DOPENSSL_ROOT_DIR=/usr/local/lib64 -DQT_BUILD_TESTS=OFF -DQT_BUILD_EXAMPLES=ON -DQT_FEATURE_thread=ON -DQT_FEATURE_xcb=ON -DQT_FEATURE_openssl_runtime=OFF -DQT_FEATURE_openssl_linked=ON && \
+    scl run gcc-toolset-11 -- cmake --build . --parallel && \
+    scl run gcc-toolset-11 -- cmake --install . \
+    ; fi
+
+# Build Qt
+RUN if [ "$BUILD_QT" = "1" ] ; then \
+    tar cfJ /qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-$(date +"%Y-%m-%d").tar.xz ${QT_ROOT} \
+    ; fi
+
+#
+# The following precompiled Qt package has been built with the commands above, using this Dockerfile.
+#
+# Since it takes a very long time to compile, the build on Docker Hub fails due to a timeout.
+#
+# This is why we're going to use our own precompiled version here.
+#
+# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
+# on a dedicated build machine:
+#
+#   docker build . -t client-5.15 . --build-arg BUILD_QT=1
+#
+
+# Download Qt precompiled
+ENV QT_TARBALL qt-bin-${VER_QT}-openssl-${VER_OPENSSL}-linux-x86_64-${VER_QT_DATE}.tar.xz
+
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    wget https://download.nextcloud.com/desktop/development/qt/${QT_TARBALL} && \
+    tar -xvf ${QT_TARBALL} && \
+    rm ${QT_TARBALL} \
+    ; fi
+
+###########################################################################
+
+# Install QtKeychain
+RUN if [ "$BUILD_QT" != "1" ] ; then \
+    cd /tmp && \
+    git clone https://github.com/frankosterfeld/qtkeychain.git --depth 1 -b ${VER_QTKEYCHAIN} && \
+    cd qtkeychain && \
+    mkdir build && \
+    cd build && \
+    scl run gcc-toolset-11 -- cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_WITH_QT6=ON -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    scl run gcc-toolset-11 -- cmake --build . --parallel && \
+    scl run gcc-toolset-11 -- cmake --install . && \
+    cd .. && \
+    rm -rf qtkeychain \
+    ; fi
+
+# Install extra-cmake-modules
+RUN \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/extra-cmake-modules.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd extra-cmake-modules && \
+    mkdir build && \
+    cd build && \
+    scl run gcc-toolset-11 -- cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    scl run gcc-toolset-11 -- cmake --build . --parallel && \
+    scl run gcc-toolset-11 -- cmake --install . && \
+    cd .. && \
+    rm -rf extra-cmake-modules \
+    ;
+
+# Install KArchive
+RUN \
+    cd /tmp && \
+    git clone https://invent.kde.org/frameworks/karchive.git --depth 1 -b v${VER_KFRAMEWORKS} && \
+    cd karchive && \
+    mkdir build && \
+    cd build && \
+    scl run gcc-toolset-11 -- cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DQT_MAJOR_VERSION=6 -DCMAKE_PREFIX_PATH=${QT_ROOT} .. && \
+    scl run gcc-toolset-11 -- cmake --build . --parallel && \
+    scl run gcc-toolset-11 -- cmake --install . && \
+    cd .. && \
+    rm -rf karchive \
+    ;
