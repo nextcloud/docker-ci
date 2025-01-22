@@ -61,7 +61,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@b32b51a8eda65d6793cd0494a773d4f6bcef32dc # v6.11.0
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ startsWith(github.event.inputs.folderPath, 'client') && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
           push: true
           context: ${{ github.event.inputs.folderPath }}
           file: '${{ github.event.inputs.folderPath }}/${{ github.event.inputs.dockerFile }}'
