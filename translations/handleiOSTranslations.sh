@@ -28,7 +28,7 @@ git checkout -- Supporting\ Files/en.lproj
 tx push -s
 
 # pull translations
-tx pull -f -a --minimum-perc=0
+tx pull -f -a --minimum-perc=50
 
 cd Supporting\ Files
 

@@ -30,7 +30,7 @@ git checkout -- Source/Screens/Settings/en.lproj/Settings.strings
 tx push -s
 
 # pull translations
-tx pull -f -a --minimum-perc=25
+tx pull -f -a --minimum-perc=50
 
 
 # use de_DE instead of de
