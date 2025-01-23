@@ -22,7 +22,7 @@ cd -
 
 # TODO use build/l10nParseAppInfo.php to fetch app names for l10n
 
-versions='master stable30 stable29 stable28'
+versions='master stable31 stable30 stable29'
 
 # build POT files for all versions
 mkdir stable-templates
