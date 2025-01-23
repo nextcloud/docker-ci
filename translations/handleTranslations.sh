@@ -59,6 +59,9 @@ done
 # remove intermediate POT files
 rm -rf stable-templates
 
+# Checkout master so we have the newest .tx/config with the newest list of resources
+git checkout master
+
 # push sources
 tx push -s
 
