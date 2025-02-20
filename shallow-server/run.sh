@@ -13,6 +13,7 @@ tail -f data/nextcloud.log &
 
 a2enmod ssl
 a2enmod headers
+a2enmod rewrite
 a2ensite default-ssl
 a2enconf ssl-params
 apache2ctl configtest
