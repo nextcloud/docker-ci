@@ -141,3 +141,11 @@ do
 
   echo "done with $version"
 done
+
+# End of verbose mode
+set +x
+
+if [ $(jq '.translations[]' l10n/de.json | grep 'Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).' | wc -l) -ne 0 ]; then
+  echo "German language file contains the 'Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).' hint." 1>&2
+  exit 3
+fi
