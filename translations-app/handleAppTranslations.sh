@@ -164,6 +164,12 @@ if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -E '(´|’)' | wc -l)
   EXIT=4
 fi
 
+# Confirm English source does not use triple dots
+if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep '\.\.\.' | wc -l) -ne 0 ]; then
+  echo "English source contains three consecutive dots. Unicode … should be used instead" 1>&2
+  EXIT=4
+fi
+
 for file in $(ls l10n/*.json)
 do
   # Make sure only RTL languages contain such characters
