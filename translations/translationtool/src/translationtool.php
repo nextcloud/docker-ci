@@ -361,30 +361,41 @@ class TranslatableApp {
 				continue;
 			}
 
-			// t
-			preg_match_all("/\Wt\s*\(\s*'?([\w.]+)'?,\s*'(.+)'\s*[),]/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wt\s*\(\s*\"?([\w.]+)\"?,\s*\"(.+)\"\s*[),]/", $vueSource, $doubleQuoteMatches);
-			preg_match_all("/\Wt\s*\(\s*'?([\w.]+)'?\s*,\s*`(.+)`\s*[),]/msU", $vueSource, $templateQuoteMatches);
-			$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
-			$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
-			foreach (array_keys($matches2) as $k) {
-				$match = $matches2[$k];
-				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
-				$fakeFileContent .= "t('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match) . "');" . PHP_EOL;
+			$matches = [];
+			if (preg_match('/<script[^>]*>(.+)<\/script>/s', $vueSource, $matches)) {
+				$fakeFileContent .= $matches[1] . ";\n";
 			}
 
-			// n
-			preg_match_all("/\Wn\s*\(\s*'?([\w.]+)'?,\s*'(.+)'\s*,\s*'(.+)'\s*(.+)\s*[),]/", $vueSource, $singleQuoteMatches);
-			preg_match_all("/\Wn\s*\(\s*\"?([\w.]+)\"?,\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)\s*[),]/", $vueSource, $doubleQuoteMatches);
-			preg_match_all("/\Wn\s*\(\s*'?([\w.]+)'?\s*,\s*`(.+)`\s*,\s*`(.+)`\s*[),]/msU", $vueSource, $templateQuoteMatches);
-			$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
-			$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
-			$matches3 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3], $templateQuoteMatches[3]);
-			foreach (array_keys($matches2) as $k) {
-				$match2 = $matches2[$k];
-				$match3 = $matches3[$k];
-				$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
-				$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match2) . "', '" . preg_replace('/\s+/', ' ', $match3) . "');" . PHP_EOL;
+			if (preg_match('/<template>(.+)<\/template>/s', $vueSource, $matches, PREG_OFFSET_CAPTURE)) {
+				// Also parse the template but make sure we keep the correct line numbers for source references
+				$vueSource = str_repeat("\n", substr_count($vueSource, "\n", 0, $matches[1][1]));
+				$vueSource .= $matches[1][0];
+
+				// t
+				preg_match_all("/\Wt\s*\(\s*'?([\w.]+)'?,\s*'(.+)'\s*[),]/", $vueSource, $singleQuoteMatches);
+				preg_match_all("/\Wt\s*\(\s*\"?([\w.]+)\"?,\s*\"(.+)\"\s*[),]/", $vueSource, $doubleQuoteMatches);
+				preg_match_all("/\Wt\s*\(\s*'?([\w.]+)'?\s*,\s*`(.+)`\s*[),]/msU", $vueSource, $templateQuoteMatches);
+				$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
+				$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
+				foreach (array_keys($matches2) as $k) {
+					$match = $matches2[$k];
+					$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
+					$fakeFileContent .= "t('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match) . "');" . PHP_EOL;
+				}
+
+				// n
+				preg_match_all("/\Wn\s*\(\s*'?([\w.]+)'?,\s*'(.+)'\s*,\s*'(.+)'\s*(.+)\s*[),]/", $vueSource, $singleQuoteMatches);
+				preg_match_all("/\Wn\s*\(\s*\"?([\w.]+)\"?,\s*\"(.+)\"\s*,\s*\"(.+)\"\s*(.+)\s*[),]/", $vueSource, $doubleQuoteMatches);
+				preg_match_all("/\Wn\s*\(\s*'?([\w.]+)'?\s*,\s*`(.+)`\s*,\s*`(.+)`\s*[),]/msU", $vueSource, $templateQuoteMatches);
+				$matches0 = array_merge($singleQuoteMatches[0], $doubleQuoteMatches[0], $templateQuoteMatches[0]);
+				$matches2 = array_merge($singleQuoteMatches[2], $doubleQuoteMatches[2], $templateQuoteMatches[2]);
+				$matches3 = array_merge($singleQuoteMatches[3], $doubleQuoteMatches[3], $templateQuoteMatches[3]);
+				foreach (array_keys($matches2) as $k) {
+					$match2 = $matches2[$k];
+					$match3 = $matches3[$k];
+					$fakeFileContent .= $this->getTranslatorHintWithVueSource($vueFile, $vueSource, $matches0[$k]);
+					$fakeFileContent .= "n('" . $this->name . "', '" . preg_replace('/\s+/', ' ', $match2) . "', '" . preg_replace('/\s+/', ' ', $match3) . "');" . PHP_EOL;
+				}
 			}
 		}
 
