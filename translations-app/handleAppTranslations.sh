@@ -154,19 +154,37 @@ fi
 
 # Confirm English source does not contain the pipe character which breaks the Symfony Translation library
 if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep '|' | wc -l) -ne 0 ]; then
+  echo "" 1>&2
   echo "English source contains the pipe character" 1>&2
+  echo "---" 1>&2
+  jq '.translations | keys[]' l10n/en_GB.json | grep '|' 1>&2
   EXIT=4
 fi
 
 # Confirm English source does not contain the unicode single quote character
 if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -E '(´|’)' | wc -l) -ne 0 ]; then
+  echo "" 1>&2
   echo "English source contains unicode single quote character, that should be replaced by normal single quotes" 1>&2
+  echo "---" 1>&2
+  jq '.translations | keys[]' l10n/en_GB.json | grep -E '(´|’)' 1>&2
   EXIT=4
 fi
 
 # Confirm English source does not use triple dots
 if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep '\.\.\.' | wc -l) -ne 0 ]; then
+  echo "" 1>&2
   echo "English source contains three consecutive dots. Unicode … should be used instead" 1>&2
+  echo "---" 1>&2
+  jq '.translations | keys[]' l10n/en_GB.json | grep '\.\.\.' 1>&2
+  EXIT=4
+fi
+
+# Check for leading or trailing spaces
+if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -E '(^\"(\s|\\t|\\n)|(\s|\\t|\\n)\"$)' | wc -l) -ne 0 ]; then
+  echo "" 1>&2
+  echo "English source contains leading or trailing white spaces, tabs or new lines" 1>&2
+  echo "---" 1>&2
+  jq '.translations | keys[]' l10n/en_GB.json | grep -E '(^\"(\s|\\t|\\n)|(\s|\\t|\\n)\"$)' 1>&2
   EXIT=4
 fi
 
