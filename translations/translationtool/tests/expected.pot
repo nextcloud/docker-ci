@@ -45,51 +45,69 @@ msgid_plural "PHP %n Plurals with positional %1$s"
 msgstr[0] ""
 msgstr[1] ""
 
+#: specialVueFakeDummyForL10nScript.js:8
+msgid "one string"
+msgid_plural "%n strings"
+msgstr[0] ""
+msgstr[1] ""
+
 #. TRANSLATORS VUE string with plain text (src/vue.vue:8)
-#: specialVueFakeDummyForL10nScript.js:2
+#: specialVueFakeDummyForL10nScript.js:17
 msgid "VUE String"
 msgstr ""
 
 #. TRANSLATORS VUE string with parameters (src/vue.vue:10)
-#: specialVueFakeDummyForL10nScript.js:4
+#: specialVueFakeDummyForL10nScript.js:19
 msgid "VUE String with inline {parameter}"
 msgstr ""
 
 #. TRANSLATORS VUE string with wrapped parameters (src/vue.vue:12)
-#: specialVueFakeDummyForL10nScript.js:6
+#: specialVueFakeDummyForL10nScript.js:21
 msgid "VUE String with wrapped {parameter}"
 msgstr ""
 
 #. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 1 (src/vue.vue:26)
-#: specialVueFakeDummyForL10nScript.js:8
+#: specialVueFakeDummyForL10nScript.js:23
 msgid "VUE String testing"
 msgstr ""
 
-#: specialVueFakeDummyForL10nScript.js:8
+#: specialVueFakeDummyForL10nScript.js:23
 msgid "VUE String not"
 msgstr ""
 
+#. TRANSLATORS src/vue.vue:31
+#: specialVueFakeDummyForL10nScript.js:25
+msgid "test"
+msgstr ""
+
 #. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 2 (src/vue.vue:29)
-#: specialVueFakeDummyForL10nScript.js:10
+#: specialVueFakeDummyForL10nScript.js:27
 msgid "VUE String with followup double quotes"
 msgstr ""
 
 #. TRANSLATORS VUE plural with plain text (src/vue.vue:17)
-#: specialVueFakeDummyForL10nScript.js:12
+#: specialVueFakeDummyForL10nScript.js:29
 msgid "VUE %n Plural"
 msgid_plural "VUE %n Plurals"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS VUE plural with wrapped parameters (src/vue.vue:21)
-#: specialVueFakeDummyForL10nScript.js:16
+#: specialVueFakeDummyForL10nScript.js:33
 msgid "VUE %n Plural with wrapped %s"
 msgid_plural "VUE %n Plurals with wrapped %s"
 msgstr[0] ""
 msgstr[1] ""
 
+#. TRANSLATORS src/vue.vue:32
+#: specialVueFakeDummyForL10nScript.js:35
+msgid "one test"
+msgid_plural "%n tests"
+msgstr[0] ""
+msgstr[1] ""
+
 #. TRANSLATORS VUE plural with parameters (src/vue.vue:19)
-#: specialVueFakeDummyForL10nScript.js:14
+#: specialVueFakeDummyForL10nScript.js:31
 msgid "VUE %n Plural with %s"
 msgid_plural "VUE %n Plurals with %s"
 msgstr[0] ""

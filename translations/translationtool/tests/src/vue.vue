@@ -27,4 +27,24 @@
 
 	<!-- TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 2 -->
 	{{ t("test", "VUE String with followup double quotes") }}: {{ data["random property"] }}
+
+	<button :aria-label="t('test', 'test')">content</button>
+	<button :aria-label="n('test', 'one test', '%n tests', 6)">content</button>
+	{{ text }}
 </template>
+
+<script>
+export default {
+	computed: {
+		text() {
+			// ensure we also handle formats like this
+			return n(
+				'forms',
+				'one string',
+				'%n strings',
+				6,
+			)
+		}
+	}
+}
+</script>
