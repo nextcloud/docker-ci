@@ -158,6 +158,12 @@ if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep '|' | wc -l) -ne 0 ]; 
   EXIT=4
 fi
 
+# Confirm English source does not contain the unicode single quote character
+if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -E '(´|’)' | wc -l) -ne 0 ]; then
+  echo "English source contains unicode single quote character, that should be replaced by normal single quotes" 1>&2
+  EXIT=4
+fi
+
 for file in $(ls l10n/*.json)
 do
   # Make sure only RTL languages contain such characters
