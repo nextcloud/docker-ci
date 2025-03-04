@@ -48,6 +48,6 @@ mv Source/Screens/Settings/de_DE.lproj/Settings.strings Source/Screens/Settings/
 
 # create git commit and push it
 git add .
-git commit -am "[tx-robot] updated from transifex" || true
+git commit -am "Fix(l10n): Update translations from Transifex" -s || true
 git push origin develop
 echo "done"
