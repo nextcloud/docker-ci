@@ -10,7 +10,6 @@ gpg --list-keys
 
 # fetch git repo
 git clone git@github.com:nextcloud/notes-ios /app
-git checkout -b develop origin/develop
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
 rm -r Source/*.lproj/Localizable.strings
