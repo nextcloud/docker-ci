@@ -103,3 +103,18 @@ do
 
   echo "done with $version"
 done
+
+set +xe
+EXIT_CODE=0
+/validateTranslationFiles.sh core
+EXIT_CODE=$(($?+$EXIT_CODE))
+/validateTranslationFiles.sh lib
+EXIT_CODE=$(($?+$EXIT_CODE))
+
+for app in $(ls apps)
+do
+  if [ -d "apps/$app/l10n" ]; then
+    /validateTranslationFiles.sh apps/$app
+    EXIT_CODE=$(($?+$EXIT_CODE))
+  fi
+done;
