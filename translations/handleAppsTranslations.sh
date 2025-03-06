@@ -62,3 +62,14 @@ done
 git commit -m "Fix(l10n): Update translations from Transifex" -s || true
 git push origin master
 echo "done"
+
+set +xe
+
+EXIT_CODE=0
+for app in $(ls .)
+do
+  if [ -d "$app/l10n" ]; then
+    /validateTranslationFiles.sh $app
+    EXIT_CODE=$(($?+$EXIT_CODE))
+  fi
+done;

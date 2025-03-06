@@ -141,3 +141,9 @@ do
 
   echo "done with $version"
 done
+
+# End of verbose mode
+set +xe
+
+/validateTranslationFiles.sh
+exit $?
