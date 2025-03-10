@@ -139,7 +139,7 @@ class TranslatableApp {
 		}
 	}
 
-	public function createNextcloudFiles(): void {
+	public function createNextcloudFiles(bool $forceEmptyTranslations = false): void {
 		foreach ($this->findLanguages() as $language) {
 			$poFile = $this->translationsPath . '/' . $language . '/' . $this->name . '.po';
 			$translations = Gettext\Translations::fromPoFile($poFile);
@@ -148,7 +148,7 @@ class TranslatableApp {
 			$plurals = $translations->getHeader('Plural-Forms') ?? 'nplurals=2; plural=(n != 1);';
 
 			foreach ($translations as $translation) {
-				if (!$translation->hasTranslation()) {
+				if (!$forceEmptyTranslations && !$translation->hasTranslation()) {
 					// Skip if we have no translation (for the base form)
 					continue;
 				}
@@ -562,12 +562,34 @@ class TranslationTool {
 		}
 	}
 
-	public function convertPoFiles(): void {
+	public function convertPoFiles(bool $forceEmptyTranslations = false): void {
 		foreach ($this->appPaths as $appPath) {
 			$this->log('Application path: ' . $appPath);
 			$app = new TranslatableApp($appPath, $this->translationPath, $this);
-			$app->createNextcloudFiles();
+			$app->createNextcloudFiles($forceEmptyTranslations);
 		}
+	}
+
+	public function prepareSourceValidation(): void {
+		$this->log('Generating POT files');
+		$this->createPotFiles();
+
+		$this->log('Generating en_GB PO files');
+		foreach ($this->appPaths as $appPath) {
+			$this->log('Application path: ' . $appPath);
+
+			$name = basename($appPath);
+			$pot = $this->translationPath . '/templates/' . $name . '.pot';
+			$po = $this->translationPath . '/en_GB/' . $name . '.po';
+			if (!mkdir($dir = dirname($po)) && !is_dir($dir)) {
+				$this->log(sprintf('Directory "%s" was not created', $dir));
+			}
+			$output = [];
+			exec('xgettext ' . ' -o ' . $po . ' ' . $pot, $output);
+		}
+
+		$this->log('Converting en_GB PO files to enGB.json');
+		$this->convertPoFiles(true);
 	}
 
 	public function checkFiles(): void {
@@ -658,6 +680,7 @@ foreach ($argv as $arg) {
 			break;
 		case 'create-pot-files':
 		case 'convert-po-files':
+		case 'prepare-source-validation':
 		case 'check-files':
 			$task = $arg;
 			break;
@@ -680,7 +703,7 @@ if ($usage) {
 	echo 'Usage:' . PHP_EOL;
 	echo ' ' . $toolName . ' <task> [<appName>]' . PHP_EOL;
 	echo 'Arguments:' . PHP_EOL;
-	echo ' task:            One of: create-pot-files, convert-po-files, check-files' . PHP_EOL;
+	echo ' task:            One of: create-pot-files, convert-po-files, prepare-source-validation, check-files' . PHP_EOL;
 	echo 'Options:'. PHP_EOL;
 	echo ' -v, --verbose    Verbose mode'. PHP_EOL;
 	echo ' -h, --help       Display command usage'. PHP_EOL;
@@ -697,6 +720,8 @@ if ($task === 'create-pot-files') {
 	$tool->createPotFiles();
 } elseif ($task === 'convert-po-files') {
 	$tool->convertPoFiles();
+} elseif ($task === 'prepare-source-validation') {
+	$tool->prepareSourceValidation();
 } elseif ($task === 'check-files') {
 	$tool->checkFiles();
 } else {
