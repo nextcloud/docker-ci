@@ -125,6 +125,7 @@
         "nextcloud twofactor_webauthn",
         "nextcloud unsplash",
         "nextcloud user_migration",
+        "nextcloud user_oidc",
         "nextcloud user_retention",
         "nextcloud user_saml",
         "nextcloud viewer",
