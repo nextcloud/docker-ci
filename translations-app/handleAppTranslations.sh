@@ -43,9 +43,9 @@ for version in $versions
 do
   # skip if the branch doesn't exist
   if git branch -r | egrep "^\W*origin/$version$" ; then
-    echo "Valid branch"
+    echo "Valid branch: $version"
   else
-    echo "Invalid branch"
+    echo "Invalid branch: $version"
     continue
   fi
   git checkout $version

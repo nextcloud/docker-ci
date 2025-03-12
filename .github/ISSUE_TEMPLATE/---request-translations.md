@@ -19,22 +19,27 @@ assignees: ''
     - [ ] Make sure all translated branches do **not** have branch protection enabled, see https://docs.nextcloud.com/server/latest/developer_manual/basics/front-end/l10n.html#setup-of-the-transifex-sync for more details
 - [ ] Create file `l10n/.gitkeep` with empty content
 - [ ] Add `.l10nignore` to exclude compiled JS files and thirdparty code, e.g. ignoring compiled javascript assets and composer PHP dependencies in the vendor/ directory:
-```
-js/
-vendor/
-```
+  ```
+  js/
+  vendor/
+  ```
 - [ ] Create file `.tx/config` with the following content, replace `{{APPID}}` with your app id 3 times:
-```ini
-[main]
-host     = https://www.transifex.com
-lang_map = hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja, bg_BG: bg, cs_CZ: cs, fi_FI: fi
+  ```ini
+  [main]
+  host     = https://www.transifex.com
+  lang_map = hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja, bg_BG: bg, cs_CZ: cs, fi_FI: fi
 
-[o:nextcloud:p:nextcloud:r:{{APPID}}]
-file_filter = translationfiles/<lang>/{{APPID}}.po
-source_file = translationfiles/templates/{{APPID}}.pot
-source_lang = en
-type        = PO
-```
+  [o:nextcloud:p:nextcloud:r:{{APPID}}]
+  file_filter = translationfiles/<lang>/{{APPID}}.po
+  source_file = translationfiles/templates/{{APPID}}.pot
+  source_lang = en
+  type        = PO
+  ```
+- [ ] ⚙️ Validate your repository and translation strings:
+  ```sh
+  bash translations/validateSyncSetup.sh Owner Repository
+  ```
+
 
 # 🏗️ Sysadmin team
 - [ ] 👀 Ensure access:
@@ -42,24 +47,24 @@ type        = PO
     - [ ] Other repositories:
         - [ ] Ensure the invite was accepted
         - [ ] Ensure the app certificate is linked to the same repository/author https://github.com/nextcloud/app-certificate-requests
-- [ ] ⚙️ Ensure repository setup:
-    - [ ] `.tx/config`
-    - [ ] `l10n/.gitkeep`
-    - [ ] `.l10nignore`
+- [ ] ⚙️ Ensure repository setup and run initial source validation:
+  ```sh
+  bash translations/validateSyncSetup.sh Owner Repository
+  ```
+
 - [ ] ➕ Add `"Owner Repository",` into https://github.com/nextcloud/docker-ci/edit/master/translations/config.json
     - [ ] Pull request:
 - [ ] 🔑 SSH into translation machine: `ssh root@transifex-sync.nextcloud.com`
 - [ ] ↩️ Change dir: `cd /srv/docker-ci`
 - [ ] ⬇️ Pull: `git pull origin master`
 - [ ] 🧑‍💻 Run the first sync manually:
-
-```sh
-docker run -v /srv/cronie-data/transifexrc:/root/.transifexrc \
+  ```sh
+  docker run -v /srv/cronie-data/transifexrc:/root/.transifexrc \
     -v /srv/cronie-data/gpg:/gpg \
     -v /srv/cronie-data/ssh/id_rsa:/root/.ssh/id_rsa \
     --rm -i ghcr.io/nextcloud/continuous-integration-translations-app \
     AUTHOR APPID
-```
+  ```
 
 
 # 🔣 Translation team
