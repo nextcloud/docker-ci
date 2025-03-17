@@ -7,8 +7,8 @@ RUN apt-get update && \
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && \
-    apt-get install -y php8.1-cli php8.1-common php8.1-mbstring \
-    php8.1-gd php8.1-imagick php8.1-intl php8.1-bz2 php8.1-xml \
+    apt-get install -y php8.1-bcmath php8.1-cli php8.1-common php8.1-mbstring \
+    php8.1-gd php8.1-gmp php8.1-imagick php8.1-intl php8.1-bz2 php8.1-xml \
     php8.1-mysql php8.1-zip php8.1-dev curl php8.1-curl \
     php-dompdf php8.1-apcu redis-server php8.1-redis php8.1-smbclient \
     php8.1-ldap unzip php8.1-pgsql php8.1-sqlite make apache2 \
