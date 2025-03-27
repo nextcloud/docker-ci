@@ -10,7 +10,8 @@ gpg --list-keys
 
 # fetch git repo
 git clone git@github.com:nextcloud/ios /app
-git checkout -b develop origin/develop
+# Translation moved to master (default branch)
+# git checkout -b develop origin/develop
 cd iOSClient
 
 # Migrate the transifex config to the new client version
@@ -41,5 +42,5 @@ cd ..
 # create git commit and push it
 git add .
 git commit -am "Fix(l10n): Update translations from Transifex" -s || true
-git push origin develop
+git push origin master
 echo "done"
