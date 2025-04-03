@@ -40,6 +40,7 @@
         "nextcloud files_filter",
         "nextcloud files_fulltextsearch",
         "nextcloud files_lock",
+        "nextcloud files_mindmap",
         "nextcloud files_pdfviewer",
         "nextcloud files_photospheres",
         "nextcloud files_retention",
