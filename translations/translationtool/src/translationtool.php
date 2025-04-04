@@ -91,12 +91,16 @@ class TranslatableApp {
 				$tmpfname = tempnam(sys_get_temp_dir(), 'checkpot');
 				$output = '--output=' . $tmpfname;
 				// extract-all generates a recurrent warning
-				$skipErrors = '2>/dev/null';
+				$skipErrors = ''; //'2>/dev/null';
 			}
 
-			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' ' . $skipErrors;
+			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' --verbose' . $skipErrors;
 			$this->tool->log($xgetCmd);
-			exec($xgetCmd);
+			$stdOut = [];
+			exec($xgetCmd, $stdOut);
+			foreach ($stdOut as $line) {
+				$this->tool->log($line);
+			}
 
 			// checking files
 			if ($checkFiles) {

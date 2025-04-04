@@ -20,3 +20,8 @@ n('test', 'JS %n Plural with %s', 'JS %n Plurals with %s', 6, { parameter: 'Para
 n('test', 'JS %n Plural with wrapped %s', 'JS %n Plurals with wrapped %s', 6,  {
 	parameter: 'Parameter',
 });
+
+// TRANSLATORS JS trailing WITHOUT dot after parameter
+t('photos', 'Text without trailing dot {name}', { name: 'foo' })
+// TRANSLATORS JS trailing WITH dot after parameter
+t('photos', 'Text without trailing dot {name}.', { name: 'foo' })

@@ -149,6 +149,16 @@ msgid_plural "JS %n Plurals with wrapped %s"
 msgstr[0] ""
 msgstr[1] ""
 
+#. TRANSLATORS JS trailing WITHOUT dot after parameter
+#: src/js.js:25
+msgid "Text without trailing dot {name}"
+msgstr ""
+
+#. TRANSLATORS JS trailing WITH dot after parameter
+#: src/js.js:27
+msgid "Text without trailing dot {name}."
+msgstr ""
+
 #. TRANSLATORS TS string with plain text
 #: src/ts.ts:7
 msgid "TS String"
