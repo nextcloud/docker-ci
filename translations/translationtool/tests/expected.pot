@@ -1,12 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Nextcloud package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-
 #. TRANSLATORS PHP string with plain text
 #: lib/php.php:12
 msgid "PHP String"
@@ -24,22 +15,33 @@ msgstr ""
 msgid "PHP String with positional %1$s"
 msgstr ""
 
+#. TRANSLATORS PHP trailing WITH dot after parameter
+#: lib/php.php:20
+#, php-format
+msgid "PHP String with positional %1$s."
+msgstr ""
+
+#. TRANSLATORS PHP trailing WITH dot after fake-parameter
+#: lib/php.php:24
+msgid "PHP String with positional {param}."
+msgstr ""
+
 #. TRANSLATORS PHP plural with plain text
-#: lib/php.php:21
+#: lib/php.php:29
 msgid "PHP %n Plural"
 msgid_plural "PHP %n Plurals"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS PHP plural with parameters
-#: lib/php.php:23
+#: lib/php.php:31
 msgid "PHP %n Plural with %s"
 msgid_plural "PHP %n Plurals with %s"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS PHP plural with positional parameters
-#: lib/php.php:27
+#: lib/php.php:35
 msgid "PHP %n Plural with positional %1$s"
 msgid_plural "PHP %n Plurals with positional %1$s"
 msgstr[0] ""
@@ -128,22 +130,33 @@ msgstr ""
 msgid "JS String with wrapped {parameter}"
 msgstr ""
 
+#. TRANSLATORS JS trailing WITHOUT dot after parameter
+#: src/js.js:15
+msgid "Failed to rename {currentCollectionFileName} to {newCollectionFileName}"
+msgstr ""
+
+#. TRANSLATORS JS trailing WITH dot after parameter
+#: src/js.js:19
+msgid ""
+"Failed to rename {currentCollectionFileName} to {newCollectionFileName}."
+msgstr ""
+
 #. TRANSLATORS JS plural with plain text
-#: src/js.js:16
+#: src/js.js:24
 msgid "JS %n Plural"
 msgid_plural "JS %n Plurals"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS JS plural with parameters
-#: src/js.js:18
+#: src/js.js:26
 msgid "JS %n Plural with %s"
 msgid_plural "JS %n Plurals with %s"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS JS plural with wrapped parameters
-#: src/js.js:20
+#: src/js.js:28
 msgid "JS %n Plural with wrapped %s"
 msgid_plural "JS %n Plurals with wrapped %s"
 msgstr[0] ""

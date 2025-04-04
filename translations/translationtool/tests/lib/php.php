@@ -16,6 +16,14 @@ $l->t('PHP String with %s', 'Parameter');
 $l->t('PHP String with positional %1$s', [
 	'Parameter',
 ]);
+// TRANSLATORS PHP trailing WITH dot after parameter
+$l->t('PHP String with positional %1$s.', [
+	'Parameter',
+]);
+// TRANSLATORS PHP trailing WITH dot after fake-parameter
+$l->t('PHP String with positional {param}.', [
+	'Parameter',
+]);
 
 // TRANSLATORS PHP plural with plain text
 $l->n('PHP %n Plural', 'PHP %n Plurals', 6);

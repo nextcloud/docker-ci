@@ -11,6 +11,14 @@ t('test', 'JS String with inline {parameter}', { parameter: 'Parameter' });
 t('test', 'JS String with wrapped {parameter}', {
 	parameter: 'Parameter',
 });
+// TRANSLATORS JS trailing WITHOUT dot after parameter
+t('test', 'Failed to rename {currentCollectionFileName} to {newCollectionFileName}', {
+	parameter: 'Parameter',
+});
+// TRANSLATORS JS trailing WITH dot after parameter
+t('test', 'Failed to rename {currentCollectionFileName} to {newCollectionFileName}.', {
+	parameter: 'Parameter',
+});
 
 // TRANSLATORS JS plural with plain text
 n('test', 'JS %n Plural', 'JS %n Plurals', 6);
