@@ -20,6 +20,6 @@ tx pull -f -a --minimum-perc=75
 
 # create git commit and push it
 git add .
-git commit -am "Fix(l10n): Update translations from Transifex" -s || true
+git commit -am "fix(l10n): Update translations from Transifex" -s || true
 git push origin master
 echo "done"

@@ -203,11 +203,11 @@ do
   # create git commit and push it
 #  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
 #    git add .
-#    git commit -am "Fix(l10n): Update translations from Transifex" -s || true
-#    gh pr create -t "Fix(l10n): Update translations from Transifex" --base $version --body ""
+#    git commit -am "fix(l10n): Update translations from Transifex" -s || true
+#    gh pr create -t "fix(l10n): Update translations from Transifex" --base $version --body ""
 #  else
     git add .
-    git commit -am "Fix(l10n): Update translations from Transifex" -s || true
+    git commit -am "fix(l10n): Update translations from Transifex" -s || true
     git push origin $version
     echo "done"
 #  fi
