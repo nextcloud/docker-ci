@@ -56,6 +56,15 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
 
   cat combined.xml
 
+  duplicated_translations=$(cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | wc -l)
+  if [ $duplicated_translations != "0" ]; then
+    echo ""
+    echo ""
+    echo "💥 Some translation strings have a different English source text between branches:"
+    cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | grep 'name="([^"]*)"' -E -o
+    exit 1
+  fi
+
   mv combined.xml ../app/src/main/res/values/strings.xml
 
   cd ..
@@ -85,6 +94,15 @@ if [ $1 = "nextcloud" -a $2 = "android-library" ]; then
 
   cat combined.xml
 
+  duplicated_translations=$(cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | wc -l)
+  if [ $duplicated_translations != "0" ]; then
+    echo ""
+    echo ""
+    echo "💥 Some translation strings have a different English source text between branches:"
+    cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | grep 'name="([^"]*)"' -E -o
+    exit 1
+  fi
+
   mv combined.xml ../library/src/main/res/values/strings.xml
 
   cd ..
@@ -113,6 +131,15 @@ if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
   echo "</resources>" >> combined.xml
 
   cat combined.xml
+
+  duplicated_translations=$(cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | wc -l)
+  if [ $duplicated_translations != "0" ]; then
+    echo ""
+    echo ""
+    echo "💥 Some translation strings have a different English source text between branches:"
+    cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | grep 'name="([^"]*)"' -E -o
+    exit 1
+  fi
 
   mv combined.xml ../app/src/main/res/values/strings.xml
 
