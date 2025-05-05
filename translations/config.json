@@ -76,6 +76,7 @@
         "nextcloud integration_reddit",
         "nextcloud integration_replicate",
         "nextcloud integration_tmdb",
+        "nextcloud integration_watsonx",
         "nextcloud integration_zammad",
         "nextcloud integration_zulip",
         "nextcloud jitsi",
