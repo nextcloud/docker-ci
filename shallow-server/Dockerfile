@@ -13,12 +13,19 @@ RUN apt-get update && \
     php-dompdf php8.1-apcu redis-server php8.1-redis php8.1-smbclient \
     php8.1-ldap unzip php8.1-pgsql php8.1-sqlite make apache2 \
     php8.1-opcache libmagickcore-6.q16-2-extra \
-    libapache2-mod-php8.1 && \
+    libapache2-mod-php8.1 php-pear libaio1 build-essential expect && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-COPY opcache-recommended.ini /etc/php/8.1/cli/conf.d/99-opcache-recommended.ini
+# Oracle setup
+COPY oci8-setup.sh /tmp/oci8-setup.sh
+RUN chmod +x /tmp/oci8-setup.sh && \
+    /tmp/oci8-setup.sh && \
+    rm -f /tmp/oci8-setup.sh
+
 COPY apc-cli-enable.ini /etc/php/8.1/cli/conf.d/99-apc-cli-enable.ini
+COPY oci8-enable.ini /etc/php/8.1/apache2/conf.d/99-oci8-enable.ini
+COPY opcache-recommended.ini /etc/php/8.1/cli/conf.d/99-opcache-recommended.ini
 
 WORKDIR /var/www/html
 
