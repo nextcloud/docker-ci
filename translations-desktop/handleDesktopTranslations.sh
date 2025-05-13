@@ -79,6 +79,8 @@ do
   git checkout $version
 
   # pull translations
+  # -a/--all does not include the source file, so this needs to be pulled separately (required for plural forms to work)
+  tx pull --source --translations --languages en --force nextcloud.client
   tx pull -f --minimum-perc=25 -a
 
   rm -rf translations/client_de.ts
