@@ -20,7 +20,7 @@ double_versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9][0-9]$" | cu
 versions="$single_versions $double_versions master"
 
 # Allow to manually limit translations to specified backport branches within the repo
-if [[ -f '.tx/backport' ]]; then
+if [ -f '.tx/backport' ]; then
   versions="$(cat .tx/backport) master"
 fi
 
@@ -43,13 +43,19 @@ do
   git commit -am "fix(l10n): Update Transifex configuration" -s || true
   git push origin $version
 
-  if [[ -f './resources.qrc' ]]; then
+  if [ -f './resources.qrc' ]; then
     resources="resources.qrc"
   else
     resources=""
   fi
 
-  lupdate src/gui/ src/cmd/ src/common/ src/crashreporter/ src/csync/ src/libsync/ $resources -ts /branches/$version.ts
+  if [ -d 'src/crashreporter/' ]; then
+    crashreporter="src/crashreporter/"
+  else
+    crashreporter=""
+  fi
+
+  lupdate src/gui/ src/cmd/ src/common/ $crashreporter src/csync/ src/libsync/ $resources -ts /branches/$version.ts
 done
 
 # Merge source translation files and filter duplicates
