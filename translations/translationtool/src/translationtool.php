@@ -67,7 +67,7 @@ class TranslatableApp {
 			$keywords = '';
 			if (substr($entry, -4) === '.php') {
 				$keywords = '--keyword=t --keyword=n:1,2';
-			} else if (substr($entry, -3) === '.py') {
+			} elseif (substr($entry, -3) === '.py') {
 				$keywords = '--keyword=_ --keyword=_n:1,2';
 			} else {
 				$keywords = '--keyword=t:2 --keyword=n:2,3';
@@ -76,7 +76,7 @@ class TranslatableApp {
 			$language = '--language=';
 			if (substr($entry, -4) === '.php') {
 				$language .= 'PHP';
-			} else if (substr($entry, -3) === '.py') {
+			} elseif (substr($entry, -3) === '.py') {
 				$language .= 'Python';
 			} else {
 				$language .= 'Javascript';
