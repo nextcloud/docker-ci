@@ -17,6 +17,7 @@ if [ ! -f '/app/.tx/config' ]; then
 fi
 
 APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
+IS_EX_APP=$(grep -q '<external-app>' appinfo/info.xml && grep -q '</external-app>' appinfo/info.xml && echo "true" || echo "false")
 RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' .tx/config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
 SOURCE_FILE=$(grep -oE '^source_file\s*=\s*(.+)$' .tx/config | sed -E 's/source_file\s*=\s*(.+)/\1/')
 
@@ -136,6 +137,12 @@ do
 
   # create git commit and push it
   git add l10n/*.js l10n/*.json
+
+  # for ExApps, we need to include .po,.mo translation files as well
+  if [ "$IS_EX_APP" = "true" ]; then
+    git add translationfiles/*.po translationfiles/*.mo
+  fi
+
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
   git push origin $version
 
