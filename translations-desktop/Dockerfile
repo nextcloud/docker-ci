@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
@@ -12,7 +12,6 @@ RUN apt-get update -q && \
         curl \
         openssh-client \
         ca-certificates \
-        qttools5-dev-tools \
         qt6-tools-dev-tools \
     && apt-get clean
 
@@ -22,7 +21,7 @@ RUN update-ca-certificates
 RUN cd /root
 RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
 
-ENV PATH=${PATH}:/
+ENV PATH=${PATH}:/usr/lib/qt6/bin:/
 
 RUN mkdir -p /app
 

@@ -55,17 +55,23 @@ do
     crashreporter=""
   fi
 
-  lupdate src/gui/ src/cmd/ src/common/ $crashreporter src/csync/ src/libsync/ $resources -ts /branches/$version.ts
+  # copy existing translation file from the branch, this allows `lupdate` to e.g. keep existing plural forms
+  cp "translations/client_en.ts" "/branches/$version.ts"
+
+  lupdate -no-obsolete src/gui/ src/cmd/ src/common/ $crashreporter src/csync/ src/libsync/ $resources -ts /branches/$version.ts
 done
 
 # Merge source translation files and filter duplicates
+# This will be used as the source file for Transifex, it contains all translatable strings from each branch
 lconvert -i /branches/*.ts -o /merged_en.ts
 
-# Fix missing <numerusform> elements (always two are required but lconvert strips out one)
-# Fix paths, changed by lconvert
-sed -e 's/<numerusform><\/numerusform>/<numerusform><\/numerusform><numerusform><\/numerusform>/' -e 's/app\/desktop\/src/src/' /merged_en.ts > translations/client_en.ts
+# Fix paths, changed by lupdate/lconvert.  Needs to be done for all branch-specific translations and the combined one
+for ts_file in /merged_en.ts /branches/*.ts; do
+  sed -i -e 's,app/desktop/src,src,' "$ts_file"
+done
 
-# push sources
+# Copy merged translation to the repo to let `tx` use it as a source file, and push it to Transifex.
+cp /merged_en.ts translations/client_en.ts
 tx push -s
 
 # undo local changes
@@ -91,6 +97,9 @@ do
   mv translations/client_de_DE.ts translations/client_de.ts
   rm -rf nextcloud.client-desktop/de_translation.desktop
   mv nextcloud.client-desktop/de_DE_translation.desktop nextcloud.client-desktop/de_translation.desktop
+  if [ -f "/branches/$version.ts" ]; then
+    cp "/branches/$version.ts" translations/client_en.ts
+  fi
 
   # create git commit and push it
   git add .
