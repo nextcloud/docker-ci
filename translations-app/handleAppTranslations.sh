@@ -138,9 +138,9 @@ do
   # create git commit and push it
   git add l10n/*.js l10n/*.json
 
-  # for ExApps, we need to include .po,.mo translation files as well
+  # for ExApps, we need to include .po translation files as well
   if [ "$IS_EX_APP" = "true" ]; then
-    git add translationfiles/*.po translationfiles/*.mo
+    git add translationfiles/*.po
   fi
 
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
