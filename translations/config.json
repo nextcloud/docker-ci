@@ -225,6 +225,12 @@
 	    ""
 	  ]
     },
+  	{
+	  "name": "swiftnextcloudui",
+	  "arguments": [
+		  ""
+	  ]
+  },
     {
       "name": "desktop",
       "arguments": [
