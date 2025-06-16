@@ -69,6 +69,7 @@
         "nextcloud integration_openai",
         "nextcloud integration_openproject",
         "nextcloud integration_openstreetmap",
+        "nextcloud integration_overleaf",
         "nextcloud integration_peertube",
         "nextcloud integration_slack",
         "nextcloud integration_swp",
