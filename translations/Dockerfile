@@ -17,6 +17,7 @@ RUN apt-get update -q && \
         php7.4-json \
         php7.4-xml \
         qttools5-dev-tools \
+        jq \
     && apt-get clean
 
 RUN update-ca-certificates
