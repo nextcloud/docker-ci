@@ -31,11 +31,24 @@ ENV PATH=${PATH}:/
 
 RUN mkdir -p /app
 
+RUN ls -la /root
+
 ADD ../translations/gitconfig /root/.gitconfig
+
+RUN ls -la /root
+
 ADD ../translations/known_hosts /root/.ssh/known_hosts
+
+RUN ls -la /root
+RUN ls -la /
+
 ADD ../translations/translationtool/translationtool.phar /translationtool.phar
+
+RUN ls -la /
+
 ADD handleAppTranslations.sh /handleTranslations.sh
-# ADD ../translations/validateTranslationFiles.sh /validateTranslationFiles.sh
+
+RUN ls -la /
 
 WORKDIR /app
 
