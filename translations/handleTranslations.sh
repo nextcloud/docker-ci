@@ -9,34 +9,48 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/server /app
+git clone git@github.com:nextcloud/server /app/default --depth 1
 
+##################################
 # Migrate the transifex config to the new client version
-cd /app
+##################################
+cd /app/default
 tx migrate
 git add .tx/config
 rm .tx/config_*
 git commit -am "fix(l10n): Update Transifex configuration" -s || true
 git push
-cd -
 
-# TODO use build/l10nParseAppInfo.php to fetch app names for l10n
-
+##################################
+# Prepare sync setup
+##################################
 versions='master stable31 stable30'
 
-# build POT files for all versions
 mkdir stable-templates
+mkdir -p translationfiles/templates/
+
+##################################
+# Clone backport branches
+##################################
+# Don't fail on checking out non existing branches
+set +e
 for version in $versions
 do
-  # skip if the branch doesn't exist
-  if git branch -r | egrep "^\W*origin/$version$" ; then
-    echo "Valid branch"
-  else
-    echo "Invalid branch"
+  git clone git@github.com:nextcloud/server /app/$version --depth 1 --branch $version
+done
+set -e
+
+##################################
+# Build POT files for all versions
+##################################
+for version in $versions
+do
+  if [ ! -d /app/$version ]; then
+    # skip if the branch doesn't exist
     continue
   fi
 
-  git checkout $version
+  cd /app/$version
 
   # build POT files
   /translationtool.phar create-pot-files
@@ -44,14 +58,20 @@ do
   cd translationfiles/templates/
   for file in $(ls)
   do
-    mv $file ../../stable-templates/$version.$file
+    mv $file /app/default/stable-templates/$version.$file
   done
   cd ../..
 done
 
+##################################
+# Sync with transifex
+##################################
+cd /app/default
+
 # merge POT files into one
 for file in $(ls stable-templates/master.*)
 do
+  # Change below to 23 when server switches to main
   name=$(echo $file | cut -b 25- )
   msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
 done
@@ -72,28 +92,47 @@ tx pull -a -f -r nextcloud.lib --minimum-perc=0
 # pull 20% of "settings" translations for the region name
 tx pull -a -f -r nextcloud.settings-1 --minimum-perc=20
 
+
+# delete removed l10n files
+find core/l10n/*.js -type f -delete
+find core/l10n/*.json -type f -delete
+find lib/l10n/*.js -type f -delete
+find lib/l10n/*.json -type f -delete
+find apps/*/l10n/*.js -type f -delete
+find apps/*/l10n/*.json -type f -delete
+
+# build JS/JSON based on translations
+/translationtool.phar convert-po-files
+
+##################################
+# Add translations to branches again
+##################################
 for version in $versions
 do
-  # skip if the branch doesn't exist
-  if git branch -r | egrep "^\W*origin/$version$" ; then
-    echo "Valid branch"
-  else
-    echo "Invalid branch"
+  if [ ! -d /app/$version ]; then
+    # skip if the branch doesn't exist
     continue
   fi
 
-  git checkout $version
+  cd /app/$version
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
-  find core/l10n -type f -delete
-  find lib/l10n -type f -delete
+  find core/l10n/*.js -type f -delete
+  find core/l10n/*.json -type f -delete
+  find lib/l10n/*.js -type f -delete
+  find lib/l10n/*.json -type f -delete
+  find apps/*/l10n/*.js -type f -delete
+  find apps/*/l10n/*.json -type f -delete
 
-  # build JS/JSON based on translations
-  /translationtool.phar convert-po-files
-
-  # remove tests/
-  rm -rf tests
-  git checkout -- tests/
+  # Copy JS and JSON
+  cd /app/default
+  find core/l10n/*.js -type f -exec cp {} /app/$version/{} \;
+  find core/l10n/*.json -type f -exec cp {} /app/$version/{} \;
+  find lib/l10n/*.js -type f -exec cp {} /app/$version/{} \;
+  find lib/l10n/*.json -type f -exec cp {} /app/$version/{} \;
+  find apps/*/l10n/*.js -type f -exec cp {} /app/$version/{} \;
+  find apps/*/l10n/*.json -type f -exec cp {} /app/$version/{} \;
+  cd /app/$version
 
   # create git commit and push it
   git add apps core lib
@@ -104,6 +143,10 @@ do
   echo "done with $version"
 done
 
+##################################
+# Validate translations
+##################################
+cd /app/default
 set +xe
 EXIT_CODE=0
 /validateTranslationFiles.sh core
