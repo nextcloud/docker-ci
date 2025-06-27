@@ -2,8 +2,6 @@ FROM ubuntu:24.04
 
 MAINTAINER Morris Jobke <hey@morrisjobke.de>
 
-RUN apt list | grep php
-
 # Install python
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
