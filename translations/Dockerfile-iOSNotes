@@ -1,5 +1,5 @@
 FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
-MAINTAINER Tobias Kaminsky <tobias.kaminsky@nextcloud.com>
+LABEL org.opencontainers.image.authors="Tobias Kaminsky <tobias.kaminsky@nextcloud.com>"
 
 ADD handleiOSNotesTranslations.sh /handleTranslations.sh

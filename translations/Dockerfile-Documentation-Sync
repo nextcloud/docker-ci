@@ -1,6 +1,6 @@
 FROM alpine:3.17
 
-MAINTAINER Morris Jobke <hey@morrisjobke.de>
+LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
 RUN apk update && \
     apk add gnupg git openssh php composer curl && \

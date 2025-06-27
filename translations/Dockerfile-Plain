@@ -1,6 +1,6 @@
 FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
-MAINTAINER Morris Jobke <hey@morrisjobke.de>
+LABEL org.opencontainers.image.authors="Tobias Kaminsky <tobias.kaminsky@nextcloud.com>"
 
 # Install python
 RUN apt-get update -q && \

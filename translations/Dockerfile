@@ -1,8 +1,7 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
-MAINTAINER Morris Jobke <hey@morrisjobke.de>
+LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
-# Install python
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
         gawk \
@@ -13,10 +12,8 @@ RUN apt-get update -q && \
         curl \
         openssh-client \
         ca-certificates \
-        php7.4-cli \
-        php7.4-json \
-        php7.4-xml \
-        qttools5-dev-tools \
+        php8.3-cli \
+        php8.3-xml \
         jq \
     && apt-get clean
 
