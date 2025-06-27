@@ -3,6 +3,10 @@
 # verbose and exit on error
 set -xe
 
+# Print tooling information
+lsb_release -a
+tx -v
+
 # import GPG keys
 gpg --import /gpg/nextcloud-bot.public.asc
 gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
