@@ -1,6 +1,6 @@
 FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 
-MAINTAINER Morris Jobke <hey@morrisjobke.de>
+LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
