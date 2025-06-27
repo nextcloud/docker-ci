@@ -13,7 +13,7 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/appstore /app
+git clone git@github.com:nextcloud/appstore /app --depth 1
 
 # install django
 pip3 install Django==1.9.8

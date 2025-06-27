@@ -12,7 +12,7 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/ios /app
+git clone git@github.com:nextcloud/ios /app --depth 1
 # Translation moved to master (default branch)
 # git checkout -b develop origin/develop
 cd iOSClient

@@ -12,7 +12,7 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:nextcloud/notes-ios /app
+git clone git@github.com:nextcloud/notes-ios /app --depth 1
 
 # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
 rm -r Source/*.lproj/Localizable.strings
