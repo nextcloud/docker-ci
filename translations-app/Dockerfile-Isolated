@@ -1,0 +1,44 @@
+FROM ubuntu:24.04
+
+MAINTAINER Morris Jobke <hey@morrisjobke.de>
+
+# Install python
+RUN apt-get update -q && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
+        gawk \
+        gettext \
+        git \
+        gnupg \
+        make \
+        curl \
+        openssh-client \
+        ca-certificates \
+        php8.3-cli \
+        php8.3-json \
+        php8.3-xml \
+        jq \
+    && apt-get clean \
+
+#        qttools5-dev-tools \
+
+RUN update-ca-certificates
+
+# Install Transifex client
+RUN cd /root
+RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+
+ENV PATH=${PATH}:/
+
+RUN mkdir -p /app
+
+ADD ../translations/gitconfig /root/.gitconfig
+ADD ../translations/known_hosts /root/.ssh/known_hosts
+#ADD ../translations/handleTranslations.sh /handleTranslations.sh
+ADD ../translations/validateTranslationFiles.sh /validateTranslationFiles.sh
+ADD ../translations/translationtool/translationtool.phar /translationtool.phar
+
+ADD handleAppTranslations.sh /handleTranslations.sh
+
+WORKDIR /app
+
+ENTRYPOINT ["/handleTranslations.sh"]
