@@ -35,7 +35,7 @@ ADD ../translations/gitconfig /root/.gitconfig
 ADD ../translations/known_hosts /root/.ssh/known_hosts
 ADD ../translations/translationtool/translationtool.phar /translationtool.phar
 ADD handleAppTranslations.sh /handleTranslations.sh
-ADD ../translations/validateTranslationFiles.sh /validateTranslationFiles.sh
+# ADD ../translations/validateTranslationFiles.sh /validateTranslationFiles.sh
 
 WORKDIR /app
 
