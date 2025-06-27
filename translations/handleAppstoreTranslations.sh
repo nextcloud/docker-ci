@@ -16,6 +16,8 @@ gpg --list-keys
 git clone git@github.com:nextcloud/appstore /app --depth 1
 
 # install django
+pip3 install --user pipenv
+pipenv shell
 pip3 install Django==1.9.8
 
 # create po files
