@@ -65,7 +65,11 @@ do
   for file in $(ls)
   do
     FILE_SAVE_VERSION=$(echo $version | sed -E 's/\//-/')
+    echo "############ $file"
     mv $file ../../stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot
+    echo "############ START stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot"
+    cat ../../stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot
+    echo "############ END stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot"
   done
   cd ../..
 done
@@ -75,12 +79,18 @@ for file in $(ls stable-templates/master.*)
 do
   name=$(echo $file | cut -b 25- )
   msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
+  echo "############ START $SOURCE_FILE"
+  cat $SOURCE_FILE
+  echo "############ END $SOURCE_FILE"
 done
 # alternative merge of main branch
 for file in $(ls stable-templates/main.*)
 do
   name=$(echo $file | cut -b 23- )
   msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
+  echo "############ START $SOURCE_FILE"
+  cat $SOURCE_FILE
+  echo "############ END $SOURCE_FILE"
 done
 
 # remove intermediate POT files
@@ -112,6 +122,10 @@ else
   done
 fi
 
+echo "############ START translationfiles/$file/$APP_ID.po"
+cat translationfiles/$file/$APP_ID.po
+echo "############ END translationfiles/$file/$APP_ID.po"
+
 for version in $versions
 do
   # skip if the branch doesn't exist
@@ -128,6 +142,10 @@ do
 
   # build JS/JSON based on translations
   /translationtool.phar convert-po-files
+
+  echo "############ START l10n/de_DE.json"
+  cat l10n/de_DE.json
+  echo "############ END l10n/de_DE.json"
 
   if [ -d tests ]; then
     # remove tests/
