@@ -4,7 +4,6 @@
 set -xe
 
 # Print tooling information
-lsb_release -a
 tx -v
 
 # import GPG keys

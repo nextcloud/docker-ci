@@ -4,7 +4,6 @@
 set -xe
 
 # Print tooling information
-lsb_release -a
 python3 --version
 tx -v
 
