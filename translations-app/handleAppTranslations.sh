@@ -9,13 +9,27 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:$1/$2 /app
+git clone git@github.com:$1/$2 /app/default --depth 1
 
-if [ ! -f '/app/.tx/config' ]; then
+cd default
+
+if [ ! -f '.tx/config' ]; then
   echo "Missing transifex configuration file .tx/config"
   exit 1
 fi
 
+##################################
+# Migrate the transifex config to the new client version
+##################################
+tx migrate
+git add --force .tx/config
+rm .tx/config_*
+git commit -am "fix(l10n): Update Transifex configuration" -s || true
+git push
+
+##################################
+# Validate sync setup
+##################################
 APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
 IS_EX_APP=$(grep -q '<external-app>' appinfo/info.xml && grep -q '</external-app>' appinfo/info.xml && echo "true" || echo "false")
 RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' .tx/config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
@@ -31,32 +45,36 @@ if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   APP_ID="talk_desktop"
 fi
 
-# TODO use build/l10nParseAppInfo.php to fetch app names for l10n
-
 versions='main master stable31 stable30'
-if [ -f '/app/.tx/backport' ]; then
-  versions="main master $(cat /app/.tx/backport)"
+if [ -f '.tx/backport' ]; then
+  versions="main master $(cat .tx/backport)"
 fi
 
-# build POT files for all versions
 mkdir stable-templates
+mkdir -p translationfiles/templates/
+
+##################################
+# Clone backport branches
+##################################
+# Don't fail on checking out non existing branches
+set +e
 for version in $versions
 do
-  # skip if the branch doesn't exist
-  if git branch -r | egrep "^\W*origin/$version$" ; then
-    echo "Valid branch: $version"
-  else
-    echo "Invalid branch: $version"
+  git clone git@github.com:$1/$2 /app/$version --depth 1 --branch $version
+done
+set -e
+
+##################################
+# Build POT files for all versions
+##################################
+for version in $versions
+do
+  if [ ! -d /app/$version ]; then
+    # skip if the branch doesn't exist
     continue
   fi
-  git checkout $version
 
-  # Migrate the transifex config to the new client version
-  tx migrate
-  git add --force .tx/config
-  rm .tx/config_*
-  git commit -am "fix(l10n): Update Transifex configuration" -s || true
-  git push
+  cd /app/$version
 
   # build POT files
   /translationtool.phar create-pot-files
@@ -65,10 +83,16 @@ do
   for file in $(ls)
   do
     FILE_SAVE_VERSION=$(echo $version | sed -E 's/\//-/')
-    mv $file ../../stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot
+    mv $file /app/default/stable-templates/$FILE_SAVE_VERSION.$RESOURCE_ID.pot
   done
   cd ../..
 done
+
+
+##################################
+# Sync with transifex
+##################################
+cd /app/default
 
 # merge POT files into one
 for file in $(ls stable-templates/master.*)
@@ -92,6 +116,9 @@ tx push -s
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5
 
+# delete removed l10n files that are used for language detection (they will be recreated during the write)
+rm -f l10n/*.js l10n/*.json
+
 # Copy back the po files from transifex resource id to app id
 if [ "$RESOURCE_ID" = "$APP_ID" ] ; then
   echo 'App id and transifex resource id are the same, not renaming po files …'
@@ -112,34 +139,33 @@ else
   done
 fi
 
+# build JS/JSON based on translations
+/translationtool.phar convert-po-files
+
+##################################
+# Add translations to branches again
+##################################
 for version in $versions
 do
-  # skip if the branch doesn't exist
-  if git branch -r | egrep "^\W*origin/$version$" ; then
-    echo "Valid branch"
-  else
-    echo "Invalid branch"
+  if [ ! -d /app/$version ]; then
+    # skip if the branch doesn't exist
     continue
   fi
-  git checkout $version
+
+  cd /app/$version
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   rm -f l10n/*.js l10n/*.json
 
-  # build JS/JSON based on translations
-  /translationtool.phar convert-po-files
-
-  if [ -d tests ]; then
-    # remove tests/
-    rm -rf tests
-    git checkout -- tests/
-  fi
+  # Copy JS and JSON
+  cp /app/default/l10n/*.js /app/default/l10n/*.json l10n
 
   # create git commit and push it
   git add l10n/*.js l10n/*.json
 
   # for ExApps, we need to include .po translation files as well
   if [ "$IS_EX_APP" = "true" ]; then
+    cp /app/default/translationfiles/*.po translationfiles
     git add translationfiles/*.po
   fi
 
@@ -152,5 +178,8 @@ done
 # End of verbose mode
 set +xe
 
-/validateTranslationFiles.sh
+##################################
+# Validate translations
+##################################
+/validateTranslationFiles.sh /app/default
 exit $?
