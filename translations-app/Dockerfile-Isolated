@@ -17,7 +17,7 @@ RUN apt-get update -q && \
         php8.3-json \
         php8.3-xml \
         jq \
-    && apt-get clean \
+    && apt-get clean
 
 #        qttools5-dev-tools \
 
@@ -36,7 +36,6 @@ ADD ../translations/known_hosts /root/.ssh/known_hosts
 #ADD ../translations/handleTranslations.sh /handleTranslations.sh
 ADD ../translations/translationtool/translationtool.phar /translationtool.phar
 ADD ../translations/validateTranslationFiles.sh /validateTranslationFiles.sh
-
 ADD handleAppTranslations.sh /handleTranslations.sh
 
 WORKDIR /app
