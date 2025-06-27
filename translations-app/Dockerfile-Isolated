@@ -33,7 +33,7 @@ RUN mkdir -p /app
 
 ADD temp/gitconfig /root/.gitconfig
 ADD temp/known_hosts /root/.ssh/known_hosts
-ADD temp/translationtool/translationtool.phar /translationtool.phar
+ADD temp/translationtool.phar /translationtool.phar
 ADD temp/validateTranslationFiles.sh /validateTranslationFiles.sh
 ADD handleAppTranslations.sh /handleTranslations.sh
 
