@@ -108,6 +108,19 @@ msgid_plural "%n tests"
 msgstr[0] ""
 msgstr[1] ""
 
+#: specialVueFakeDummyForL10nScript.js:37
+msgid "String in \"setup\" script section"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:44
+msgid "String in non-setup script section"
+msgstr ""
+
+#. TRANSLATORS src/zz-vue-setup.vue:7
+#: specialVueFakeDummyForL10nScript.js:50
+msgid "String in template part"
+msgstr ""
+
 #. TRANSLATORS VUE plural with parameters (src/vue.vue:19)
 #: specialVueFakeDummyForL10nScript.js:31
 msgid "VUE %n Plural with %s"
