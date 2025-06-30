@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 Jakob Sack <nextcloud@jakobsack.de>
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
@@ -366,8 +366,8 @@ class TranslatableApp {
 			}
 
 			$matches = [];
-			if (preg_match('/<script[^>]*>(.+)<\/script>/s', $vueSource, $matches)) {
-				$fakeFileContent .= $matches[1] . ";\n";
+			if (preg_match_all('/<script[^>]*>(.+)<\/script>/sU', $vueSource, $matches, PREG_PATTERN_ORDER)) {
+				$fakeFileContent .= implode('', $matches[1]) . ";\n";
 			}
 
 			if (preg_match('/<template>(.+)<\/template>/s', $vueSource, $matches, PREG_OFFSET_CAPTURE)) {
