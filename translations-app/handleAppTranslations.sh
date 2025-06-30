@@ -186,5 +186,8 @@ set +xe
 ##################################
 # Validate translations
 ##################################
-/validateTranslationFiles.sh /app/default
+if [ -f '.tx/validate' ]; then
+  /validateTranslationFiles.sh /app/default
+fi
+
 exit $?
