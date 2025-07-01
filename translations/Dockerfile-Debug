@@ -6,17 +6,7 @@ ADD handleTranslations.sh /handleTranslations.sh
 
 RUN apt update && apt install -y wget
 
-RUN wget https://ftp.gnu.org/pub/gnu/gettext/gettext-0.25.tar.gz -O gettext.tar.gz \
-    && tar -xf gettext.tar.gz \
-    && rm gettext.tar.gz \
-    && mv gettext-* gettext
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/gettext/gettext_0.23.1-1_amd64.deb -O gettext.deb \
+    && apt install -y gettext.deb
 
-RUN apt install -y build-essential
-
-RUN cd gettext \
-    && mkdir build && cd build \
-    && ../configure \
-    && make \
-    && make install
-
-ENV PATH=${PATH}:/usr/local/bin/gettext
+RUN gettext --version
