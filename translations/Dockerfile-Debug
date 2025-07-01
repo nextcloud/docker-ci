@@ -3,3 +3,20 @@ FROM ghcr.io/nextcloud/continuous-integration-translations:latest
 LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
 ADD handleTranslations.sh /handleTranslations.sh
+
+RUN apt update && apt install -y wget
+
+RUN wget https://ftp.gnu.org/pub/gnu/gettext/gettext-0.25.tar.gz -O gettext.tar.gz \
+    && tar -xf gettext.tar.gz \
+    && rm gettext.tar.gz \
+    && mv gettext-* gettext
+
+RUN apt install -y build-essential
+
+RUN cd gettext \
+    && mkdir build && cd build \
+    && ../configure \
+    && make \
+    && make install
+
+ENV PATH=${PATH}:/usr/local/bin/gettext
