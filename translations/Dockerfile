@@ -5,7 +5,6 @@ LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
         gawk \
-        gettext \
         git \
         gnupg \
         make \
@@ -22,6 +21,11 @@ RUN update-ca-certificates
 # Install Transifex client
 RUN cd /root
 RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+
+# Install newer gettext version
+RUN cd /root
+RUN curl http://archive.ubuntu.com/ubuntu/pool/main/g/gettext/gettext_0.23.1-1_amd64.deb -o /root/gettext_0.23.1-1_amd64.deb \
+    && apt install -y /root/gettext_0.23.1-1_amd64.deb
 
 ENV PATH=${PATH}:/
 

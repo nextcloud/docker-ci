@@ -66,13 +66,13 @@ jobs:
 
     # Only build non-client containers as multi-arch containers
     - name: Build multi-arch Docker image ${{ matrix.dockerfile }}
-      if: ${{ !startsWith(matrix.dockerfile, 'client') }}
+      if: ${{ !startsWith(matrix.dockerfile, 'client') && !startsWith(matrix.dockerfile, 'translations') }}
       run: |
         cd "$(dirname ${{ matrix.dockerfile }})"
         docker buildx build --platform linux/amd64,linux/arm64 . --file Dockerfile
 
     - name: Build amd64 Docker image ${{ matrix.dockerfile }}
-      if: ${{ startsWith(matrix.dockerfile, 'client') }}
+      if: ${{ startsWith(matrix.dockerfile, 'client') || startsWith(matrix.dockerfile, 'translations') }}
       run: |
         cd "$(dirname ${{ matrix.dockerfile }})"
         docker build . --file Dockerfile
