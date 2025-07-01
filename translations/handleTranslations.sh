@@ -82,7 +82,8 @@ do
 done
 
 git checkout -b nickv/$(date '+%H%M')
-git add translationfiles/templates
+git add translationfiles/templates -f
+git add stable-templates -f
 
 git commit -am "fix(l10n): Update translations from Transifex" -s || true
 git push origin nickv/$version/$(date '+%H%M')
