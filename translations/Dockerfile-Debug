@@ -6,7 +6,9 @@ ADD handleTranslations.sh /handleTranslations.sh
 
 RUN apt update && apt install -y wget
 
+RUN cd /root
+
 RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/gettext/gettext_0.23.1-1_amd64.deb -O gettext.deb \
-    && apt install -y gettext.deb
+    && apt install -y /root/gettext.deb
 
 RUN gettext --version
