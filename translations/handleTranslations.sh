@@ -81,9 +81,10 @@ do
   msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
 done
 
-git checkout -b nickv/$(date '+%H%M')
+BRANCH_NAME=nickv/$(date '+%H%M')
+git checkout -b $BRANCH_NAME
 git add translationfiles/templates -f
 git add stable-templates -f
 
 git commit -am "fix(l10n): Update translations from Transifex" -s || true
-git push origin nickv/$version/$(date '+%H%M')
+git push origin $BRANCH_NAME
