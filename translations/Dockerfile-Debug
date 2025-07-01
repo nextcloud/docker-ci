@@ -1,0 +1,5 @@
+FROM ghcr.io/nextcloud/continuous-integration-translations:latest
+
+LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
+
+ADD handleTranslations.sh /handleTranslations.sh
