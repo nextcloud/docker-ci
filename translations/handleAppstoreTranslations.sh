@@ -18,10 +18,10 @@ git clone git@github.com:nextcloud/appstore /app --depth 1
 # install django
 python3 -m venv venv
 . venv/bin/activate
-pip3 install Django==1.9.8
+pip3 install django==4.2.22
 
 # create po files
-./manage.py makemessages
+python3 manage.py makemessages --all --ignore=venv/*
 
 # Migrate the transifex config to the new client version
 tx migrate
