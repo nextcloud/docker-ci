@@ -70,6 +70,11 @@ for ts_file in /merged_en.ts /branches/*.ts; do
   sed -i -e 's,app/desktop/src,src,' "$ts_file"
 done
 
+##################################
+# Validate translations
+##################################
+/validateTranslationDesktop.sh /merged_en.ts
+
 # Copy merged translation to the repo to let `tx` use it as a source file, and push it to Transifex.
 cp /merged_en.ts translations/client_en.ts
 tx push -s
