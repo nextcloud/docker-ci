@@ -80,6 +80,7 @@
         "nextcloud integration_zammad",
         "nextcloud integration_zulip",
         "nextcloud jitsi",
+        "nextcloud ldap_contacts_backend",
         "nextcloud ldap_write_support",
         "nextcloud limit_login_to_ip",
         "nextcloud logreader",
