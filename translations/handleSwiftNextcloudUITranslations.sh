@@ -23,8 +23,10 @@ tx pull -f -a
 # Use de_DE instead of de
 # 1. Remove informal german keys
 # 2. Replace formal german with informal german key
-# 3. Save again
-cat Sources/SwiftNextcloudUI/Localizable.xcstrings | jq '. | del(.strings .[] .localizations .de)' | sed 's/"de_DE": {/"de": {/' > Sources/SwiftNextcloudUI/Localizable.xcstrings
+# 3. Save as temp file
+# 4. Move to original location
+cat Sources/SwiftNextcloudUI/Localizable.xcstrings | jq '. | del(.strings .[] .localizations .de)' | sed 's/"de_DE": {/"de": {/' > FixedLocalizable.xcstrings
+mv -f FixedLocalizable.xcstrings Sources/SwiftNextcloudUI/Localizable.xcstrings
 
 # create git commit and push it
 git add .
