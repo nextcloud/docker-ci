@@ -15,9 +15,8 @@ cd desktop
 # Generate source translation files for master and stable-x.y branches
 mkdir /branches
 
-single_versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9]$" | cut -f2 -d"/" | sort -r | head -n 1)
-double_versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9][0-9]$" | cut -f2 -d"/" | sort -r | head -n 1)
-versions="$single_versions $double_versions master"
+stable_versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9]{1,}$" -Eo | cut -f2 -d"/" | sort --version-sort -r | head -n 2)
+versions="$stable_versions master"
 
 # Allow to manually limit translations to specified backport branches within the repo
 if [ -f '.tx/backport' ]; then
