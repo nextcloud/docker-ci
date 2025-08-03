@@ -14,14 +14,24 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/swiftnextcloudui /app
 
+# Remove non-english strings from xcstrings before pushing to transifex
+cat Sources/SwiftNextcloudUI/Localizable.xcstrings | jq '. | .strings = (.strings | map_values(.localizations = {en: .localizations.en}))' > FixedLocalizable.xcstrings
+mv -f FixedLocalizable.xcstrings Sources/SwiftNextcloudUI/Localizable.xcstrings
+
 # push sources
 tx push -s
+
+git restore Sources/SwiftNextcloudUI/Localizable.xcstrings
 
 # pull translations
 tx pull -f -a
 
 # create git commit and push it
-git add .
-git commit -am "fix(l10n): Update translations from Transifex" -s || true
-git push origin main
+
+git diff
+
+
+#git add .
+#git commit -am "fix(l10n): Update translations from Transifex" -s || true
+#git push origin main
 echo "done"
