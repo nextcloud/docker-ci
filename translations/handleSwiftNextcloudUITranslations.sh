@@ -14,9 +14,6 @@ gpg --list-keys
 # fetch git repo
 git clone git@github.com:nextcloud/swiftnextcloudui /app
 
-# push sources
-tx push -s
-
 # pull translations
 tx pull -f -a
 
