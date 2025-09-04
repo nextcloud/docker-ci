@@ -29,7 +29,7 @@ git push
 ##################################
 # Prepare sync setup
 ##################################
-versions='master stable31 stable30'
+versions='master stable32 stable31 stable30'
 
 mkdir stable-templates
 mkdir -p translationfiles/templates/
