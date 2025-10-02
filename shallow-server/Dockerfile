@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Update repos install packages and cleanup
 # all in one step so we avoid large intermediate layers.
