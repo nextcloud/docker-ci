@@ -39,7 +39,7 @@ jobs:
         echo "matrix=$FILES" >> "$GITHUB_OUTPUT"
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, self-hosted]
     needs: files
 
     strategy:
