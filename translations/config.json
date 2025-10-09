@@ -243,6 +243,7 @@
 			"name": "plain",
 			"arguments": [
 				"nextcloud android",
+				"nextcloud android-common",
 				"nextcloud android-library",
 				"nextcloud Android-SingleSignOn",
 				"nextcloud news-android",

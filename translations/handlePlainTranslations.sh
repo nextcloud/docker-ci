@@ -23,10 +23,17 @@ versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" 
 if [ -d src/main/res ]; then
   rm -rf src/main/res/values-*/strings.xml
 fi
+
+# Android common
+if [ $1 = "nextcloud" -a $2 = "android-common" ]; then
+  rm -rf core/src/main/res/values-*/strings.xml
+fi
+
 # Android library
 if [ -d library/src/main/res ]; then
   rm -rf library/src/main/res/values-*/strings.xml
 fi
+
 # Android talk app
 if [ -d app/src/main/res ]; then
   rm -rf app/src/main/res/values-*/strings.xml
@@ -161,6 +168,11 @@ if [ $1 = "nextcloud" -a $2 = "android" ]; then
   git checkout $default_branch
 fi
 
+if [ $1 = "nextcloud" -a $2 = "android-common" ]; then
+  git checkout -- core/src/main/res/values/strings.xml
+  git checkout $default_branch
+fi
+
 if [ $1 = "nextcloud" -a $2 = "android-library" ]; then
   git checkout -- library/src/main/res/values/strings.xml
   git checkout $default_branch
@@ -206,6 +218,12 @@ do
   if [ -d library/src/main/res ]; then
     rm -rf library/src/main/res/values-de
     mv library/src/main/res/values-de-rDE library/src/main/res/values-de
+  fi
+
+  # for the Android common rename the informal german to the formal version
+  if [ -d core/src/main/res ]; then
+    rm -rf core/src/main/res/values-de
+    mv core/src/main/res/values-de-rDE core/src/main/res/values-de
   fi
 
   # for the Android talk and files app rename the informal german to the formal version
