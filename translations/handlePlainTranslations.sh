@@ -18,32 +18,6 @@ git clone git@github.com:$1/$2 /app
 default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
 versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/" | sort -r | head -n1)"
 
-# remove existing translations to cleanup not maintained languages
-# default Android app
-if [ -d src/main/res ]; then
-  rm -rf src/main/res/values-*/strings.xml
-fi
-
-# Android common
-if [ $1 = "nextcloud" -a $2 = "android-common" ]; then
-  rm -rf core/src/main/res/values-*/strings.xml
-fi
-
-# Android library
-if [ -d library/src/main/res ]; then
-  rm -rf library/src/main/res/values-*/strings.xml
-fi
-
-# Android talk app
-if [ -d app/src/main/res ]; then
-  rm -rf app/src/main/res/values-*/strings.xml
-fi
-
-# Android news app
-if [ -d News-Android-App/src/main/res ]; then
-  rm -rf News-Android-App/src/main/res/values-*/strings.xml
-fi
-
 # combine stable branches to keep freshly removed translations
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
   mkdir stable-values
@@ -194,11 +168,33 @@ do
     continue
   fi
 
-#  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
-#    git checkout -b branch-$version $version
-#  else
-    git checkout $version
-#  fi
+  git checkout $version
+
+  # remove existing translations to cleanup not maintained languages
+  # default Android app
+  if [ -d src/main/res ]; then
+    rm -rf src/main/res/values-*/strings.xml
+  fi
+
+  # Android common
+  if [ $1 = "nextcloud" -a $2 = "android-common" ]; then
+    rm -rf core/src/main/res/values-*/strings.xml
+  fi
+
+  # Android library
+  if [ -d library/src/main/res ]; then
+    rm -rf library/src/main/res/values-*/strings.xml
+  fi
+
+  # Android talk app
+  if [ -d app/src/main/res ]; then
+    rm -rf app/src/main/res/values-*/strings.xml
+  fi
+
+  # Android news app
+  if [ -d News-Android-App/src/main/res ]; then
+    rm -rf News-Android-App/src/main/res/values-*/strings.xml
+  fi
 
   # pull translations
   tx pull -f -a --minimum-perc=50
@@ -239,10 +235,10 @@ do
   fi
 
   # for the Android Single Sign On app rename the informal german to the formal version
-    if [ -d lib/src/main/res ]; then
-      rm -rf lib/src/main/res/values-de
-      mv lib/src/main/res/values-de-rDE lib/src/main/res/values-de
-    fi
+  if [ -d lib/src/main/res ]; then
+    rm -rf lib/src/main/res/values-de
+    mv lib/src/main/res/values-de-rDE lib/src/main/res/values-de
+  fi
 
   if [ -e "scripts/metadata/generate_metadata.py" ]; then
     # copy transifex strings to fastlane
@@ -250,14 +246,8 @@ do
   fi
 
   # create git commit and push it
-#  if [ $1 = "nextcloud" -a $2 = "talk-android" ]; then
-#    git add .
-#    git commit -am "fix(l10n): Update translations from Transifex" -s || true
-#    gh pr create -t "fix(l10n): Update translations from Transifex" --base $version --body ""
-#  else
-    git add .
-    git commit -am "fix(l10n): Update translations from Transifex" -s || true
-    git push origin $version
-    echo "done"
-#  fi
+  git add .
+  git commit -am "fix(l10n): Update translations from Transifex" -s || true
+  git push origin $version
+  echo "done"
 done
