@@ -1,0 +1,4 @@
+organization = "Nextcloud"
+cn = "nextcloud.ci"
+serial = 42
+expiration_days = 18250
