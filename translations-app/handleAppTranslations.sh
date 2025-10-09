@@ -35,6 +35,19 @@ git push
 ##################################
 # Validate sync setup
 ##################################
+APP_MAX_VERSION=$(grep -oE '<nextcloud.*max-version=".*".*>' appinfo/info.xml | head --lines 1 | sed -E 's/(.*)max-version="(.*)"(.*)/\2/')
+if [ ! $APP_MAX_VERSION ]; then
+  echo "App has no max-version defined"
+  grep '<nextcloud' appinfo/info.xml | head --lines 1
+  exit 1
+elif [ $APP_MAX_VERSION -lt 30 ]; then
+  echo "App was not released in the last year and translations should be stopped"
+  echo "Defined max-version is $APP_MAX_VERSION"
+  exit 1
+fi
+
+echo "App has max-version $APP_MAX_VERSION"
+
 APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
 IS_EX_APP=$(grep -q '<external-app>' appinfo/info.xml && grep -q '</external-app>' appinfo/info.xml && echo "true" || echo "false")
 RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' .tx/config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
