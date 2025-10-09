@@ -206,37 +206,31 @@ do
 
   # for the default Android app rename the informal german to the formal version
   if [ -d src/main/res ]; then
-    rm -rf src/main/res/values-de
     mv src/main/res/values-de-rDE src/main/res/values-de
   fi
 
   # for the Android library rename the informal german to the formal version
   if [ -d library/src/main/res ]; then
-    rm -rf library/src/main/res/values-de
     mv library/src/main/res/values-de-rDE library/src/main/res/values-de
   fi
 
   # for the Android common rename the informal german to the formal version
   if [ -d core/src/main/res ]; then
-    rm -rf core/src/main/res/values-de
     mv core/src/main/res/values-de-rDE core/src/main/res/values-de
   fi
 
   # for the Android talk and files app rename the informal german to the formal version
   if [ -d app/src/main/res ]; then
-    rm -rf app/src/main/res/values-de
     mv app/src/main/res/values-de-rDE app/src/main/res/values-de
   fi
 
   # for the Android news app rename the informal german to the formal version
   if [ -d News-Android-App/src/main/res ]; then
-    rm -rf News-Android-App/src/main/res/values-de
     mv News-Android-App/src/main/res/values-de-rDE News-Android-App/src/main/res/values-de
   fi
 
   # for the Android Single Sign On app rename the informal german to the formal version
   if [ -d lib/src/main/res ]; then
-    rm -rf lib/src/main/res/values-de
     mv lib/src/main/res/values-de-rDE lib/src/main/res/values-de
   fi
 
