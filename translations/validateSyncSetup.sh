@@ -7,7 +7,7 @@ fi
 cd temp
 echo $PWD
 
-versions='main master stable32 stable31 stable30'
+versions='main master stable32 stable31'
 if [ -f '.tx/backport' ]; then
 	versions="main master $(cat .tx/backport)"
 fi
