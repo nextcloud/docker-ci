@@ -42,7 +42,7 @@ if [ $DAY_OF_WEEK -eq 6 ]; then
     echo "App has no max-version defined"
     grep '<nextcloud' appinfo/info.xml | head --lines 1
     exit 1
-  elif [ $APP_MAX_VERSION -lt 30 ]; then
+  elif [ $APP_MAX_VERSION -lt 31 ]; then
     echo "App was not released in the last year and translations should be stopped"
     echo "Defined max-version is $APP_MAX_VERSION"
     exit 1
@@ -66,7 +66,7 @@ if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   APP_ID="talk_desktop"
 fi
 
-versions='main master stable32 stable31 stable30'
+versions='main master stable32 stable31'
 if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
