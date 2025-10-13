@@ -36,7 +36,9 @@ git push
 # Validate sync setup
 ##################################
 DAY_OF_WEEK=$(date "+%w")
-if [ $DAY_OF_WEEK -eq 6 ]; then
+if [ "$RESOURCE_ID" = "talk_desktop" ]; then
+  echo "Skipping release check of Talk Desktop"
+elif [ $DAY_OF_WEEK -eq 6 ]; then
   APP_MAX_VERSION=$(grep -oE '<nextcloud.*max-version=".*".*>' appinfo/info.xml | head --lines 1 | sed -E 's/(.*)max-version="(.*)"(.*)/\2/')
   if [ ! $APP_MAX_VERSION ]; then
     echo "App has no max-version defined"
