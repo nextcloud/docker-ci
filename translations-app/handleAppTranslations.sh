@@ -36,6 +36,8 @@ git push
 # Validate sync setup
 ##################################
 DAY_OF_WEEK=$(date "+%w")
+RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' .tx/config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
+
 if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   echo "Skipping release check of Talk Desktop"
 elif [ $DAY_OF_WEEK -eq 6 ]; then
@@ -55,7 +57,6 @@ fi
 
 APP_ID=$(grep -oE '<id>.*</id>' appinfo/info.xml | head --lines 1 | sed -E 's/<id>(.*)<\/id>/\1/')
 IS_EX_APP=$(grep -q '<external-app>' appinfo/info.xml && grep -q '</external-app>' appinfo/info.xml && echo "true" || echo "false")
-RESOURCE_ID=$(grep -oE '\[o:nextcloud:p:nextcloud:r:.*\]' .tx/config | sed -E 's/\[o:nextcloud:p:nextcloud:r:(.*)\]/\1/')
 SOURCE_FILE=$(grep -oE '^source_file\s*=\s*(.+)$' .tx/config | sed -E 's/source_file\s*=\s*(.+)/\1/')
 
 if [ "$RESOURCE_ID" = "MYAPP" ]; then
