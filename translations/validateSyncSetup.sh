@@ -7,13 +7,13 @@ fi
 cd temp
 echo $PWD
 
+git clone git@github.com:$1/$2
+cd $2
+
 versions='main master stable32 stable31'
 if [ -f '.tx/backport' ]; then
 	versions="main master $(cat .tx/backport)"
 fi
-
-git clone git@github.com:$1/$2
-cd $2
 
 for version in $versions
 do
