@@ -21,27 +21,38 @@ rm .tx/config_*
 git commit -am "fix(l10n): Update Transifex configuration" -s || true
 git push
 
-# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
-rm -r NextcloudTalk/*.lproj
-git checkout -- NextcloudTalk/Base.lproj
-git checkout -- NextcloudTalk/en.lproj
-
-# push sources
+# push sources (only push sources from main branch)
 tx push -s
 
-# pull translations
-tx pull -f -a --minimum-perc=25
+# get versions
+versions='main'
+if [ -f '.tx/backport' ]; then
+  versions="main $(cat .tx/backport)"
+fi
 
-cd NextcloudTalk
+for version in $versions
+do
+  git checkout $version
 
-# use de_DE instead of de
-rm -rf ./de.lproj
-mv de_DE.lproj de.lproj
+  # remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
+  rm -r NextcloudTalk/*.lproj
+  git checkout -- NextcloudTalk/Base.lproj
+  git checkout -- NextcloudTalk/en.lproj
 
-cd ..
+  # pull translations
+  tx pull -f -a --minimum-perc=25
 
-# create git commit and push it
-git add .
-git commit -am "fix(l10n): Update translations from Transifex" -s || true
-git push origin main
-echo "done"
+  cd NextcloudTalk
+
+  # use de_DE instead of de
+  rm -rf ./de.lproj
+  mv de_DE.lproj de.lproj
+
+  cd ..
+
+  # create git commit and push it
+  git add .
+  git commit -am "fix(l10n): Update translations from Transifex" -s || true
+  git push origin $version
+  echo "done $version"
+done
