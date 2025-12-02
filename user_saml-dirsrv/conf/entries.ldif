@@ -56,6 +56,21 @@ mail: student2@idptestbed.edu
 userPassword: password
 nextcloudQuota: 1 GB
 
+dn: uid=student3,ou=People,dc=idptestbed
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+objectClass: inetuser
+objectClass: inetOrgPerson
+objectClass: nextcloudUser
+givenName: Alice
+uid: student3
+sn: Alisson
+cn: Alice Alisson
+mail: student3@idptestbed.edu
+userPassword: password
+nextcloudQuota: 5 GB
+
 dn: uid=staff1,ou=People,dc=idptestbed
 objectClass: organizationalPerson
 objectClass: person
@@ -78,6 +93,7 @@ objectClass: groupOfNames
 cn: Students
 member: uid=student1,ou=People,dc=idptestbed
 member: uid=student2,ou=People,dc=idptestbed
+member: uid=student3,ou=People,dc=idptestbed
 
 dn: cn=Professors,ou=Groups,dc=idptestbed
 objectClass: groupOfNames
@@ -89,3 +105,8 @@ objectClass: groupOfNames
 cn: Astrophysics
 member: uid=student1,ou=People,dc=idptestbed
 member: uid=staff1,ou=People,dc=idptestbed
+
+dn: cn=AGroupNameContainingMoreThan64CharactersRepeatAGroupNameContainingMoreThan64Characters,ou=Groups,dc=idptestbed
+objectClass: groupOfNames
+cn: AGroupNameContainingMoreThan64CharactersRepeatAGroupNameContainingMoreThan64Characters
+member: uid=student3,ou=People,dc=idptestbed
