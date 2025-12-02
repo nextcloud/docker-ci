@@ -6,9 +6,10 @@ ENV DS_SUFFIX_NAME dc=idptestbed
 ADD conf/* /var/opt/
 
 RUN rm -Rf /data/*
+
 RUN /usr/libexec/dirsrv/dscontainer -r & \
-    sleep 60; \
-    WAIT_TIME=60; \
+    WAIT_TIME=25; \
+    sleep ${WAIT_TIME}; \
     while : ; do \
     	if /usr/libexec/dirsrv/dscontainer -H; then \
     		break; \
@@ -25,8 +26,9 @@ RUN /usr/libexec/dirsrv/dscontainer -r & \
     dsconf localhost schema reload; \
     dsconf localhost plugin memberof enable; \
     dsconf localhost plugin memberof set --autoaddoc inetOrgPerson; \
-    dsctl localhost restart; \
+    echo "### Memberof Status" \
     dsconf localhost plugin memberof status; \
+    echo "### Memberof Show" \
     dsconf localhost plugin memberof show; \
     dsconf localhost backend import "dc=idptestbed" /var/opt/entries.ldif; \
     rm /var/opt/entries.ldif;
