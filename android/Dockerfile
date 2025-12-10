@@ -7,7 +7,7 @@ RUN apt-get install -y ruby wget libxdamage1 libgl1-mesa-glx libpulse0 locales u
 
 RUN mkdir /opt/android-sdk-linux && \
     cd /opt/android-sdk-linux && \
-    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip && \
+    wget --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip && \
     unzip android-sdk.zip && \
     rm -f android-sdk.zip && \
     mkdir cmdline-tools/latest && \
@@ -29,10 +29,16 @@ ADD .gradle /root/.gradle
 RUN yes | sdkmanager --licenses
 
 RUN cd /gradle && \
-    wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle -O build.gradle && \
-    sed -i s"/.*NC_TEST.*//" build.gradle && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/build.gradle.kts && \
+    sed -i s"/.*NC_TEST.*//" build.gradle.kts && \
     mkdir -p app && \
-    wget https://raw.githubusercontent.com/nextcloud/android/master/app/build.gradle -O app/build.gradle
+    wget https://raw.githubusercontent.com/nextcloud/android/master/app/build.gradle.kts -O app/build.gradle.kts && \
+    mkdir -p gradle && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/gradle/libs.versions.toml -O gradle/libs.versions.toml && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/settings.gradle.kts && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/jacoco.gradle.kts  && \
+    wget https://raw.githubusercontent.com/nextcloud/android/master/ndk.env  && \
+    mkdir -p appscan
 
 RUN yes | sdkmanager --update
 
