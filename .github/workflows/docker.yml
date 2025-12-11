@@ -66,9 +66,21 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build container image
+        if: ${{ !startsWith(github.event.inputs.folderPath, 'android') }}
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           platforms: ${{ (startsWith(github.event.inputs.folderPath, 'client') || startsWith(github.event.inputs.folderPath, 'translations')) && 'linux/amd64' || (endsWith(github.event.inputs.folderPath, '32bit') && 'linux/386' || 'linux/amd64,linux/arm64') }}
+          push: true
+          context: ${{ github.event.inputs.folderPath }}
+          file: '${{ github.event.inputs.folderPath }}/${{ github.event.inputs.dockerFile }}'
+          tags: |
+            ghcr.io/nextcloud/continuous-integration-${{ github.event.inputs.folderPath }}${{ github.event.inputs.suffix }}:${{ github.event.inputs.tagName }}
+
+      # Android needs without platform to be able to build with buildx
+      - name: Build container image (Android)
+        if: ${{ startsWith(github.event.inputs.folderPath, 'android') }}
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        with:
           push: true
           context: ${{ github.event.inputs.folderPath }}
           file: '${{ github.event.inputs.folderPath }}/${{ github.event.inputs.dockerFile }}'
