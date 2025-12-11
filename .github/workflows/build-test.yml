@@ -64,15 +64,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
 
-    # Only build non-client containers as multi-arch containers
-    - name: Build multi-arch Docker image ${{ matrix.dockerfile }}
-      if: ${{ !startsWith(matrix.dockerfile, 'client') && !startsWith(matrix.dockerfile, 'translations') }}
+    - name: Build Docker image ${{ matrix.dockerfile }}
       run: |
+        IMAGE=$(dirname ${{ matrix.dockerfile }})
         cd "$(dirname ${{ matrix.dockerfile }})"
-        docker buildx build --platform linux/amd64,linux/arm64 . --file Dockerfile
-
-    - name: Build amd64 Docker image ${{ matrix.dockerfile }}
-      if: ${{ startsWith(matrix.dockerfile, 'client') || startsWith(matrix.dockerfile, 'translations') }}
-      run: |
-        cd "$(dirname ${{ matrix.dockerfile }})"
-        docker build . --file Dockerfile
+        case "$IMAGE" in
+          client*)
+            PLATFORM="linux/amd64" ;;
+          translations*)
+            PLATFORM="linux/amd64" ;;
+          *32bit)
+            PLATFORM="linux/386" ;;
+          *)
+            PLATFORM="linux/amd64,linux/arm64'" ;;
+        esac
+        docker buildx build --platform "$PLATFORM" . --file Dockerfile
