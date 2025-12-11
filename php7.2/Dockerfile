@@ -24,7 +24,7 @@ RUN phpenmod zip intl gd systemd
 RUN curl -O -L https://phar.phpunit.de/phpunit-8.phar \
     && chmod +x phpunit-8.phar \
     && mv phpunit-8.phar /usr/local/bin/phpunit
-RUN curl -O -L https://getcomposer.org/download/1.6.2/composer.phar \
+RUN curl -O -L https://getcomposer.org/download/2.9.2/composer.phar \
     && chmod +x composer.phar \
     && mv composer.phar /usr/local/bin/composer
 
