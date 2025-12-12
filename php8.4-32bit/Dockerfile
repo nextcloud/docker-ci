@@ -1,6 +1,6 @@
 FROM i386/debian:stable
 RUN apt-get update && apt-get install -y wget apt-transport-https lsb-release ca-certificates \
-    git curl make libmagickcore-7.q16-10-extra \
+    git curl make unzip libmagickcore-7.q16-10-extra \
     php8.4-apcu php8.4-bz2 php8.4-cli php8.4-ctype php8.4-curl \
     php8.4-dom php8.4-fileinfo php8.4-gd php8.4-iconv \
     php8.4-imagick php8.4-intl php8.4-ldap php8.4-mbstring \
