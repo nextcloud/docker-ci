@@ -69,13 +69,15 @@ jobs:
         IMAGE=$(dirname ${{ matrix.dockerfile }})
         cd "$(dirname ${{ matrix.dockerfile }})"
         case "$IMAGE" in
+          android*)
+            PLATFORM="" ;;
           client*)
-            PLATFORM="linux/amd64" ;;
+            PLATFORM="--platform 'linux/amd64'" ;;
           translations*)
-            PLATFORM="linux/amd64" ;;
+            PLATFORM="--platform 'linux/amd64'" ;;
           *32bit)
-            PLATFORM="linux/386" ;;
+            PLATFORM="--platform 'linux/386'" ;;
           *)
-            PLATFORM="linux/amd64,linux/arm64'" ;;
+            PLATFORM="--platform 'linux/amd64,linux/arm64'" ;;
         esac
-        docker buildx build --platform "$PLATFORM" . --file Dockerfile
+        docker buildx build $PLATFORM . --file Dockerfile
