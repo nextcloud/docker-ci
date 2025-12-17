@@ -21,6 +21,11 @@ rm .tx/config_*
 git commit -am "fix(l10n): Update Transifex configuration" -s || true
 git push
 
+# remove all translations (they are added afterwards anyways but allows to remove languages via transifex)
+rm -r NextcloudTalk/*.lproj
+git checkout -- NextcloudTalk/Base.lproj
+git checkout -- NextcloudTalk/en.lproj
+
 # push sources (only push sources from main branch)
 tx push -s
 
