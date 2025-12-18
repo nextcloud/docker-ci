@@ -19,11 +19,45 @@ default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remote
 versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/" | sort -r | head -n1)"
 
 # combine stable branches to keep freshly removed translations
-if  [ $1 = "nextcloud" -a $2 = "android" ] ||
-	[ $1 = "nextcloud" -a $2 = "android-library" ] ||
-	[ $1 = "nextcloud" -a $2 = "notes-android" ] ||
-	[ $1 = "nextcloud" -a $2 = "talk-android" ] ||
-	; then
+if  [ $1 = "nextcloud" -a $2 = "android" ]; then
+  mkdir stable-values
+  for version in $versions
+  do
+    git checkout $version
+
+    cp app/src/main/res/values/strings.xml stable-values/$version.xml
+  done
+
+  cd stable-values
+  echo '<?xml version="1.0" encoding="utf-8"?>
+  <resources>' >> combined.xml
+
+  grep -h "<string" *.xml | sort -u | sed s'#\t#    #'g >> combined.xml
+
+  # plurals are hard to compare, so we take only master/main ones
+  awk '/<plurals/,/<\/plurals>/' "$default_branch.xml" >> combined.xml
+
+  echo "</resources>" >> combined.xml
+
+  cat combined.xml
+
+  duplicated_translations=$(cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | wc -l)
+  if [ $duplicated_translations != "0" ]; then
+    echo ""
+    echo ""
+    echo "💥 Some translation strings have a different English source text between branches:"
+    cat combined.xml | grep 'name="([^"]*)"' -E -o | sort | uniq -c | grep -v '1 name' | grep 'name="([^"]*)"' -E -o
+    exit 1
+  fi
+
+  mv combined.xml ../app/src/main/res/values/strings.xml
+
+  cd ..
+
+  rm -rf stable-values
+fi
+
+if  [ $1 = "nextcloud" -a $2 = "notes-android" ]; then
   mkdir stable-values
   for version in $versions
   do
@@ -142,6 +176,11 @@ tx push -s
 
 # undo local changes
 if [ $1 = "nextcloud" -a $2 = "android" ]; then
+  git checkout -- app/src/main/res/values/strings.xml
+  git checkout $default_branch
+fi
+
+if [ $1 = "nextcloud" -a $2 = "notes-android" ]; then
   git checkout -- app/src/main/res/values/strings.xml
   git checkout $default_branch
 fi
