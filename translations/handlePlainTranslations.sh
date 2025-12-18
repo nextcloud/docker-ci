@@ -19,7 +19,11 @@ default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remote
 versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/" | sort -r | head -n1)"
 
 # combine stable branches to keep freshly removed translations
-if [ $1 = "nextcloud" -a $2 = "android" ]; then
+if  [ $1 = "nextcloud" -a $2 = "android" ] ||
+	[ $1 = "nextcloud" -a $2 = "android-library" ] ||
+	[ $1 = "nextcloud" -a $2 = "notes-android" ] ||
+	[ $1 = "nextcloud" -a $2 = "talk-android" ] ||
+	; then
   mkdir stable-values
   for version in $versions
   do
