@@ -78,6 +78,6 @@ jobs:
           *32bit)
             PLATFORM="--platform 'linux/386'" ;;
           *)
-            PLATFORM="--platform 'linux/amd64,linux/arm64'" ;;
+            PLATFORM="--platform linux/amd64,linux/arm64" ;;
         esac
         docker buildx build $PLATFORM . --file Dockerfile
