@@ -52,13 +52,12 @@ assignees: ''
   bash translations/validateSyncSetup.sh Owner Repository
   ```
 
-- [ ] ➕ Add `"Owner Repository",` into https://github.com/nextcloud/docker-ci/edit/master/translations/config.json
-    - [ ] Pull request:
-- [ ] 🔑 SSH into translation machine: `ssh root@transifex-sync.nextcloud.com`
-- [ ] ↩️ Change dir: `cd /srv/docker-ci`
-- [ ] ⬇️ Pull: `git pull origin master`
 - [ ] 🧑‍💻 Run the first sync manually:
   ```sh
+  ssh transifex-sync.nextcloud.com
+  ```
+  ```sh
+  cd /srv/docker-ci
   docker run -v /srv/cronie-data/transifexrc:/root/.transifexrc \
     -v /srv/cronie-data/gpg:/gpg \
     -v /srv/cronie-data/ssh/id_rsa:/root/.ssh/id_rsa \
@@ -66,8 +65,30 @@ assignees: ''
     AUTHOR APPID
   ```
 
+- [ ] Transifex: New resource should appear
+- [ ] GitHub: Check if there was a sync commit in the repository
+    - [ ] If not, go to Transifex, translate some strings in a language you know and trigger the sync again with the docker command
+- [ ] Transifex: On the resource go to Settings > Untick "Your translators can translate resource strings" > Save settings
+- [ ] ➕ Add `"Owner Repository",` into https://github.com/nextcloud/docker-ci/edit/master/translations/config.json
+    - [ ] Pull request:
+    - [ ] Request review from `rakekniven`
 
 # 🔣 Translation team
-- [ ] Transifex: New resource should appear
-- [ ] Transifex: Do translations and check sync to repo
-- [ ] Add resource to [wiki](https://help.nextcloud.com/t/list-of-resources-and-their-priority-for-translation/78312/)
+*Currently done by rakekniven*
+
+- [ ] Transifex: Check quality of the English source strings
+- [ ] Transifex: Check translation guidelines
+- [ ] Transifex: On the resource go to Settings > Tick "Your translators can translate resource strings" > Save settings
+- [ ] Forum: Add resource to [wiki](https://help.nextcloud.com/t/list-of-resources-and-their-priority-for-translation/78312/)
+- [ ] GitHub: Approve the above pull request
+
+# 🏗️ Sysadmin team
+- [ ] GitHub: Ensure the above pull request is merged
+- [ ] 📅 Enable the daily sync:
+  ```sh
+  ssh transifex-sync.nextcloud.com
+  ```
+  ```sh
+  cd /srv/docker-ci
+  git pull origin master
+  ```
