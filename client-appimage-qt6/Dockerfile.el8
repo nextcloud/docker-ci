@@ -2,43 +2,32 @@ FROM almalinux/8-base
 
 MAINTAINER Desktop Team <desktop@nextcloud.com>
 
-# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
-ARG BUILD_QT
-
 RUN dnf update -y && \
     dnf install -y epel-release && \
     dnf config-manager --set-enabled powertools && \
     dnf update -y && \
     dnf install -y \
-        '@Development Tools' \
-        alsa-lib-devel \
-        at-spi2-core-devel \
-        clang \
-        clang-devel \
-        cmake \
-        cups-devel \
-        curl \
-        dbus-devel \
-        dbus-x11 \
-        desktop-file-utils \
-        expat-devel \
-        fontconfig-devel \
-        freetype-devel \
+        xz \
         gcc-toolset-14 \
         gcc-toolset-14-libatomic-devel \
-        git \
-        glib2-devel \
-        glx-utils \
-        gperf \
-        gstreamer1-devel \
-        gstreamer1-plugins-bad-free-devel \
-        gstreamer1-plugins-base-devel \
-        gtk3-devel \
-        harfbuzz-devel \
-        inkscape \
-        jsoncpp-devel \
-        lcms2-devel \
-        libICE-devel \
+        git-core \
+        patch \
+        python3.12 \
+        python3.12-pip \
+        xcb-util-cursor-devel \
+        xcb-util-devel \
+        xcb-util-image-devel \
+        xcb-util-keysyms-devel \
+        xcb-util-renderutil-devel \
+        xcb-util-wm-devel \
+        xkeyboard-config-devel \
+        xorg-x11-server-Xvfb \
+        xorg-x11-xkb-utils-devel \
+        libxcb-devel \
+        libxkbfile-devel \
+        libxshmfence-devel \
+        libxkbcommon-devel \
+        libxkbcommon-x11-devel \
         libSM-devel \
         libX11-devel \
         libXScrnSaver-devel \
@@ -53,64 +42,9 @@ RUN dnf update -y && \
         libXrender-devel \
         libXtst-devel \
         libXv-devel \
-        libcap-devel \
-        libcmocka-devel \
-        libdrm-devel \
-        libevent-devel \
-        libglvnd-devel \
-        libinput-devel \
-        libjpeg-turbo-devel \
-        libmng-devel \
-        libpng-devel \
-        libpq-devel \
-        libproxy-devel \
-        libsecret-devel \
-        libstdc++-static \
-        libtiff-devel \
-        libwebp-devel \
-        libxcb-devel \
-        libxkbcommon-devel \
-        libxkbcommon-x11-devel \
-        libxkbfile-devel \
-        libxshmfence-devel \
-        llvm-devel \
-        mariadb-connector-c-devel \
-        mesa-dri-drivers \
         mesa-libEGL-devel \
         mesa-libGL-devel \
         mesa-libgbm-devel \
-        ninja-build \
-        nss-devel \
-        openal-soft-devel \
-        opus-devel \
-        pciutils-devel \
-        perl \
-        poppler-cpp-devel \
-        pulseaudio-libs-devel \
-        python3-sphinx \
-        python3.12 \
-        python3.12-pip \
-        qt5-rpm-macros \
-        re2-devel \
-        systemd-devel \
-        tar \
-        time \
-        unixODBC-devel \
-        unzip \
-        wayland-devel \
-        wget \
-        xcb-util-cursor-devel \
-        xcb-util-devel \
-        xcb-util-image-devel \
-        xcb-util-keysyms-devel \
-        xcb-util-renderutil-devel \
-        xcb-util-wm-devel \
-        xkeyboard-config-devel \
-        xorg-x11-server-Xvfb \
-        xorg-x11-xkb-utils-devel \
-        xz \
-        xz-devel \
-        zlib-devel && \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
 
@@ -130,4 +64,8 @@ RUN \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client \
+    ;
+
+RUN \
+    rm -rf /root/linux-gcc-x86_64/build \
     ;
