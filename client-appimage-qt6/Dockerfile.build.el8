@@ -2,9 +2,6 @@ FROM almalinux/8-base
 
 MAINTAINER Desktop Team <desktop@nextcloud.com>
 
-# Run 'docker build' with '--build-arg BUILD_QT=1' to build Qt from source (default: not set)
-ARG BUILD_QT
-
 RUN dnf update -y && \
     dnf install -y epel-release && \
     dnf config-manager --set-enabled powertools && \
@@ -26,6 +23,28 @@ RUN dnf update -y && \
         xkeyboard-config-devel \
         xorg-x11-server-Xvfb \
         xorg-x11-xkb-utils-devel \
+        libxcb-devel \
+        libxkbfile-devel \
+        libxshmfence-devel \
+        libxkbcommon-devel \
+        libxkbcommon-x11-devel \
+        libSM-devel \
+        libX11-devel \
+        libXScrnSaver-devel \
+        libXcomposite-devel \
+        libXcursor-devel \
+        libXdamage-devel \
+        libXext-devel \
+        libXfixes-devel \
+        libXi-devel \
+        libXinerama-devel \
+        libXrandr-devel \
+        libXrender-devel \
+        libXtst-devel \
+        libXv-devel \
+        mesa-libEGL-devel \
+        mesa-libGL-devel \
+        mesa-libgbm-devel \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
 
@@ -37,13 +56,15 @@ RUN \
     git clone https://invent.kde.org/packaging/craftmaster.git \
     ;
 
-ADD craftmaster.ini /next/craftmaster.ini
-ADD craftmaster_override.ini /next/craftmaster_override.ini
+ADD craftmaster.ini /root/craftmaster.ini
 
 # Install binary dependencies
 RUN \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig" python3 /root/craftmaster/CraftMaster.py --config /next/craftmaster.ini --config-override /next/craftmaster_override.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|stable-4.0|" && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig" python3 /root/craftmaster/CraftMaster.py --config /next/craftmaster.ini --config-override /next/craftmaster_override.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig" python3 /root/craftmaster/CraftMaster.py --config /next/craftmaster.ini --config-override /next/craftmaster_override.ini --target linux-gcc-x86_64 -c craft && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH="/usr/lib64/pkgconfig:/usr/share/pkgconfig" python3 /root/craftmaster/CraftMaster.py --config /next/craftmaster.ini --config-override /next/craftmaster_override.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|stable-4.0|" && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/karchive && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i qt-libs/qtkeychain && \
+    rm -rf /root/linux-gcc-x86_64/build \
     ;

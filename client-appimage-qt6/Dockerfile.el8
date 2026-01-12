@@ -45,6 +45,13 @@ RUN dnf update -y && \
         mesa-libEGL-devel \
         mesa-libGL-devel \
         mesa-libgbm-devel \
+        libsecret-devel \
+        libselinux-devel \
+        libmount-devel \
+        file \
+        glib2-devel \
+        wget \
+        inkscape && \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
 
@@ -58,12 +65,24 @@ RUN \
 
 ADD craftmaster.ini /root/craftmaster.ini
 
+ENV CRAFT_IMAGE "linux-gcc-x86_64-qt6.9.3-13012026.tar.gz"
+
+RUN \
+    wget https://download.nextcloud.com/desktop/development/qt/${CRAFT_IMAGE} && \
+    tar xf ${CRAFT_IMAGE} && \
+    rm ${CRAFT_IMAGE} \
+    ;
+
+ENV PATH "$PATH:/root/linux-gcc-x86_64/dev-utils/bin"
+
 # Install binary dependencies
 RUN \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|stable-4.0|" && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/karchive && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i qt-libs/qtkeychain \
     ;
 
 RUN \
