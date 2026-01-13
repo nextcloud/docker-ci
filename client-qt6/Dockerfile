@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM debian:forky
 
 MAINTAINER Desktop Team <desktop@nextcloud.com>
 
