@@ -72,11 +72,11 @@ jobs:
           android*)
             PLATFORM="" ;;
           client*)
-            PLATFORM="--platform 'linux/amd64'" ;;
+            PLATFORM="--platform linux/amd64" ;;
           translations*)
-            PLATFORM="--platform 'linux/amd64'" ;;
+            PLATFORM="--platform linux/amd64" ;;
           *32bit)
-            PLATFORM="--platform 'linux/386'" ;;
+            PLATFORM="--platform linux/386" ;;
           *)
             PLATFORM="--platform linux/amd64,linux/arm64" ;;
         esac
