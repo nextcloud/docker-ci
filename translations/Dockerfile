@@ -27,9 +27,10 @@ RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh |
 
 # Install newer gettext version from source
 RUN curl -L https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.gz -o /tmp/gettext-${GETTEXT_VERSION}.tar.gz \
-    && tar -xzf /tmp/gettext-${GETTEXT_VERSION}.tar.gz -C /tmp \
-    && cd /tmp/gettext-${GETTEXT_VERSION} \
-    && ./configure \
+    && tar -xzf /tmp/gettext-${GETTEXT_VERSION}.tar.gz -C /tmp
+
+RUN cd /tmp/gettext-${GETTEXT_VERSION} \
+    && ./configure --prefix=/usr --libexecdir=/usr/lib \
     && make \
     && make install \
     && rm -rf /tmp/gettext-${GETTEXT_VERSION}*
