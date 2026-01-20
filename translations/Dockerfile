@@ -1,5 +1,7 @@
 FROM ubuntu:24.04
 
+ARG GETTEXT_VERSION=0.26
+
 LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
 RUN apt-get update -q && \
@@ -14,6 +16,7 @@ RUN apt-get update -q && \
         php8.3-cli \
         php8.3-xml \
         jq \
+        build-essential \
     && apt-get clean
 
 RUN update-ca-certificates
@@ -22,10 +25,14 @@ RUN update-ca-certificates
 RUN cd /root
 RUN curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
 
-# Install newer gettext version
-RUN cd /root
-RUN curl http://archive.ubuntu.com/ubuntu/pool/main/g/gettext/gettext_0.23.1-1_amd64.deb -o /root/gettext_0.23.1-1_amd64.deb \
-    && apt install -y /root/gettext_0.23.1-1_amd64.deb
+# Install newer gettext version from source
+RUN curl -L https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.gz -o /tmp/gettext-${GETTEXT_VERSION}.tar.gz \
+    && tar -xzf /tmp/gettext-${GETTEXT_VERSION}.tar.gz -C /tmp \
+    && cd /tmp/gettext-${GETTEXT_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /tmp/gettext-${GETTEXT_VERSION}*
 
 ENV PATH=${PATH}:/
 
