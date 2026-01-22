@@ -69,7 +69,7 @@ if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   APP_ID="talk_desktop"
 fi
 
-versions='main master stable32 stable31'
+versions='main master stable33 stable32 stable31'
 if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
