@@ -10,7 +10,7 @@ echo $PWD
 git clone git@github.com:$1/$2
 cd $2
 
-versions='main master stable32 stable31'
+versions='main master stable33 stable32 stable31'
 if [ -f '.tx/backport' ]; then
 	versions="main master $(cat .tx/backport)"
 fi
