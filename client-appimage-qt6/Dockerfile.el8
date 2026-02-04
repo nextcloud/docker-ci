@@ -67,7 +67,7 @@ RUN \
 
 ADD craftmaster.ini /root/craftmaster.ini
 
-ENV CRAFT_IMAGE "linux-gcc-x86_64-qt6.10.1-02022026.tar.gz"
+ENV CRAFT_IMAGE "linux-gcc-x86_64-qt6.10.1-20260204.tar.gz"
 
 RUN \
     wget https://download.nextcloud.com/desktop/development/qt/${CRAFT_IMAGE} && \
