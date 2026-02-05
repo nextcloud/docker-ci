@@ -11,40 +11,8 @@ RUN dnf update -y && \
         gcc-toolset-14 \
         gcc-toolset-14-libatomic-devel \
         git-core \
-        patch \
         python3.12 \
         python3.12-pip \
-        xcb-util-cursor-devel \
-        xcb-util-devel \
-        xcb-util-image-devel \
-        xcb-util-keysyms-devel \
-        xcb-util-renderutil-devel \
-        xcb-util-wm-devel \
-        xkeyboard-config-devel \
-        xorg-x11-server-Xvfb \
-        xorg-x11-xkb-utils-devel \
-        libxcb-devel \
-        libxkbfile-devel \
-        libxshmfence-devel \
-        libxkbcommon-devel \
-        libxkbcommon-x11-devel \
-        libSM-devel \
-        libX11-devel \
-        libXScrnSaver-devel \
-        libXcomposite-devel \
-        libXcursor-devel \
-        libXdamage-devel \
-        libXext-devel \
-        libXfixes-devel \
-        libXi-devel \
-        libXinerama-devel \
-        libXrandr-devel \
-        libXrender-devel \
-        libXtst-devel \
-        libXv-devel \
-        mesa-libEGL-devel \
-        mesa-libGL-devel \
-        mesa-libgbm-devel \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
 
@@ -60,11 +28,9 @@ ADD craftmaster.ini /root/craftmaster.ini
 
 # Install binary dependencies
 RUN \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|stable-4.0|" && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|master|" && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|master|" && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/karchive && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i qt-libs/qtkeychain && \
     rm -rf /root/linux-gcc-x86_64/build \
     ;
