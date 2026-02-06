@@ -64,6 +64,7 @@ RUN \
         libkf6archive-dev \
         extra-cmake-modules \
         qtkeychain-qt6-dev \
+        libkdsingleapplication-qt6-dev \
         libsqlite3-dev \
         qt6-5compat-dev \
 # For cmocka based csync tests
