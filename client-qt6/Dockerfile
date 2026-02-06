@@ -14,6 +14,7 @@ RUN \
         perl \
         python3 \
         python3-pip \
+        python3.13-venv \
         build-essential \
         mesa-common-dev \
         pkg-config \
