@@ -47,5 +47,5 @@ mv Source/Settings.bundle/de_DE.lproj/Root.strings Source/Settings.bundle/de.lpr
 # create git commit and push it
 git add .
 git commit -am "fix(l10n): Update translations from Transifex" -s || true
-git push origin develop
+git push origin main
 echo "done"
