@@ -67,7 +67,7 @@ jobs:
 
       - name: Build container image
         if: ${{ !startsWith(github.event.inputs.folderPath, 'android') }}
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           platforms: ${{ (startsWith(github.event.inputs.folderPath, 'client') || startsWith(github.event.inputs.folderPath, 'translations')) && 'linux/amd64' || (endsWith(github.event.inputs.folderPath, '32bit') && 'linux/386' || 'linux/amd64,linux/arm64') }}
           push: true
@@ -79,7 +79,7 @@ jobs:
       # Android needs without platform to be able to build with buildx
       - name: Build container image (Android)
         if: ${{ startsWith(github.event.inputs.folderPath, 'android') }}
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
         with:
           push: true
           context: ${{ github.event.inputs.folderPath }}
