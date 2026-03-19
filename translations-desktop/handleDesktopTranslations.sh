@@ -15,7 +15,8 @@ cd desktop
 # Generate source translation files for master and stable-x.y branches
 mkdir /branches
 
-stable_versions=$(git branch -r | grep "origin\/stable\-[0-9]\.[0-9]{1,}$" -Eo | cut -f2 -d"/" | sort --version-sort -r | head -n 2)
+# the 'stable-6.2' branch was only used for internal testing, not a proper release
+stable_versions=$(git branch -r | grep "origin\/stable\-[0-9]+\.[0-9]{1,}$" -Eo | cut -f2 -d"/" | grep -v "stable-6.2" | sort --version-sort -r | head -n 2)
 versions="$stable_versions master"
 
 # Allow to manually limit translations to specified backport branches within the repo
