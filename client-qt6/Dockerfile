@@ -1,4 +1,4 @@
-FROM debian:forky
+FROM debian:sid
 
 MAINTAINER Desktop Team <desktop@nextcloud.com>
 
@@ -96,9 +96,9 @@ RUN \
         rm -rf /var/lib/apt/lists/*
 
 # Setup sonar-scanner
-ENV SONAR_SCANNER_VERSION 5.0.1.3006
+ENV SONAR_SCANNER_VERSION 8.0.1.6346
 ENV SONAR_SERVER_URL "https://sonarcloud.io"
-ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
+ENV SONAR_SCANNER_DOWNLOAD_URL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux-x64.zip
 
 RUN mkdir -p /opt/sonar && \
     curl -sSLo /opt/sonar/sonar-scanner.zip ${SONAR_SCANNER_DOWNLOAD_URL} && \
