@@ -104,7 +104,7 @@ RUN mkdir -p /opt/sonar && \
     curl -sSLo /opt/sonar/sonar-scanner.zip ${SONAR_SCANNER_DOWNLOAD_URL} && \
     unzip -o /opt/sonar/sonar-scanner.zip -d /opt/sonar/
 
-ENV PATH=/opt/sonar/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin:${PATH}
+ENV PATH=/opt/sonar/sonar-scanner-${SONAR_SCANNER_VERSION}-linux-x64/bin:${PATH}
 
 # Setup build-wrapper
 ENV BUILD_WRAPPER_DOWNLOAD_URL ${SONAR_SERVER_URL}/static/cpp/build-wrapper-linux-x86.zip
