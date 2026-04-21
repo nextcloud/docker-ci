@@ -119,6 +119,7 @@
 				"nextcloud twofactor_totp",
 				"nextcloud twofactor_webauthn",
 				"nextcloud unsplash",
+				"nextcloud upload_monitor",
 				"nextcloud user_migration",
 				"nextcloud user_oidc",
 				"nextcloud user_retention",
