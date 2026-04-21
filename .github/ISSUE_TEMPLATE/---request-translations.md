@@ -78,9 +78,9 @@ assignees: ''
 
 - [ ] Transifex: Check quality of the English source strings
 - [ ] Transifex: Check translation guidelines
-- [ ] Transifex: On the resource go to Settings > Tick "Your translators can translate resource strings" > Save settings
+- [ ] GitHub: Approve the above pull request (and merge it)
+- [ ] Transifex: On the resource go to Settings > Delete the resource
 - [ ] Forum: Add resource to [wiki](https://help.nextcloud.com/t/list-of-resources-and-their-priority-for-translation/78312/)
-- [ ] GitHub: Approve the above pull request
 
 # 🏗️ Sysadmin team
 - [ ] GitHub: Ensure the above pull request is merged
