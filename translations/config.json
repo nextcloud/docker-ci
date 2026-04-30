@@ -59,6 +59,7 @@
 				"nextcloud integration_google",
 				"nextcloud integration_jira",
 				"nextcloud integration_mastodon",
+				"nextcloud integration_matrix",
 				"nextcloud integration_notion",
 				"nextcloud integration_openai",
 				"nextcloud integration_openproject",
