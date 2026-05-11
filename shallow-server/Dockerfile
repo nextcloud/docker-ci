@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bookworm
 
 # Update repos install packages and cleanup
 # all in one step so we avoid large intermediate layers.
@@ -7,13 +7,13 @@ RUN apt-get update && \
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && \
-    apt-get install -y php8.1-cli php8.1-common php8.1-mbstring \
-    php8.1-gd php8.1-imagick php8.1-intl php8.1-bz2 php8.1-xml \
-    php8.1-mysql php8.1-zip php8.1-dev curl php8.1-curl \
-    php-dompdf php8.1-apcu redis-server php8.1-redis php8.1-smbclient \
-    php8.1-ldap unzip php8.1-pgsql php8.1-sqlite make apache2 \
-    php8.1-opcache libmagickcore-6.q16-2-extra \
-    libapache2-mod-php8.1 && \
+    apt-get install -y php8.0-cli php8.0-common php8.0-mbstring \
+    php8.0-gd php8.0-imagick php8.0-intl php8.0-bz2 php8.0-xml \
+    php8.0-mysql php8.0-zip php8.0-dev curl php8.0-curl \
+    php-dompdf php8.0-apcu redis-server php8.0-redis php8.0-smbclient \
+    php8.0-ldap unzip php8.0-pgsql php8.0-sqlite make apache2 \
+    php8.0-opcache libmagickcore-6.q16-2-extra \
+    libapache2-mod-php8.0 && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
