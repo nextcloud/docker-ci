@@ -17,12 +17,6 @@ RUN apt-get update && \
     apt-get autoremove -y && apt-get autoclean && apt-get clean && \
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-# Oracle setup
-COPY oci8-setup.sh /tmp/oci8-setup.sh
-RUN chmod +x /tmp/oci8-setup.sh && \
-    /tmp/oci8-setup.sh && \
-    rm -f /tmp/oci8-setup.sh
-
 COPY apc-cli-enable.ini /etc/php/8.0/cli/conf.d/99-apc-cli-enable.ini
 COPY oci8-enable.ini /etc/php/8.0/apache2/conf.d/99-oci8-enable.ini
 COPY opcache-recommended.ini /etc/php/8.0/cli/conf.d/99-opcache-recommended.ini
