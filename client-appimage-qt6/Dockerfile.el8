@@ -153,5 +153,6 @@ RUN \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/karchive && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/kdbusaddons && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i qt-libs/qtkeychain \
     ;
