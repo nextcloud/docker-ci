@@ -11,9 +11,14 @@ RUN apt-get update && apt-get install -y wget apt-transport-https lsb-release ca
     rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN phpenmod zip intl gd systemd
-RUN curl -O -L https://getcomposer.org/download/2.9.2/composer.phar \
-    && chmod +x composer.phar \
-    && mv composer.phar /usr/local/bin/composer
-
 RUN phpdismod xdebug
+
+RUN curl -O -L https://getcomposer.org/download/2.9.2/composer.phar \
+&& chmod +x composer.phar \
+&& mv composer.phar /usr/local/bin/composer
+
+# Don't use root
+RUN groupadd -g 1001 runner &&useradd -m -u 1001 -g runner runner
+USER runner
+
 ADD nextcloud.ini /etc/php/8.4/cli/conf.d/nextcloud.ini
