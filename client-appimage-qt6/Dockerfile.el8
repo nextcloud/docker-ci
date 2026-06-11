@@ -116,6 +116,7 @@ RUN dnf update -y && \
         xorg-x11-xkb-utils-devel \
         xz \
         xz-devel \
+        libcanberra-devel \
         zlib-devel && \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
