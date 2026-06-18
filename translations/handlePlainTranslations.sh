@@ -16,7 +16,7 @@ gpg --list-keys
 git clone git@github.com:$1/$2 /app
 
 default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
-versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+$" | cut -f2 -d"/" | sort -r | head -n1)"
+versions="$default_branch $(git branch -r | grep -E "origin\/stable\-[0-9\.]+x$" | cut -f2 -d"/" | sort -r | head -n1)"
 
 # combine stable branches to keep freshly removed translations
 if  [ $1 = "nextcloud" -a $2 = "android" ]; then
