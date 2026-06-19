@@ -35,7 +35,8 @@ tx push -s
 tx pull -force -all
 
 # then, pull .stringdict translations, replace untranslated strings with source
-tx pull -force -all --mode sourceastranslation -resources o:nextcloud:p:nextcloud:r:ios-plurals
+# note: this is needed as the untranslated .stringdict files are not auto replaced by source
+tx pull -force -all --mode sourceastranslation -resources nextcloud.ios-plurals
 
 cd Supporting\ Files
 
