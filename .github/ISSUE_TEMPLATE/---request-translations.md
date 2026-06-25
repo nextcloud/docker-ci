@@ -9,6 +9,13 @@ assignees: ''
 
 <!-- Just submit the form as is and afterwards work through the points and tick the boxes -->
 
+# Prologue
+
+The Nextcloud community on Transifex produces the translations of your app. To this end, the app author undertakes to comply with the following requirements:
+
+* The app must be available in the Nextcloud App Store. Should the app be removed from the store, the translation work on Transifex will be paused or the resource removed.
+* The app author must create an account on Transifex and join the Nextcloud project. This makes it easier to respond to queries regarding the app’s strings.
+
 # 👤 App repository
 
 **To be done by you**
@@ -39,7 +46,9 @@ assignees: ''
   ```sh
   bash translations/validateSyncSetup.sh Owner Repository
   ```
+- [ ] Name of the Transifex user:
 
+  For details see https://nextcloud.com/translation/ .
 
 # 🏗️ Sysadmin team
 - [ ] 👀 Ensure access:
