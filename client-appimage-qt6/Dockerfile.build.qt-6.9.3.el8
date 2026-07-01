@@ -148,8 +148,9 @@ ENV PATH "$PATH:/root/linux-gcc-x86_64/dev-utils/bin"
 
 # Install binary dependencies
 RUN \
+    rm -r /root/linux-gcc-x86_64/etc/blueprints/locations/desktop-client-blueprints && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-kde.git|stable-4.0|" && \
-    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/desktop-client-blueprints.git|stable-4.0|" && \
+    scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --add-blueprint-repository "https://github.com/nextcloud/craft-blueprints-nextcloud.git|stable-4.0|" && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c craft && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --install-deps nextcloud-client && \
     scl run gcc-toolset-14 -- PKG_CONFIG_PATH=/usr/lib64/pkgconfig/:/usr/share/pkgconfig python3 /root/craftmaster/CraftMaster.py --config /root/craftmaster.ini --target linux-gcc-x86_64 -c --no-cache -i kde/frameworks/tier1/karchive && \
