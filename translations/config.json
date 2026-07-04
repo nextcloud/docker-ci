@@ -60,6 +60,7 @@
 				"nextcloud integration_github",
 				"nextcloud integration_gitlab",
 				"nextcloud integration_google",
+				"nextcloud integration_grist",
 				"nextcloud integration_jira",
 				"nextcloud integration_mastodon",
 				"nextcloud integration_matrix",
