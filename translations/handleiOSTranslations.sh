@@ -32,11 +32,11 @@ git checkout -- Supporting\ Files/en.lproj
 tx push -s
 
 # pull translations
-tx pull -force -all
+tx pull --force --all
 
 # then, pull .stringdict translations, replace untranslated strings with source
 # note: this is needed as the untranslated .stringdict files are not auto replaced by source
-tx pull -force -all --mode sourceastranslation -resources nextcloud.ios-plurals
+tx pull --force --all --mode sourceastranslation --resources nextcloud.ios-plurals
 
 cd Supporting\ Files
 
