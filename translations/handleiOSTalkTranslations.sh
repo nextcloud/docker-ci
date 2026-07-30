@@ -45,7 +45,11 @@ do
   git checkout -- NextcloudTalk/en.lproj
 
   # pull translations
-  tx pull -f -a --minimum-perc=25
+  tx pull --force --all --minimum-perc=25
+
+  # then, pull .stringdict translations, replace untranslated strings with source
+  # note: this is needed as the untranslated .stringdict files are not auto replaced by source
+  tx pull --force --all --mode sourceastranslation --resources nextcloud.talk-ios-plurals
 
   cd NextcloudTalk
 
