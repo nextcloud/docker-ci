@@ -185,12 +185,12 @@ do
   cp /app/default/l10n/*.js /app/default/l10n/*.json l10n
 
   # create git commit and push it
-  git add l10n/*.js l10n/*.json
+  git add --force l10n/*.js l10n/*.json
 
   # for ExApps, we need to include .po translation files as well
   if [ "$IS_EX_APP" = "true" ]; then
     cp /app/default/translationfiles/*.po translationfiles
-    git add translationfiles/*.po
+    git add --force translationfiles/*.po
   fi
 
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
