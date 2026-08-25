@@ -21,7 +21,7 @@ git clone git@github.com:nextcloud/server /app/default --depth 1
 ##################################
 cd /app/default
 tx migrate
-git add .tx/config
+git add --force .tx/config
 rm .tx/config_*
 git commit -am "fix(l10n): Update Transifex configuration" -s || true
 git push
@@ -29,7 +29,7 @@ git push
 ##################################
 # Prepare sync setup
 ##################################
-versions='master stable34 stable33 stable32'
+versions='master stable35 stable34 stable33 stable32'
 
 mkdir stable-templates
 mkdir -p translationfiles/templates/
@@ -140,7 +140,7 @@ do
   cd /app/$version
 
   # create git commit and push it
-  git add apps core lib
+  git add --force apps/*/l10n/*.js apps/*/l10n/*.json core/l10n/*.js core/l10n/*.json lib/l10n/*.js lib/l10n/*.json
 
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
   git push origin $version

@@ -69,7 +69,7 @@ if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   APP_ID="talk_desktop"
 fi
 
-versions='main master stable34 stable33 stable32'
+versions='main master stable35 stable34 stable33 stable32'
 if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
@@ -185,12 +185,12 @@ do
   cp /app/default/l10n/*.js /app/default/l10n/*.json l10n
 
   # create git commit and push it
-  git add l10n/*.js l10n/*.json
+  git add --force l10n/*.js l10n/*.json
 
   # for ExApps, we need to include .po translation files as well
   if [ "$IS_EX_APP" = "true" ]; then
     cp /app/default/translationfiles/*.po translationfiles
-    git add translationfiles/*.po
+    git add --force translationfiles/*.po
   fi
 
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
