@@ -24,6 +24,7 @@ RUN \
         clang \
         clang-format \
         clang-tidy \
+        clazy \
         libclang-dev \
         cmake \
         zlib1g-dev \
