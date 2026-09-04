@@ -42,6 +42,7 @@ RUN mkdir -p /app
 ADD gitconfig /root/.gitconfig
 ADD known_hosts /root/.ssh/known_hosts
 ADD handleTranslations.sh /handleTranslations.sh
+ADD stringFreeze.sh /stringFreeze.sh
 ADD validateTranslationFiles.sh /validateTranslationFiles.sh
 ADD translationtool/translationtool.phar /translationtool.phar
 
