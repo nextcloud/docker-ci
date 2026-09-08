@@ -117,7 +117,8 @@ RUN dnf update -y && \
         xz \
         xz-devel \
         libcanberra-devel \
-        zlib-devel && \
+        zlib-devel \
+        fuse3-devel && \
     alternatives --set python /usr/bin/python3.12 && \
     alternatives --set python3 /usr/bin/python3.12
 
