@@ -1,0 +1,27 @@
+FROM debian:sid
+
+MAINTAINER Desktop Team <desktop@nextcloud.com>
+
+RUN \
+    apt-get update && \
+    apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -q -y \
+        git \
+        flatpak \
+        xvfb \
+        xauth \
+        binutils \
+        elfutils \
+        libarchive-tools \
+        patch \
+        xz-utils \
+        zstd \
+        flatpak-builder && \
+# Cleaning up
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/*
+
+RUN flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+RUN flatpak install --system --assumeyes --noninteractive flathub runtime/org.kde.Sdk/x86_64/6.11
+RUN flatpak install --system --assumeyes --noninteractive flathub runtime/org.kde.Platform/x86_64/6.11
