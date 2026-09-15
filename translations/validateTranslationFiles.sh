@@ -36,6 +36,15 @@ if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep '\.\.\.' | wc -l) -ne 
   EXIT_CODE=4
 fi
 
+# Confirm English source uses non-breaking space before ellipsis
+if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -P '[^\x{00A0}]…' | wc -l) -ne 0 ]; then
+  echo "" 1>&2
+  echo "English source $1/l10n/en_GB.json contains ellipsis without non-breaking space before" 1>&2
+  echo "---" 1>&2
+  jq '.translations | keys[]' l10n/en_GB.json | grep -P '[^\x{00A0}]…' 1>&2
+  EXIT_CODE=4
+fi
+
 # Check for leading or trailing spaces
 if [ $(jq '.translations | keys[]' l10n/en_GB.json | grep -E '(^\"(\s|\\t|\\n)|(\s|\\t|\\n)\"$)' | wc -l) -ne 0 ]; then
   echo "" 1>&2
