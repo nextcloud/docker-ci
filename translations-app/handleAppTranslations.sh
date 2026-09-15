@@ -3,6 +3,9 @@
 # verbose and exit on error
 set -xe
 
+# Load the string freeze helpers
+. /stringFreeze.sh
+
 # Print tooling information
 php -v
 tx -v
@@ -74,6 +77,18 @@ if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
 
+# During a string freeze no new strings may enter the translation system.
+# This only affects apps that are shipped with the server, all other apps keep
+# syncing their strings. For shipped apps the branch with the new strings is
+# skipped completely and the newest stable branch defines the source strings.
+STRING_FREEZE='false'
+TEMPLATE_BRANCHES='master main'
+if is_string_freeze "$versions" && is_shipped_app "$APP_ID"; then
+  STRING_FREEZE='true'
+  TEMPLATE_BRANCHES=$(newest_stable_branch "$versions")
+  echo "String freeze is active and $APP_ID is shipped: not syncing new strings from main and master, using $TEMPLATE_BRANCHES instead"
+fi
+
 mkdir stable-templates
 mkdir -p translationfiles/templates/
 
@@ -98,6 +113,13 @@ do
     continue
   fi
 
+  if [ "$STRING_FREEZE" = 'true' ] && { [ "$version" = 'master' ] || [ "$version" = 'main' ]; }; then
+    # during the string freeze the new strings of the development branch
+    # must not be added to the translation system
+    echo "Skipping templates of $version during the string freeze"
+    continue
+  fi
+
   cd /app/$version
 
   # build POT files
@@ -119,23 +141,28 @@ done
 cd /app/default
 
 # merge POT files into one
-for file in $(ls stable-templates/master.*)
+# the last branch of the list wins, so main takes precedence over master
+HAS_TEMPLATES='false'
+for template_branch in $TEMPLATE_BRANCHES
 do
-  name=$(echo $file | cut -b 25- )
-  msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
-done
-# alternative merge of main branch
-for file in $(ls stable-templates/main.*)
-do
-  name=$(echo $file | cut -b 23- )
-  msgcat --use-first stable-templates/*.$name > $SOURCE_FILE
+  for file in $(ls stable-templates/$template_branch.* 2>/dev/null)
+  do
+    HAS_TEMPLATES='true'
+    name=${file#stable-templates/$template_branch.}
+    # the template branch comes first, so duplicated strings keep its comments
+    msgcat --use-first $file $(ls stable-templates/*.$name | grep -vxF "$file") > $SOURCE_FILE
+  done
 done
 
 # remove intermediate POT files
 rm -rf stable-templates
 
 # push sources
-tx push -s
+if [ "$HAS_TEMPLATES" = 'true' ]; then
+  tx push -s
+else
+  echo "No source templates found for branch $TEMPLATE_BRANCHES, not pushing sources"
+fi
 
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=5

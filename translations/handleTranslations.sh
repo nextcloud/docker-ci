@@ -3,6 +3,9 @@
 # verbose and exit on error
 set -xe
 
+# Load the string freeze helpers
+. /stringFreeze.sh
+
 # Print tooling information
 php -v
 tx -v
@@ -31,6 +34,18 @@ git push
 ##################################
 versions='master stable35 stable34 stable33 stable32'
 
+# During a string freeze no new strings may enter the translation system.
+# Everything in the server repository is shipped, so the branch with the new
+# strings is skipped completely and the newest stable branch defines the
+# resources and source strings instead.
+STRING_FREEZE='false'
+TEMPLATE_BRANCH='master'
+if is_string_freeze "$versions"; then
+  STRING_FREEZE='true'
+  TEMPLATE_BRANCH=$(newest_stable_branch "$versions")
+  echo "String freeze is active: not syncing new strings from master, using $TEMPLATE_BRANCH instead"
+fi
+
 mkdir stable-templates
 mkdir -p translationfiles/templates/
 
@@ -55,6 +70,13 @@ do
     continue
   fi
 
+  if [ "$STRING_FREEZE" = 'true' ] && { [ "$version" = 'master' ] || [ "$version" = 'main' ]; }; then
+    # during the string freeze the new strings of the development branch
+    # must not be added to the translation system
+    echo "Skipping templates of $version during the string freeze"
+    continue
+  fi
+
   cd /app/$version
 
   # build POT files
@@ -74,11 +96,13 @@ done
 cd /app/default
 
 # merge POT files into one
-for file in $(ls stable-templates/master.*)
+HAS_TEMPLATES='false'
+for file in $(ls stable-templates/$TEMPLATE_BRANCH.* 2>/dev/null)
 do
-  # Change below to 23 when server switches to main
-  name=$(echo $file | cut -b 25- )
-  msgcat --use-first stable-templates/*.$name > translationfiles/templates/$name
+  HAS_TEMPLATES='true'
+  name=${file#stable-templates/$TEMPLATE_BRANCH.}
+  # the template branch comes first, so duplicated strings keep its comments
+  msgcat --use-first $file $(ls stable-templates/*.$name | grep -vxF "$file") > translationfiles/templates/$name
 done
 
 # remove intermediate POT files
@@ -88,7 +112,11 @@ rm -rf stable-templates
 git checkout master
 
 # push sources
-tx push -s
+if [ "$HAS_TEMPLATES" = 'true' ]; then
+  tx push -s
+else
+  echo "No source templates found for branch $TEMPLATE_BRANCH, not pushing sources"
+fi
 
 # pull translations - force pull because a fresh clone has newer time stamps
 tx pull -f -a --minimum-perc=50
