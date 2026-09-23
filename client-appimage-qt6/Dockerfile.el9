@@ -41,7 +41,12 @@ RUN dnf update -y && \
         xcb-util-image \
         xcb-util-image-devel \
         libxkbcommon-x11-devel \
-        xorg-x11-util-macros
+        xorg-x11-util-macros \
+        wget \
+        fuse3 \
+        fuse3-devel \
+        inkscape \
+        file
 
 ###########################################################################
 
