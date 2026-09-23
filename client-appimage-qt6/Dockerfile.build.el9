@@ -41,7 +41,9 @@ RUN dnf update -y && \
         xcb-util-image \
         xcb-util-image-devel \
         libxkbcommon-x11-devel \
-        xorg-x11-util-macros
+        xorg-x11-util-macros \
+        fuse3-devel \
+        fuse3
 
 ###########################################################################
 
