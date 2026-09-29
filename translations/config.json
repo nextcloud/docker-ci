@@ -218,6 +218,12 @@
 			]
 		},
 		{
+			"name": "nextcloudkit",
+			"arguments": [
+				""
+			]
+		},
+		{
 			"name": "desktop",
 			"arguments": [
 				""
