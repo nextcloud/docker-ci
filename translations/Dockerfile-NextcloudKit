@@ -1,0 +1,5 @@
+FROM ghcr.io/nextcloud/continuous-integration-translations:latest
+
+LABEL org.opencontainers.image.authors="Milen Pivchev <milen.pivchev@nextcloud.com>"
+
+ADD handleNextcloudKitTranslations.sh /handleTranslations.sh
