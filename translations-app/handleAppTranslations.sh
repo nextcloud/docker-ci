@@ -211,6 +211,18 @@ do
   # Copy JS and JSON
   cp /app/default/l10n/*.js /app/default/l10n/*.json l10n
 
+  # Languages the repository maintains itself are taken from git again
+  if [ -f '.tx/keep-languages' ]; then
+    for language in $(grep -E '^[A-Za-z0-9_@]+$' .tx/keep-languages)
+    do
+      for extension in js json
+      do
+        rm -f "l10n/$language.$extension"
+        git checkout HEAD -- "l10n/$language.$extension" 2> /dev/null || true
+      done
+    done
+  fi
+
   # create git commit and push it
   git add --force l10n/*.js l10n/*.json
 
