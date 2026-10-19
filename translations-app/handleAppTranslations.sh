@@ -72,9 +72,14 @@ if [ "$RESOURCE_ID" = "talk_desktop" ]; then
   APP_ID="talk_desktop"
 fi
 
-versions='main master stable35 stable34 stable33 stable32'
+versions='main master stable35 stable34 stable33'
 if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
+fi
+
+if [ "$APP_ID" = "viewer" ]; then
+  # the main branch of the viewer app must not be translated
+  versions="${versions#main }"
 fi
 
 # During a string freeze no new strings may enter the translation system.
