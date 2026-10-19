@@ -32,7 +32,7 @@ git push
 ##################################
 # Prepare sync setup
 ##################################
-versions='master stable35 stable34 stable33 stable32'
+versions='master stable35 stable34 stable33'
 
 # During a string freeze no new strings may enter the translation system.
 # Everything in the server repository is shipped, so the branch with the new
