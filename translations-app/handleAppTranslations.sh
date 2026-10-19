@@ -77,6 +77,11 @@ if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
 
+if [ "$APP_ID" = "viewer" ]; then
+  # the main branch of the viewer app must not be translated
+  versions="${versions#main }"
+fi
+
 # During a string freeze no new strings may enter the translation system.
 # This only affects apps that are shipped with the server, all other apps keep
 # syncing their strings. For shipped apps the branch with the new strings is
