@@ -17,7 +17,13 @@ gpg --allow-secret-key-import --import /gpg/nextcloud-bot.asc
 gpg --list-keys
 
 # fetch git repo
-git clone git@github.com:$1/$2 /app/default --depth 1
+# the main branch of the viewer app is a library without translations,
+# so only its hardcoded stable branches are translated
+DEFAULT_BRANCH_ARG=''
+if [ "$2" = 'viewer' ]; then
+  DEFAULT_BRANCH_ARG='--branch stable35'
+fi
+git clone git@github.com:$1/$2 /app/default --depth 1 $DEFAULT_BRANCH_ARG
 
 cd default
 
@@ -76,10 +82,9 @@ versions='main master stable35 stable34 stable33'
 if [ -f '.tx/backport' ]; then
   versions="main master $(cat .tx/backport)"
 fi
-
 if [ "$APP_ID" = "viewer" ]; then
-  # the main branch of the viewer app must not be translated
-  versions="${versions#main }"
+  # only translate the stable branches of the viewer app that are still translated globally
+  versions=$(echo "$versions" | tr ' ' '\n' | grep -xF -e stable35 -e stable34 -e stable33 | tr '\n' ' ')
 fi
 
 # During a string freeze no new strings may enter the translation system.
@@ -88,6 +93,9 @@ fi
 # skipped completely and the newest stable branch defines the source strings.
 STRING_FREEZE='false'
 TEMPLATE_BRANCHES='master main'
+if [ "$APP_ID" = "viewer" ]; then
+  TEMPLATE_BRANCHES='stable35'
+fi
 if is_string_freeze "$versions" && is_shipped_app "$APP_ID"; then
   STRING_FREEZE='true'
   TEMPLATE_BRANCHES=$(newest_stable_branch "$versions")
