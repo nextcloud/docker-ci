@@ -207,6 +207,103 @@ fi
 /translationtool.phar convert-po-files
 
 ##################################
+# Workflow template sync helpers
+##################################
+# Only nextcloud/ repositories, without the clone sync_workflows is a no-op
+if [ "$1" = 'nextcloud' ]; then
+  set +e
+  git clone git@github.com:nextcloud/.github /app/.github-templates --depth 1
+  set -e
+fi
+
+# Merge freeze: block-merge-freeze.yml exists and server branch is in late RC
+is_merge_freeze() {
+  [ -f .github/workflows/block-merge-freeze.yml ] || return 1
+  case "$1" in
+    main|master) FREEZE_REF='master' ;;
+    stable[0-9]*) FREEZE_REF="$1" ;;
+    *) return 1 ;;
+  esac
+  curl -sf "$SERVER_RAW_URL/$FREEZE_REF/version.php" | grep 'OC_VersionString' | grep -q -i -E '(\.0\.0 RC[3-9]|\.[1-9][0-9]* RC)'
+}
+
+# Copies changed templates into the current checkout, reapplies *.yml.patch files
+# and updates .github/actions-lock.txt. Changes are left uncommitted.
+# Sets WORKFLOW_PATCH_FAILED and WORKFLOW_SUMMARY
+sync_workflows() {
+  WORKFLOW_PATCH_FAILED='false'
+  WORKFLOW_SUMMARY=''
+  [ -d /app/.github-templates/workflow-templates ] || return 0
+  # Opt-in: apps must have the lock file (empty is fine)
+  if [ ! -f .github/actions-lock.txt ]; then
+    echo "No .github/actions-lock.txt on $1, skipping workflow sync"
+    return 0
+  fi
+  if is_merge_freeze "$1"; then
+    echo "Merge freeze is active for $1, skipping workflow sync"
+    return 0
+  fi
+  if [ ! -s .github/actions-lock.txt ]; then
+    echo "# SPDX-FileCopyrightText: $(date +%Y) Nextcloud GmbH and Nextcloud contributors" > .github/actions-lock.txt
+    echo "# SPDX-License""-Identifier: MIT" >> .github/actions-lock.txt
+  fi
+
+  for workflow in /app/.github-templates/workflow-templates/*.yml; do
+    filename=$(basename "$workflow")
+    target_file=".github/workflows/$filename"
+    # Only update workflows the app already uses
+    [ -f "$target_file" ] || continue
+
+    locked_version=$(grep " $filename\$" .github/actions-lock.txt | cut -f 1 -d ' ' || true)
+    new_version=$(md5sum "$workflow" | cut -f 1 -d ' ')
+    [ "$locked_version" = "$new_version" ] && continue
+
+    echo "Updating workflow $filename"
+    WORKFLOW_SUMMARY="$WORKFLOW_SUMMARY
+- 🆙 Updated [$filename](https://github.com/$ORG/.github/commits/HEAD/workflow-templates/$filename)"
+    cp "$workflow" "$target_file"
+
+    if [ -f "$target_file.patch" ]; then
+      # --forward: never prompt about reversed patches (container may have a tty)
+      if patch --forward -p1 < "$target_file.patch"; then
+        WORKFLOW_SUMMARY="$WORKFLOW_SUMMARY
+  - Patch applied"
+      else
+        WORKFLOW_SUMMARY="$WORKFLOW_SUMMARY
+  - [ ] ❌ Patch failed"
+        WORKFLOW_PATCH_FAILED='true'
+      fi
+    fi
+
+    if [ -n "$locked_version" ]; then
+      sed -i "s/$locked_version $filename/$new_version $filename/" .github/actions-lock.txt
+    else
+      echo "$new_version $filename" >> .github/actions-lock.txt
+    fi
+  done
+}
+
+# Opens a draft PR (same branch name as the sync-workflow-templates action, so
+# both converge). Needs GITHUB_TOKEN with pull-request write access.
+create_workflow_pr() {
+  if [ -z "$GITHUB_TOKEN" ]; then
+    echo "GITHUB_TOKEN not set, open the PR manually: https://github.com/$1/$2/compare/$3...$4"
+    return 0
+  fi
+  set +x # do not leak the token
+  curl -sS -X POST \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
+    -H 'Accept: application/vnd.github+json' \
+    "https://api.github.com/repos/$1/$2/pulls" \
+    -d "$(jq -n --arg base "$3" --arg head "$4" --arg body "Automated update of all workflow templates from [$1/.github](https://github.com/$1/.github)
+$WORKFLOW_SUMMARY" \
+      '{title: "[\($base)] ci(actions): Update workflow templates from organization template repository", head: $head, base: $base, body: $body, draft: true}')" \
+    || echo 'Creating the pull request failed (it may already exist)'
+  set -x
+}
+ORG=$1
+
+##################################
 # Add translations to branches again
 ##################################
 for version in $versions
@@ -234,7 +331,30 @@ do
   fi
 
   git commit -am "fix(l10n): Update translations from Transifex" -s || true
-  git push origin $version
+
+  ##################################
+  # Sync workflow templates from the organization .github repository
+  # (same logic as workflow-templates/sync-workflow-templates.yml)
+  ##################################
+  sync_workflows "$version"
+
+  if [ -z "$(git status --porcelain -- .github/workflows/*.yml .github/actions-lock.txt)" ]; then
+    git push origin $version
+  elif [ "$WORKFLOW_PATCH_FAILED" = 'false' ]; then
+    # Push translations and workflow updates in one go
+    git add .github/workflows/*.yml .github/actions-lock.txt
+    git commit -m "ci(actions): Update workflow templates from organization template repository" -s
+    git push origin $version
+  else
+    # Translations go directly to the branch, workflows need a human
+    git push origin $version
+    WORKFLOW_BRANCH="automated/noid/$version-update-workflows"
+    git checkout -b "$WORKFLOW_BRANCH"
+    git add .github/workflows/*.yml .github/actions-lock.txt
+    git commit -m "ci(actions): Update workflow templates from organization template repository" -s
+    git push --force origin "$WORKFLOW_BRANCH"
+    create_workflow_pr "$1" "$2" "$version" "$WORKFLOW_BRANCH"
+  fi
 
   echo "done with $version"
 done
