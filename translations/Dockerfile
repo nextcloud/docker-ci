@@ -12,6 +12,7 @@ RUN apt-get update -q && \
         make \
         curl \
         openssh-client \
+        openssl \
         ca-certificates \
         php8.3-cli \
         php8.3-xml \

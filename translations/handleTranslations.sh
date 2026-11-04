@@ -138,6 +138,70 @@ find apps/*/l10n/*.json -type f -delete
 /translationtool.phar convert-po-files
 
 ##################################
+# Security files: CA certificate bundle and code signing revocation list
+##################################
+security_versions="$versions stable32 stable31 stable30 stable29 stable28 stable27 stable26 stable25 stable24 stable23 stable22"
+SECURITY_FAILED='false'
+
+set +e
+for version in $security_versions
+do
+  [ -d /app/$version ] || git clone git@github.com:nextcloud/server /app/$version --depth 1 --branch $version
+done
+
+# Download once, never overwrite the files with a failed or bogus download
+CA_BUNDLE_OK='false'
+curl --fail --silent --show-error --location --retry 3 \
+  --etag-save /app/ca-bundle-etag.txt --output /app/ca-bundle.crt https://curl.se/ca/cacert.pem \
+  && grep -q 'BEGIN CERTIFICATE' /app/ca-bundle.crt \
+  && CA_BUNDLE_OK='true'
+CRL_OK='false'
+curl --fail --silent --show-error --location --retry 3 \
+  --output /app/root.crl https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/certificate/nextcloud.crl \
+  && CRL_OK='true'
+set -e
+
+if [ "$CA_BUNDLE_OK" != 'true' ] || [ "$CRL_OK" != 'true' ]; then
+  echo "Downloading security files failed (CA bundle: $CA_BUNDLE_OK, CRL: $CRL_OK)"
+  SECURITY_FAILED='true'
+fi
+
+# Commits the security files in the current checkout (does not push)
+update_security_files() {
+  if [ "$CRL_OK" = 'true' ]; then
+    if openssl crl -verify -in /app/root.crl -CAfile resources/codesigning/root.crt -noout; then
+      cp /app/root.crl resources/codesigning/root.crl
+      git add resources/codesigning/root.crl
+      git commit -m "fix(security): Update code signing revocation list" -s || true
+    else
+      echo "CRL is not signed by resources/codesigning/root.crt of $1, not updating"
+      SECURITY_FAILED='true'
+    fi
+  fi
+
+  if [ "$CA_BUNDLE_OK" = 'true' ]; then
+    cp /app/ca-bundle.crt resources/config/ca-bundle.crt
+    git add resources/config/ca-bundle.crt
+    if [ -f /app/ca-bundle-etag.txt ] && [ -f build/ca-bundle-etag.txt ]; then
+      cp /app/ca-bundle-etag.txt build/ca-bundle-etag.txt
+      git add build/ca-bundle-etag.txt
+    fi
+    git commit -m "fix(security): Update CA certificate bundle" -s || true
+  fi
+}
+
+# Branches that only get the security files, translation branches follow below
+for version in $security_versions
+do
+  case " $versions " in *" $version "*) continue ;; esac
+  [ -d /app/$version ] || continue
+
+  cd /app/$version
+  update_security_files $version
+  git push origin $version
+done
+
+##################################
 # Add translations to branches again
 ##################################
 for version in $versions
@@ -148,6 +212,7 @@ do
   fi
 
   cd /app/$version
+  update_security_files $version
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
   find core/l10n/*.js -type f -delete
@@ -194,3 +259,8 @@ do
     EXIT_CODE=$(($?+$EXIT_CODE))
   fi
 done;
+
+if [ "$SECURITY_FAILED" = 'true' ]; then
+  echo "Updating the security files failed, see above"
+  exit 1
+fi
