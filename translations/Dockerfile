@@ -16,6 +16,7 @@ RUN apt-get update -q && \
         php8.3-cli \
         php8.3-xml \
         jq \
+        patch \
         build-essential \
     && apt-get clean
 
