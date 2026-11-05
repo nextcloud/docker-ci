@@ -212,6 +212,11 @@ do
   fi
 
   cd /app/$version
+
+  # The translation sync takes long, so get the newest branch state to not fail the push
+  git fetch --depth 1 origin $version
+  git reset --hard FETCH_HEAD
+
   update_security_files $version
 
   # delete removed l10n files that are used for language detection (they will be recreated during the write)
