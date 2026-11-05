@@ -26,7 +26,7 @@ cd /app/default
 tx migrate
 git add --force .tx/config
 rm .tx/config_*
-git commit -am "fix(l10n): Update Transifex configuration" -s || true
+git commit -am "fix(l10n): Update Transifex configuration" -m "[skip ci]" -s || true
 git push
 
 ##################################
@@ -172,7 +172,7 @@ update_security_files() {
     if openssl crl -verify -in /app/root.crl -CAfile resources/codesigning/root.crt -noout; then
       cp /app/root.crl resources/codesigning/root.crl
       git add resources/codesigning/root.crl
-      git commit -m "fix(security): Update code signing revocation list" -s || true
+      git commit -m "fix(security): Update code signing revocation list" -m "[skip ci]" -s || true
     else
       echo "CRL is not signed by resources/codesigning/root.crt of $1, not updating"
       SECURITY_FAILED='true'
@@ -186,7 +186,7 @@ update_security_files() {
       cp /app/ca-bundle-etag.txt build/ca-bundle-etag.txt
       git add build/ca-bundle-etag.txt
     fi
-    git commit -m "fix(security): Update CA certificate bundle" -s || true
+    git commit -m "fix(security): Update CA certificate bundle" -m "[skip ci]" -s || true
   fi
 }
 
@@ -240,7 +240,7 @@ do
   # create git commit and push it
   git add --force apps/*/l10n/*.js apps/*/l10n/*.json core/l10n/*.js core/l10n/*.json lib/l10n/*.js lib/l10n/*.json
 
-  git commit -am "fix(l10n): Update translations from Transifex" -s || true
+  git commit -am "fix(l10n): Update translations from Transifex" -m "[skip ci]" -s || true
   git push origin $version
 
   echo "done with $version"
