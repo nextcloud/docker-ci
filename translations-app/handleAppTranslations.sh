@@ -210,8 +210,7 @@ fi
 # Workflow template sync helpers
 ##################################
 # Only nextcloud/ repositories, without the clone sync_workflows is a no-op
-# TODO temporary: only nextcloud/spreed while testing
-if [ "$1" = 'nextcloud' ] && [ "$2" = 'spreed' ]; then
+if [ "$1" = 'nextcloud' ]; then
   set +e
   git clone git@github.com:nextcloud/.github /app/.github-templates --depth 1
   set -e
