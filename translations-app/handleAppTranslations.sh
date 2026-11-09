@@ -38,7 +38,7 @@ fi
 tx migrate
 git add --force .tx/config
 rm .tx/config_*
-git commit -am "fix(l10n): Update Transifex configuration" -s || true
+git commit -am "fix(l10n): Update Transifex configuration" -m "[skip ci]" -s || true
 git push
 
 ##################################
@@ -330,7 +330,7 @@ do
     git add --force translationfiles/*.po
   fi
 
-  git commit -am "fix(l10n): Update translations from Transifex" -s || true
+  git commit -am "fix(l10n): Update translations from Transifex" -m "[skip ci]" -s || true
 
   ##################################
   # Sync workflow templates from the organization .github repository
@@ -343,7 +343,7 @@ do
   elif [ "$WORKFLOW_PATCH_FAILED" = 'false' ]; then
     # Push translations and workflow updates in one go
     git add .github/workflows/*.yml .github/actions-lock.txt
-    git commit -m "ci(actions): Update workflow templates from organization template repository" -s
+    git commit -m "ci(actions): Update workflow templates from organization template repository" -m "[skip ci]" -s
     git push origin $version
   else
     # Translations go directly to the branch, workflows need a human
