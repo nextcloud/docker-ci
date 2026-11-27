@@ -15,3 +15,28 @@ if ! [[ "$CHANGED_LINES" = "0" ]]; then
 	git diff expected.pot
 	exit 1
 fi
+
+# Convert a translated PO file to the l10n files of Nextcloud
+rm -f l10n/de.js l10n/de.json
+if ! php ../src/translationtool.php convert-po-files > /dev/null; then
+	echo 'Converting the PO files failed'
+	exit 1
+fi
+
+if ! git diff --quiet -- l10n/ || [ -n "$(git ls-files --others --exclude-standard -- l10n/)" ]; then
+	echo 'l10n files changed'
+	git status --short -- l10n/
+	git diff l10n/
+	exit 1
+fi
+
+# Report translation calls that xgettext cannot extract
+php ../src/translationtool.php check-files | grep -E '^(\*\* Warning|> Starting|  ->)' | sed -e "s#${PWD}/##" > expected-check-files.txt
+
+CHANGED_LINES=$(git diff expected-check-files.txt | wc -l)
+
+if ! [[ "$CHANGED_LINES" = "0" ]]; then
+	echo 'check-files output changed'
+	git diff expected-check-files.txt
+	exit 1
+fi

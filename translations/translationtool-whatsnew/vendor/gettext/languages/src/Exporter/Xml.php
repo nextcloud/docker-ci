@@ -1,18 +1,31 @@
 <?php
+
 namespace Gettext\Languages\Exporter;
 
 class Xml extends Exporter
 {
     /**
-     * @see Exporter::toStringDo
+     * {@inheritdoc}
+     *
+     * @see \Gettext\Languages\Exporter\Exporter::getDescription()
      */
-    protected static function toStringDo($languages)
+    public static function getDescription()
+    {
+        return 'Build an XML file - schema available at https://php-gettext.github.io/Languages/GettextLanguages.xsd';
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Gettext\Languages\Exporter\Exporter::toStringDoWithOptions()
+     */
+    protected static function toStringDoWithOptions($languages, array $options)
     {
         $xml = new \DOMDocument('1.0', 'UTF-8');
         $xml->loadXML('<languages
             xmlns="https://github.com/mlocati/cldr-to-gettext-plural-rules"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="https://github.com/mlocati/cldr-to-gettext-plural-rules http://mlocati.github.io/cldr-to-gettext-plural-rules/GettextLanguages.xsd"
+            xsi:schemaLocation="https://github.com/mlocati/cldr-to-gettext-plural-rules https://php-gettext.github.io/Languages/GettextLanguages.xsd"
         />');
         $xLanguages = $xml->firstChild;
         foreach ($languages as $language) {
@@ -43,12 +56,5 @@ class Xml extends Exporter
         $xml->formatOutput = true;
 
         return $xml->saveXML();
-    }
-    /**
-     * @see Exporter::getDescription
-     */
-    public static function getDescription()
-    {
-        return 'Build an XML file - schema available at http://mlocati.github.io/cldr-to-gettext-plural-rules/GettextLanguages.xsd';
     }
 }

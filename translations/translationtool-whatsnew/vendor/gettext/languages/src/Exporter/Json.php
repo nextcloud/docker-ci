@@ -1,10 +1,32 @@
 <?php
+
 namespace Gettext\Languages\Exporter;
 
 class Json extends Exporter
 {
     /**
+     * {@inheritdoc}
+     *
+     * @see \Gettext\Languages\Exporter\Exporter::getDescription()
+     */
+    public static function getDescription()
+    {
+        return 'Build a compressed JSON-encoded file';
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Gettext\Languages\Exporter\Exporter::supportsFormulasWithAndWithoutParenthesis()
+     */
+    public static function supportsFormulasWithAndWithoutParenthesis()
+    {
+        return true;
+    }
+
+    /**
      * Return the options for json_encode.
+     *
      * @return int
      */
     protected static function getEncodeOptions()
@@ -19,10 +41,13 @@ class Json extends Exporter
 
         return $result;
     }
+
     /**
-     * @see Exporter::toStringDo
+     * {@inheritdoc}
+     *
+     * @see \Gettext\Languages\Exporter\Exporter::toStringDoWithOptions()
      */
-    protected static function toStringDo($languages)
+    protected static function toStringDoWithOptions($languages, array $options)
     {
         $list = array();
         foreach ($languages as $language) {
@@ -40,7 +65,14 @@ class Json extends Exporter
             if (isset($language->baseLanguage)) {
                 $item['baseLanguage'] = $language->baseLanguage;
             }
-            $item['formula'] = $language->formula;
+            if (!empty($options['both-formulas'])) {
+                $item['formulas'] = array(
+                    'standard' => $language->buildFormula(true),
+                    'php' => $language->formula,
+                );
+            } else {
+                $item['formula'] = $language->formula;
+            }
             $item['plurals'] = count($language->categories);
             $item['cases'] = array();
             $item['examples'] = array();
@@ -52,12 +84,5 @@ class Json extends Exporter
         }
 
         return json_encode($list, static::getEncodeOptions());
-    }
-    /**
-     * @see Exporter::getDescription
-     */
-    public static function getDescription()
-    {
-        return 'Build a compressed JSON-encoded file';
     }
 }
