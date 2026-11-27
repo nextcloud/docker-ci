@@ -60,59 +60,132 @@ class TranslatableApp {
 		);
 
 		// Let gettext create the pot file
-		$additionalArguments = ' --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="3.14159" --package-name="Nextcloud" --msgid-bugs-address="translations\@example.com"';
-		foreach ($translatableFiles as $entry) {
-			$output = '--output=' . escapeshellarg($pathToPotFile);
+		try {
+			$this->extractTranslatableFiles($translatableFiles, $pathToPotFile, $checkFiles);
+		} finally {
+			// Don't forget to remove the temporary file
+			$this->deleteFakeFileForAppInfo();
+			$this->deleteFakeFileForVueFiles();
+			$this->deleteFakeFileForLocale();
+		}
+	}
 
-			$keywords = '';
-			if (substr($entry, -4) === '.php') {
-				$keywords = '--keyword=t --keyword=n:1,2';
-			} elseif (substr($entry, -3) === '.py') {
-				$keywords = '--keyword=_ --keyword=_n:1,2';
-			} else {
-				$keywords = '--keyword=t:2 --keyword=n:2,3';
-			}
-
-			$language = '--language=';
-			if (substr($entry, -4) === '.php') {
-				$language .= 'PHP';
-			} elseif (substr($entry, -3) === '.py') {
-				$language .= 'Python';
-			} else {
-				$language .= 'Javascript';
-			}
-
-			$joinexisting = '';
-			if (file_exists($pathToPotFile)) {
-				$joinexisting = '--join-existing';
-			}
-
-			$extractAll = $tmpfname = $skipErrors = '';
-			if ($checkFiles) {
-				$extractAll = '--extract-all';
-
-				// modify output
-				$tmpfname = tempnam(sys_get_temp_dir(), 'checkpot');
-				$output = '--output=' . $tmpfname;
+	/**
+	 * @param list<string> $translatableFiles
+	 */
+	private function extractTranslatableFiles(array $translatableFiles, string $pathToPotFile, bool $checkFiles): void {
+		if ($checkFiles) {
+			foreach ($translatableFiles as $entry) {
+				$tmpfname = $this->temporaryFile('checkpot');
 				// extract-all generates a recurrent warning
-				$skipErrors = '2>/dev/null';
+				if ($this->extractStrings([$entry], $tmpfname, false, '--extract-all 2>/dev/null')) {
+					$this->checkMissingTranslations($entry, $tmpfname);
+				} else {
+					echo 'Warning: could not extract the strings of ' . $entry . PHP_EOL;
+				}
+				unlink($tmpfname);
+			}
+		} else {
+			// One call per run of files in the same language keeps the order of the pot file without rewriting it for every file
+			foreach ($this->groupByLanguage($translatableFiles) as $files) {
+				// The pot file is created by a single file and the others are joined to it, the header depends on that
+				while ($files !== [] && !file_exists($pathToPotFile)) {
+					$this->extractStringsOfFile(array_shift($files), $pathToPotFile);
+				}
+				if (count($files) > 1 && $this->extractStrings($files, $pathToPotFile, true)) {
+					continue;
+				}
+				// A file xgettext cannot read would otherwise lose the strings of every file in the call
+				foreach ($files as $entry) {
+					$this->extractStringsOfFile($entry, $pathToPotFile);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Runs xgettext on files of the same language
+	 *
+	 * @param list<string> $files
+	 * @return bool whether xgettext succeeded
+	 */
+	private function extractStrings(array $files, string $potFile, bool $joinExisting, string $extraArguments = ''): bool {
+		[$language, $keywords, $separator] = $this->xgettextOptions($files[0]);
+
+		$temporaryFiles = [];
+		try {
+			if (count($files) === 1) {
+				$input = escapeshellarg($files[0]);
+			} else {
+				// xgettext keeps a TRANSLATORS comment that ends a file for the first string of the next one, a statement in between drops it.
+				// Every gap needs a separator file of its own, xgettext reads a file only once per call.
+				$list = [$files[0]];
+				foreach (array_slice($files, 1) as $file) {
+					$list[] = $temporaryFiles[] = $this->temporaryFile('potseparator', $separator);
+					$list[] = $file;
+				}
+				$temporaryFiles[] = $fileList = $this->temporaryFile('potfiles', implode("\n", $list) . "\n");
+				$input = '--files-from=' . escapeshellarg($fileList);
 			}
 
-			$xgetCmd = 'xgettext ' . $output . ' ' . $joinexisting . ' ' . $keywords . ' ' . $language . ' ' . escapeshellarg($entry) . ' ' . $additionalArguments . ' ' . $extractAll . ' ' . $skipErrors;
-			$this->tool->log($xgetCmd);
-			exec($xgetCmd);
-
-			// checking files
-			if ($checkFiles) {
-				$this->checkMissingTranslations($entry, $tmpfname);
-				unlink($tmpfname);
+			$xgetCmd = 'xgettext --output=' . escapeshellarg($potFile) . ($joinExisting ? ' --join-existing' : '') . ' ' . $keywords . ' --language=' . $language . ' ' . $input
+				. ' --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="3.14159" --package-name="Nextcloud" --msgid-bugs-address="translations\@example.com" ' . $extraArguments;
+			$this->tool->log($xgetCmd . (count($files) > 1 ? ' (files: ' . implode(' ', $files) . ')' : ''));
+			exec($xgetCmd, $output, $exitCode);
+		} finally {
+			foreach ($temporaryFiles as $temporaryFile) {
+				unlink($temporaryFile);
 			}
 		}
 
-		// Don't forget to remove the temporary file
-		$this->deleteFakeFileForAppInfo();
-		$this->deleteFakeFileForVueFiles();
-		$this->deleteFakeFileForLocale();
+		return $exitCode === 0;
+	}
+
+	private function extractStringsOfFile(string $file, string $potFile): void {
+		if (!$this->extractStrings([$file], $potFile, file_exists($potFile))) {
+			echo 'Warning: could not extract the strings of ' . $file . PHP_EOL;
+		}
+	}
+
+	private function temporaryFile(string $prefix, string $content = ''): string {
+		$file = tempnam(sys_get_temp_dir(), $prefix);
+		if ($file === false || file_put_contents($file, $content) === false) {
+			throw new RuntimeException('Could not write a temporary file in ' . sys_get_temp_dir());
+		}
+		return $file;
+	}
+
+	/**
+	 * Splits the files into runs of consecutive files with the same xgettext language
+	 *
+	 * @param list<string> $files
+	 * @return list<list<string>>
+	 */
+	private function groupByLanguage(array $files): array {
+		$groups = [];
+		$previousLanguage = null;
+		foreach ($files as $file) {
+			$language = $this->xgettextOptions($file)[0];
+			if ($language !== $previousLanguage) {
+				$groups[] = [];
+				$previousLanguage = $language;
+			}
+			$groups[count($groups) - 1][] = $file;
+		}
+		return $groups;
+	}
+
+	/**
+	 * @return array{0: string, 1: string, 2: string} xgettext language, keyword options and a statement without strings
+	 */
+	private function xgettextOptions(string $file): array {
+		if (str_ends_with($file, '.php')) {
+			return ['PHP', '--keyword=t --keyword=n:1,2', "<?php\n0;\n"];
+		}
+		if (str_ends_with($file, '.py')) {
+			return ['Python', '--keyword=_ --keyword=_n:1,2', "0\n"];
+		}
+		return ['Javascript', '--keyword=t:2 --keyword=n:2,3', "0;\n"];
 	}
 
 	private function checkMissingTranslations(string $entry, string $tmpfname): void {

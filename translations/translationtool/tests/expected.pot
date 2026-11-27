@@ -47,6 +47,14 @@ msgid_plural "PHP %n Plurals with positional %1$s"
 msgstr[0] ""
 msgstr[1] ""
 
+#: lib/python-dangling-a.py:4
+msgid "Python string before a dangling hint"
+msgstr ""
+
+#: lib/python-dangling-b.py:4
+msgid "Python string after a file with a dangling hint"
+msgstr ""
+
 #: specialVueFakeDummyForL10nScript.js:8
 msgid "one string"
 msgid_plural "%n strings"
@@ -127,6 +135,14 @@ msgid "VUE %n Plural with %s"
 msgid_plural "VUE %n Plurals with %s"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/dangling-a.js:6
+msgid "JS string before a dangling hint"
+msgstr ""
+
+#: src/dangling-b.js:6
+msgid "JS string after a file with a dangling hint"
+msgstr ""
 
 #. TRANSLATORS JS string with plain text
 #: src/js.js:7
