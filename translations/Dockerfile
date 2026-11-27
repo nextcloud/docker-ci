@@ -1,14 +1,40 @@
+FROM ubuntu:26.04 AS gettext
+
+RUN apt-get update -q && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        curl \
+        gpgv \
+        xz-utils
+
+# Install newer gettext version from source
+ARG GETTEXT_VERSION=1.0
+ARG GETTEXT_SIGNING_KEY=E0FFBD975397F77A32AB76ECB6301D9E1BBEAC08
+RUN curl -fL https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.xz -o /tmp/gettext-${GETTEXT_VERSION}.tar.xz \
+    && curl -fL https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.xz.sig -o /tmp/gettext-${GETTEXT_VERSION}.tar.xz.sig \
+    && curl -fL https://ftp.gnu.org/pub/gnu/gnu-keyring.gpg -o /tmp/gnu-keyring.gpg \
+    && if ! gpgv --keyring /tmp/gnu-keyring.gpg --status-fd 1 /tmp/gettext-${GETTEXT_VERSION}.tar.xz.sig /tmp/gettext-${GETTEXT_VERSION}.tar.xz \
+        | grep -q "^\[GNUPG:\] VALIDSIG .* ${GETTEXT_SIGNING_KEY}\$"; then \
+        echo "gettext-${GETTEXT_VERSION}.tar.xz is not signed by ${GETTEXT_SIGNING_KEY}" >&2; exit 1; \
+    fi \
+    && tar -xJf /tmp/gettext-${GETTEXT_VERSION}.tar.xz -C /tmp
+
+RUN cd /tmp/gettext-${GETTEXT_VERSION} \
+    && ./configure -C --prefix=/usr --libexecdir=/usr/lib --disable-static \
+    && make -j"$(nproc)" \
+    && make install-strip DESTDIR=/gettext \
+    && rm -rf /gettext/usr/share/doc /gettext/usr/share/info /gettext/usr/share/locale /gettext/usr/share/man \
+    && find /gettext -name '*.la' -delete
+
 FROM ubuntu:26.04
 
 LABEL org.opencontainers.image.authors="Joas Schilling <joas.schilling@nextcloud.com>"
 
 RUN apt-get update -q && \
     DEBIAN_FRONTEND=noninteractive apt-get install -q -y --no-install-recommends \
-        gawk \
         git \
         gnupg \
-        gpgv \
-        make \
         curl \
         openssh-client \
         openssl \
@@ -17,29 +43,13 @@ RUN apt-get update -q && \
         php-xml \
         jq \
         patch \
-        build-essential \
-    && apt-get clean
+        libgomp1 \
+        xz-utils \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN update-ca-certificates
-
-# Install newer gettext version from source
-ARG GETTEXT_VERSION=1.0
-ARG GETTEXT_SIGNING_KEY=E0FFBD975397F77A32AB76ECB6301D9E1BBEAC08
-RUN curl -fL https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.gz -o /tmp/gettext-${GETTEXT_VERSION}.tar.gz \
-    && curl -fL https://ftp.gnu.org/pub/gnu/gettext/gettext-${GETTEXT_VERSION}.tar.gz.sig -o /tmp/gettext-${GETTEXT_VERSION}.tar.gz.sig \
-    && curl -fL https://ftp.gnu.org/pub/gnu/gnu-keyring.gpg -o /tmp/gnu-keyring.gpg \
-    && if ! gpgv --keyring /tmp/gnu-keyring.gpg --status-fd 1 /tmp/gettext-${GETTEXT_VERSION}.tar.gz.sig /tmp/gettext-${GETTEXT_VERSION}.tar.gz \
-        | grep -q "^\[GNUPG:\] VALIDSIG .* ${GETTEXT_SIGNING_KEY}\$"; then \
-        echo "gettext-${GETTEXT_VERSION}.tar.gz is not signed by ${GETTEXT_SIGNING_KEY}" >&2; exit 1; \
-    fi \
-    && rm /tmp/gettext-${GETTEXT_VERSION}.tar.gz.sig /tmp/gnu-keyring.gpg \
-    && tar -xzf /tmp/gettext-${GETTEXT_VERSION}.tar.gz -C /tmp
-
-RUN cd /tmp/gettext-${GETTEXT_VERSION} \
-    && ./configure --prefix=/usr --libexecdir=/usr/lib \
-    && make \
-    && make install \
-    && rm -rf /tmp/gettext-${GETTEXT_VERSION}*
+COPY --from=gettext /gettext/ /
+RUN xgettext --version && msgmerge --version
 
 # Install Transifex client
 ARG TX_VERSION=1.6.17
