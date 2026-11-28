@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Morris Jobke <hey@morrisjobke.de
  *
@@ -58,6 +60,22 @@ foreach ($filePaths as $filePath) {
 	writeXMLFiles($filePath, $version, $allTranslations[$version]);
 }
 
+/**
+ * Loads a PO file without its obsolete (#~) entries, which would otherwise replace an active entry with the same msgid
+ */
+function loadPoFile(string $poFile): Gettext\Translations
+{
+	$content = file_get_contents($poFile);
+	if ($content === false) {
+		throw new \RuntimeException('Could not read ' . $poFile);
+	}
+	$content = preg_replace('/^[ \t]*#~.*(?:\R|$)/m', '', $content);
+	if ($content === null) {
+		throw new \RuntimeException('Could not remove the obsolete entries of ' . $poFile . ': ' . preg_last_error_msg());
+	}
+	return (new Gettext\Loader\PoLoader())->loadString($content);
+}
+
 function getAllTranslations(string $translationPath): array
 {
 	$poFiles = glob($translationPath . '*/changelog_server.po');
@@ -65,17 +83,17 @@ function getAllTranslations(string $translationPath): array
 	$allTranslations = [];
 
 	// fill the english version
-	$translations = Gettext\Translations::fromPoFile($translationPath . 'changelog_server.pot');
+	$translations = loadPoFile($translationPath . 'changelog_server.pot');
 
 	$language = 'en';
 	foreach ($translations as $translation) {
 		/** @var \Gettext\Translation $translation */
-		if (!$translation->hasTranslation()) {
+		if (!$translation->isTranslated()) {
 			// Skip if we have no translation (for the base form)
 			continue;
 		}
 
-		if ($translation->hasPlural()) {
+		if (($translation->getPlural() ?? '') !== '') {
 			throw new \Exception("There should be no plural - language: $language");
 		} else {
 			list($version, $name, $hash) = explode('-', $translation->getId());
@@ -94,19 +112,16 @@ function getAllTranslations(string $translationPath): array
 	foreach ($poFiles as $poFile) {
 		$language = basename(dirname($poFile));
 
-		$translations = Gettext\Translations::fromPoFile($poFile);
-
-		$strings = [];
-		$plurals = $translations->getHeader('Plural-Forms');
+		$translations = loadPoFile($poFile);
 
 		foreach ($translations as $translation) {
 			/** @var \Gettext\Translation $translation */
-			if (!$translation->hasTranslation()) {
+			if (!$translation->isTranslated()) {
 				// Skip if we have no translation (for the base form)
 				continue;
 			}
 
-			if ($translation->hasPlural()) {
+			if (($translation->getPlural() ?? '') !== '') {
 				throw new \Exception("There should be no plural - language: $language");
 			} else {
 				list($version, $name, $hash) = explode('-', $translation->getId());

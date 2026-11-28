@@ -11,6 +11,6 @@
 		"translationtool.php"
 	],
 	"require": {
-		"gettext/gettext": "^4.4"
+		"gettext/gettext": "^5.7.4"
 	}
 }

@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => '__root__',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'gettext/gettext' => array(
+            'pretty_version' => 'v5.7.4',
+            'version' => '5.7.4.0',
+            'reference' => '543d1a4f1000400e121c54b3d23142388ac4e6f3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../gettext/gettext',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'gettext/languages' => array(
+            'pretty_version' => '2.12.2',
+            'version' => '2.12.2.0',
+            'reference' => '079d6f4842cbcbf5673a70d8e93169a684e7aadd',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../gettext/languages',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);

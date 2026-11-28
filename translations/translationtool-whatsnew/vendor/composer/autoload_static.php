@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85
 {
     public static $prefixLengthsPsr4 = array (
-        'G' => 
+        'G' =>
         array (
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
@@ -15,14 +15,18 @@ class ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85
     );
 
     public static $prefixDirsPsr4 = array (
-        'Gettext\\Languages\\' => 
+        'Gettext\\Languages\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/languages/src',
         ),
-        'Gettext\\' => 
+        'Gettext\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
+    );
+
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -30,6 +34,7 @@ class ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita32090d08d7cd4da82fd97be17fb9e85::$classMap;
 
         }, null, ClassLoader::class);
     }

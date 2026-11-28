@@ -1,0 +1,15 @@
+OC.L10N.register(
+    "tests",
+    {
+    "Plain" : "Einfach",
+    "Quotes \" and \\ and\ttab" : "Anführung \" und \\ und\ttab",
+    "Multi line string" : "Mehrzeilige Zeichenkette\n",
+    "Share" : "Teilen",
+    "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
+    "Fuzzy" : "Unscharf",
+    "Active and obsolete" : "Aktiv",
+    "Indented obsolete" : "Aktiv eingerückt",
+    "Empty plural" : "Leerer Plural",
+    "Carriage\rreturn" : "Wagen\rrücklauf"
+},
+"nplurals=2; plural=(n > 1);");

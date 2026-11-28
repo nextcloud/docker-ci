@@ -116,7 +116,7 @@ class TranslatableApp {
 	}
 
 	private function checkMissingTranslations(string $entry, string $tmpfname): void {
-		$translations = Gettext\Translations::fromPoFile($tmpfname);
+		$translations = (new Gettext\Loader\PoLoader())->loadFile($tmpfname);
 		$first = true;
 		foreach($translations as $translation) {
 			if (preg_match_all('/(^|[^a-zA-Z_]+)(t\([^\)]*\))/', $translation->getOriginal(), $matches)) {
@@ -133,8 +133,9 @@ class TranslatableApp {
 					echo '** Warning: Check potentially missing translations sentences: ' . $this->name . ' ' . $entry . PHP_EOL;
 					$first = false;
 				}
-				if ($translation->hasReferences()) {
-					echo '> Starting at line ' . $translation->getReferences()[0][1] . PHP_EOL;
+				$references = $translation->getReferences()->toArray();
+				if ($references !== []) {
+					echo '> Starting at line ' . (reset($references)[0] ?? '') . PHP_EOL;
 				}
 				foreach($suspects as $suspect) {
 					echo '  -> ' . $suspect . PHP_EOL;
@@ -146,21 +147,21 @@ class TranslatableApp {
 	public function createNextcloudFiles(bool $forceEmptyTranslations = false): void {
 		foreach ($this->findLanguages() as $language) {
 			$poFile = $this->translationsPath . '/' . $language . '/' . $this->name . '.po';
-			$translations = Gettext\Translations::fromPoFile($poFile);
+			$translations = $this->loadPoFile($poFile);
 
 			$strings = [];
-			$plurals = $translations->getHeader('Plural-Forms') ?? 'nplurals=2; plural=(n != 1);';
+			$plurals = $translations->getHeaders()->get(Gettext\Headers::HEADER_PLURAL) ?? 'nplurals=2; plural=(n != 1);';
 
 			foreach ($translations as $translation) {
-				if (!$forceEmptyTranslations && !$translation->hasTranslation()) {
+				if (!$forceEmptyTranslations && !$translation->isTranslated()) {
 					// Skip if we have no translation (for the base form)
 					continue;
 				}
 
-				if ($translation->hasPlural()) {
+				if (($translation->getPlural() ?? '') !== '') {
 					$identifier = $this->escape('_' . $translation->getOriginal() . '_::_' . $translation->getPlural() . '_');
 
-					$variants = [$this->escape($translation->getTranslation())];
+					$variants = [$this->escape($translation->getTranslation() ?? '')];
 					foreach ($translation->getPluralTranslations() as $plural) {
 						if ($plural === '') {
 							// We skip the complete string if not all plural forms exist
@@ -171,7 +172,7 @@ class TranslatableApp {
 
 					$strings[] = $identifier . ' : [' . join(',', $variants) . ']';
 				} else {
-					$strings[] = $this->escape($translation->getOriginal()) . ' : ' . $this->escape($translation->getTranslation());
+					$strings[] = $this->escape($translation->getOriginal()) . ' : ' . $this->escape($translation->getTranslation() ?? '');
 				}
 			}
 
@@ -183,6 +184,21 @@ class TranslatableApp {
 			$this->writeJsFile($language, $plurals, $strings);
 			$this->writeJsonFile($language, $plurals, $strings);
 		}
+	}
+
+	/**
+	 * Loads a PO file without its obsolete (#~) entries, which would otherwise replace an active entry with the same msgid
+	 */
+	private function loadPoFile(string $poFile): Gettext\Translations {
+		$content = file_get_contents($poFile);
+		if ($content === false) {
+			throw new RuntimeException('Could not read ' . $poFile);
+		}
+		$content = preg_replace('/^[ \t]*#~.*(?:\R|$)/m', '', $content);
+		if ($content === null) {
+			throw new RuntimeException('Could not remove the obsolete entries of ' . $poFile . ': ' . preg_last_error_msg());
+		}
+		return (new Gettext\Loader\PoLoader())->loadString($content);
 	}
 
 	private function writeJsFile(string $language, string $plurals, array $strings): void {
@@ -207,7 +223,7 @@ class TranslatableApp {
 	}
 
 	private function escape(string $string): string {
-		return Gettext\Generators\Po::convertString($string);
+		return Gettext\Generator\PoGenerator::encode($string);
 	}
 
 	private function hasExtension(string $fileName, array $extensions): bool {

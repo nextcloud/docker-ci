@@ -1,0 +1,63 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Plain"
+msgstr "Einfach"
+
+msgid "Quotes \" and \\ and\ttab"
+msgstr "Anführung \" und \\ und\ttab"
+
+msgid ""
+"Multi line "
+"string"
+msgstr ""
+"Mehrzeilige "
+"Zeichenkette\n"
+
+msgctxt "verb"
+msgid "Share"
+msgstr "Teilen"
+
+msgid "%n file"
+msgid_plural "%n files"
+msgstr[0] "%n Datei"
+msgstr[1] "%n Dateien"
+
+msgid "%n incomplete"
+msgid_plural "%n incompletes"
+msgstr[0] "%n unvollständig"
+msgstr[1] ""
+
+#, fuzzy
+msgid "Fuzzy"
+msgstr "Unscharf"
+
+msgid "Untranslated"
+msgstr ""
+
+msgid "Active and obsolete"
+msgstr "Aktiv"
+
+msgid "Indented obsolete"
+msgstr "Aktiv eingerückt"
+
+msgid "Empty plural"
+msgid_plural ""
+msgstr[0] "Leerer Plural"
+msgstr[1] "Leere Plurale"
+
+msgid "Carriage\rreturn"
+msgstr "Wagen\rrücklauf"
+
+#~ msgid "Obsolete"
+#~ msgstr "Veraltet"
+
+#~ msgid "Active and obsolete"
+#~ msgstr "Veraltet"
+
+  #~ msgid "Indented obsolete"
+  #~ msgstr "Veraltet eingerückt"

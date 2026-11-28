@@ -1,0 +1,3 @@
+** Warning: Check potentially missing translations sentences: tests lib/check-files.php
+> Starting at line 13
+  -> t('tests', 'Inside a string')
