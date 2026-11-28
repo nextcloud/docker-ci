@@ -3,3 +3,6 @@ composer.phar
 .vscode
 .php-cs-fixer.cache
 /tests/translationfiles/templates/tests.pot
+/tests-base/translationfiles/
+/tests/src/themes/tests/l10n/de.js
+/tests/src/themes/tests/l10n/de.json

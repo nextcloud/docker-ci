@@ -1,3 +1,500 @@
+#: lib/lint.php:13
+msgid "Lint loading..."
+msgstr ""
+
+#: lib/lint.php:14
+msgid "Lint saving …"
+msgstr ""
+
+#: lib/lint.php:15
+msgid "Lint don’t panic"
+msgstr ""
+
+#: lib/lint.php:16
+msgid "Lint error: "
+msgstr ""
+
+#: lib/lint.php:17
+msgid "Lint option A | option B"
+msgstr ""
+
+#: lib/lint.php:18
+msgid "Lint we don't know"
+msgstr ""
+
+#: lib/lint.php:19
+msgid "Lint can not connect"
+msgstr ""
+
+#: lib/lint.php:20
+msgid "Lint unknown id {id}"
+msgstr ""
+
+#: lib/lint.php:21
+msgid "Lint click <b>here</b>"
+msgstr ""
+
+#: lib/lint.php:22
+msgid "Lint import calendar"
+msgid_plural "Lint import calendars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.php:23
+msgid "Lint delete %n items"
+msgstr ""
+
+#: lib/lint.php:24
+#, php-format
+msgid "Lint moved %s to %s"
+msgstr ""
+
+#: lib/lint.php:25
+msgid "Lint ask your administrator"
+msgstr ""
+
+#: lib/lint.php:26
+msgid "Lint invite users"
+msgstr ""
+
+#: lib/lint.php:27
+msgid "Lint %n folder..."
+msgid_plural "Lint %n folders..."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.php:28
+msgid "Lint moved %n file to %s"
+msgid_plural "Lint moved %n files from %s to %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.php:29
+msgid "Lint use %name% for the name"
+msgstr ""
+
+#: lib/lint.php:30
+#, php-format
+msgid "Lint delete file from %s"
+msgid_plural "Lint delete files from %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.php:31
+#, php-format
+msgid "Lint moved %1$s and %s"
+msgstr ""
+
+#: lib/lint.php:32
+#, php-format
+msgid "Lint locked for %d seconds"
+msgstr ""
+
+#. TRANSLATORS Lint hint that only reaches the first string of the line
+#: lib/lint.php:34
+msgid "Lint save the changes"
+msgstr ""
+
+#: lib/lint.php:34
+msgid "Lint discard the changes"
+msgstr ""
+
+#: lib/lint.php:36
+msgid "Lint misspelled hint"
+msgstr ""
+
+#: lib/lint.php:39
+msgid "Lint call on several lines"
+msgstr ""
+
+#: lib/lint.php:43
+msgid "Lint string after a blank line"
+msgstr ""
+
+#: lib/lint.php:44
+msgid "Lint progress at 50%"
+msgstr ""
+
+#: lib/lint.php:46
+msgid "Lint string after a docblock"
+msgstr ""
+
+#: lib/lint.php:47
+msgid "Lint string with a trailing hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint that xgettext gives to the next line
+#: lib/lint.php:48
+msgid "Lint string that gets the trailing hint"
+msgstr ""
+
+#. TRANSLATORS Lint inline hint
+#: lib/lint.php:49
+msgid "Lint string with an inline hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint before the code
+#: lib/lint.php:50
+msgid "Lint string after a hint on its line"
+msgstr ""
+
+#: lib/lint.php:51
+#: lib/lint.php:125
+#: specialVueFakeDummyForL10nScript.js:34
+#, javascript-format, php-format
+msgid "Lint moved %1$s to %2$s"
+msgstr ""
+
+#: lib/lint.php:52
+msgid "Lint first of two strings"
+msgstr ""
+
+#. TRANSLATORS Lint hint for the second string
+#: lib/lint.php:52
+msgid "Lint second of two strings"
+msgstr ""
+
+#: lib/lint.php:53
+msgid "Lint enter the address as <name>@<domain>"
+msgstr ""
+
+#: lib/lint.php:54
+msgid "Lint see https://example.com/details?id=app for the app"
+msgstr ""
+
+#: lib/lint.php:55
+#, php-format
+msgid "Lint padded %1$'*10s name"
+msgstr ""
+
+#. TRANSLATORS Lint comment of two occurrences
+#: lib/lint.php:57
+#: lib/lint.php:58
+msgid "Lint string with the same comment twice"
+msgstr ""
+
+#. TRANSLATORS Lint comment of two occurrences
+#: lib/lint.php:59
+msgid "Lint string that gets the comment of two occurrences"
+msgstr ""
+
+#. TRANSLATORS Lint inline hint before a trailing one
+#: lib/lint.php:60
+msgid "Lint string with two hints"
+msgstr ""
+
+#. TRANSLATORS Lint trailing hint after an inline one
+#: lib/lint.php:61
+msgid "Lint string that gets the trailing hint after an inline one"
+msgstr ""
+
+#: lib/lint.php:62
+msgid "Lint string with a note before the tag"
+msgstr ""
+
+#. TRANSLATORS Lint hint after a note
+#: lib/lint.php:63
+msgid "Lint string that gets the hint after a note"
+msgstr ""
+
+#: lib/lint.php:65
+msgid "Lint string below a note for translators"
+msgstr ""
+
+#: lib/lint.php:66
+msgid "Lint string with a hint before another comment"
+msgstr ""
+
+#. TRANSLATORS Lint hint before another comment
+#. note
+#: lib/lint.php:67
+msgid "Lint string that gets the hint before another comment"
+msgstr ""
+
+#: lib/lint.php:70
+msgid "Lint string below a misspelled hint over two lines"
+msgstr ""
+
+#. TRANSLATORS Lint hint over
+#. two lines for the first string
+#: lib/lint.php:73
+msgid "Lint first string below a hint over two lines"
+msgstr ""
+
+#: lib/lint.php:73
+msgid "Lint second string below a hint over two lines"
+msgstr ""
+
+#: lib/lint.php:75
+msgid "Lint string below a comment about the translator"
+msgstr ""
+
+#: lib/lint.php:78
+msgid "Lint string below a note inside a block"
+msgstr ""
+
+#: lib/lint.php:79
+msgid "Lint string with a hint before code"
+msgstr ""
+
+#. TRANSLATORS Lint hint before code
+#: lib/lint.php:80
+msgid "Lint string that gets the hint before code"
+msgstr ""
+
+#: lib/lint.php:84
+msgid "Lint string below a misspelled docblock"
+msgstr ""
+
+#. TRANSLATORS Lint unit
+#: lib/lint.php:86
+msgid "Lint KB"
+msgstr ""
+
+#. TRANSLATORS Lint unit
+#: lib/lint.php:87
+msgid "Lint MB"
+msgstr ""
+
+#. TRANSLATORS Lint size
+#: lib/lint.php:88
+msgid "Lint GB"
+msgstr ""
+
+#. TRANSLATORS Lint size
+#: lib/lint.php:89
+msgid "Lint TB"
+msgstr ""
+
+#: lib/lint.php:91
+msgid "Lint string with a trailing hint in a run"
+msgstr ""
+
+#. TRANSLATORS Lint hint at the start of a run
+#. TRANSLATORS Lint hint of the string below the run
+#: lib/lint.php:93
+msgid "Lint string below a run"
+msgstr ""
+
+#: lib/lint.php:94
+msgid "Lint string with a block hint over two lines"
+msgstr ""
+
+#. TRANSLATORS Lint block hint
+#. over two lines
+#: lib/lint.php:96
+msgid "Lint string below a block hint over two lines"
+msgstr ""
+
+#: lib/lint.php:98
+#, php-format
+msgid "Lint moved %1$s to %2$s in a call over several lines"
+msgstr ""
+
+#. TRANSLATORS Lint hint after a call over several lines
+#: lib/lint.php:101
+msgid "Lint string after a call over several lines"
+msgstr ""
+
+#: lib/lint.php:102
+msgid "Lint first string before a trailing hint"
+msgstr ""
+
+#: lib/lint.php:102
+msgid "Lint second string before a trailing hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint after two strings
+#: lib/lint.php:103
+msgid "Lint string after two strings with a trailing hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint after a note on its own line
+#: lib/lint.php:105
+msgid "Lint string below a note with a tag"
+msgstr ""
+
+#. TRANSLATORS Lint hint after an opening bracket
+#: lib/lint.php:107
+msgid "Lint string after an opening bracket"
+msgstr ""
+
+#. TRANSLATORS Lint hint after an opening call
+#: lib/lint.php:110
+msgid "Lint string after an opening call"
+msgstr ""
+
+#: lib/lint.php:112
+msgid "Lint string before a plain string"
+msgstr ""
+
+#. TRANSLATORS Lint hint before a plain string
+#: lib/lint.php:113
+msgid "Lint string that gets the hint before a plain string"
+msgstr ""
+
+#: lib/lint.php:114
+msgid "Lint headline"
+msgstr ""
+
+#: lib/lint.php:115
+msgid "Lint enable"
+msgstr ""
+
+#: lib/lint.php:115
+msgid "Lint dark mode"
+msgstr ""
+
+#: lib/lint.php:116
+msgid "Lint one file"
+msgid_plural "Lint %n files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.php:117
+msgid "Lint you're done"
+msgstr ""
+
+#: lib/lint.php:118
+msgid "Lint copy the ids"
+msgstr ""
+
+#: lib/lint.php:119
+msgid "Lint the ‘ sign"
+msgstr ""
+
+#: lib/lint.php:120
+msgid "Lint loading\t…"
+msgstr ""
+
+#: lib/lint.php:121
+msgid "Lint click <a id=\"link\">here</a>"
+msgstr ""
+
+#: lib/lint.php:124
+msgid "Lint loading …"
+msgstr ""
+
+#: lib/lint.php:126
+msgid "Lint contact {id}"
+msgstr ""
+
+#: lib/lint.php:127
+msgid "Lint {user} joined"
+msgstr ""
+
+#: lib/lint.php:128
+#, php-format
+msgid "Lint shown as %%d for %s"
+msgstr ""
+
+#: lib/lint.php:129
+msgid "Lint %n file in %1$s"
+msgid_plural "Lint %n files in %1$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS Lint hint on its own line
+#: lib/lint.php:131
+msgid "Lint string with its own hint"
+msgstr ""
+
+#: lib/lint.php:132
+msgid "Lint the user interface"
+msgstr ""
+
+#: lib/lint.php:133
+msgid "Lint this can not only be fast"
+msgstr ""
+
+#. TRANSLATORS Lint hint for one occurrence of a string
+#: lib/lint.php:135
+#: lib/lint.php:136
+msgid "Lint string used twice"
+msgstr ""
+
+#: lib/lint.php:136
+msgid "Lint first string of its line"
+msgstr ""
+
+#: lib/lint.php:139
+msgid "Lint string below the call"
+msgstr ""
+
+#: lib/lint.php:143
+msgid "Lint string after a trailing comment"
+msgstr ""
+
+#: lib/lint.php:146
+msgid "Lint new string above a known one"
+msgstr ""
+
+#. TRANSLATORS Lint hint that reaches the known string
+#: lib/lint.php:147
+msgid "Lint already known..."
+msgstr ""
+
+#: lib/lint.php:149
+msgid "Lint new string in a call above a known one"
+msgstr ""
+
+#. TRANSLATORS Lint hint that reaches the known plural
+#: lib/lint.php:151
+msgid "Lint %n known file..."
+msgid_plural "Lint %n known files..."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.py:5
+msgid "Lint python %n items"
+msgstr ""
+
+#: lib/lint.py:6
+#, python-format
+msgid "Lint python moved %s to %s"
+msgstr ""
+
+#: lib/lint.py:7
+#, python-format
+msgid "Lint python locked for %d seconds"
+msgstr ""
+
+#: lib/lint.py:8
+msgid "Lint python import calendar"
+msgid_plural "Lint python import calendars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.py:9
+msgid "Lint python string with a trailing hint"
+msgstr ""
+
+#. TRANSLATORS Lint python trailing hint
+#: lib/lint.py:10
+msgid "Lint python string that gets the trailing hint"
+msgstr ""
+
+#: lib/lint.py:11
+msgid "Lint python string with a hint without a space"
+msgstr ""
+
+#. TRANSLATORS Lint python hint without a space
+#: lib/lint.py:12
+msgid "Lint python string that gets the hint without a space"
+msgstr ""
+
+#: lib/lint.py:15
+#, python-format
+msgid "Lint python %(count)d file"
+msgid_plural "Lint python %(count)d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/lint.py:16
+#, python-format
+msgid "Lint python moved %(source)s to %(target)s"
+msgstr ""
+
 #. TRANSLATORS PHP string with plain text
 #: lib/php.php:13
 msgid "PHP String"
@@ -47,82 +544,283 @@ msgid_plural "PHP %n Plurals with positional %1$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: specialVueFakeDummyForL10nScript.js:8
+#: specialAppInfoFakeDummyForL10nScript.php:2
+msgid "Tests"
+msgstr ""
+
+#: specialAppInfoFakeDummyForL10nScript.php:3
+msgid "Lint navigation for all files at 100%"
+msgstr ""
+
+#: specialAppInfoFakeDummyForL10nScript.php:4
+msgid ""
+"\n"
+"\t\tLint summary...\n"
+"\t"
+msgstr ""
+
+#: specialAppInfoFakeDummyForL10nScript.php:5
+msgid ""
+"Lint description of the test app\n"
+"with a second line, using 50% of the space for %name"
+msgstr ""
+
+#. TRANSLATORS src/first-line.vue:1
+#: specialVueFakeDummyForL10nScript.js:2
+msgid "Lint string on the first line"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:3
+msgid "Lint inline script string..."
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:4
+msgid "Lint setup script string..."
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:10
+msgid "Lint script string..."
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:13
+msgid "Lint known script string..."
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:17
+msgid "Lint 50% users"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:17
+msgid "Lint the %uid placeholder"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:21
+msgid "Lint script string below a hash in a string"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:25
+#, javascript-format
+msgid "Lint copied %s files"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:26
+msgid "Lint hello {0}"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:27
+msgid "Lint delete file from {folder}"
+msgid_plural "Lint delete files from {folder}"
+msgstr[0] ""
+msgstr[1] ""
+
+#: specialVueFakeDummyForL10nScript.js:28
+msgid "Lint hello {name}"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:29
+msgid "Lint deleted %n items"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:30
+msgid "Lint hello {{name}}"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:31
+msgid "Lint locked for {seconds} seconds"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:32
+msgid "Lint one item"
+msgid_plural "Lint %n items"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS Lint inline script hint
+#: specialVueFakeDummyForL10nScript.js:33
+msgid "Lint script string with an inline hint"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:35
+msgid "Lint call {phoneNumber}"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:36
+msgid "Lint script string with a hint before a comma"
+msgstr ""
+
+#. TRANSLATORS Lint script hint before a comma
+#: specialVueFakeDummyForL10nScript.js:37
+msgid "Lint script string that gets the hint before a comma"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:7
+#: specialVueFakeDummyForL10nScript.js:44
+msgid "Lint template string..."
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:9
+#: specialVueFakeDummyForL10nScript.js:46
+msgid "Lint string at the start of a line..."
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:14
+#: specialVueFakeDummyForL10nScript.js:48
+msgid "Lint template string with a misspelled hint"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:15
+#: specialVueFakeDummyForL10nScript.js:50
+msgid "Lint link to the translators section"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:16
+#: specialVueFakeDummyForL10nScript.js:52
+msgid "Lint headline in a template"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:17
+#: specialVueFakeDummyForL10nScript.js:54
+#: specialVueFakeDummyForL10nScript.js:56
+msgid "Lint repeated template string"
+msgstr ""
+
+#. TRANSLATORS Lint template hint on the line of the string </p> (src/lint.vue:20)
+#: specialVueFakeDummyForL10nScript.js:58
+msgid "Lint template string with a hint on its line"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:23
+#: specialVueFakeDummyForL10nScript.js:60
+msgid "Lint template string after a blank line"
+msgstr ""
+
+#. TRANSLATORS Lint hint that also reaches the next line </p> (src/lint.vue:24)
+#: specialVueFakeDummyForL10nScript.js:62
+msgid "Lint template string with a hint for itself"
+msgstr ""
+
+#. TRANSLATORS Lint hint that also reaches the next line </p> (src/lint.vue:25)
+#: specialVueFakeDummyForL10nScript.js:64
+msgid "Lint template string that gets the hint of the line above"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:26
+#: specialVueFakeDummyForL10nScript.js:66
+#: specialVueFakeDummyForL10nScript.js:70
+msgid "Lint template string used twice"
+msgstr ""
+
+#. TRANSLATORS Lint hint that stays on its line </p> (src/lint.vue:27)
+#: specialVueFakeDummyForL10nScript.js:68
+msgid "Lint template string between"
+msgstr ""
+
+#. TRANSLATORS Lint hint for the first of two lines </p> (src/lint.vue:29)
+#: specialVueFakeDummyForL10nScript.js:72
+msgid "Lint template string before one with its own hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint for the second of two lines </p> (src/lint.vue:30)
+#: specialVueFakeDummyForL10nScript.js:74
+msgid "Lint template string with its own hint"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:32
+#: specialVueFakeDummyForL10nScript.js:76
+msgid "Lint template call at the start of a line with a hint"
+msgstr ""
+
+#. TRANSLATORS Lint hint after a call at the start of a line </p> (src/lint.vue:34)
+#: specialVueFakeDummyForL10nScript.js:78
+msgid "Lint template string after a call at the start of a line"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:36
+#: specialVueFakeDummyForL10nScript.js:80
+msgid "Lint template attribute at the start of a line"
+msgstr ""
+
+#. TRANSLATORS src/lint.vue:39
+#: specialVueFakeDummyForL10nScript.js:82
+msgid "Lint template string after a hint on its line"
+msgstr ""
+
+#: specialVueFakeDummyForL10nScript.js:90
 msgid "one string"
 msgid_plural "%n strings"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS VUE string with plain text (src/vue.vue:8)
-#: specialVueFakeDummyForL10nScript.js:17
+#: specialVueFakeDummyForL10nScript.js:99
 msgid "VUE String"
 msgstr ""
 
 #. TRANSLATORS VUE string with parameters (src/vue.vue:10)
-#: specialVueFakeDummyForL10nScript.js:19
+#: specialVueFakeDummyForL10nScript.js:101
 msgid "VUE String with inline {parameter}"
 msgstr ""
 
 #. TRANSLATORS VUE string with wrapped parameters (src/vue.vue:12)
-#: specialVueFakeDummyForL10nScript.js:21
+#: specialVueFakeDummyForL10nScript.js:103
 msgid "VUE String with wrapped {parameter}"
 msgstr ""
 
 #. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 1 (src/vue.vue:26)
-#: specialVueFakeDummyForL10nScript.js:23
+#: specialVueFakeDummyForL10nScript.js:105
 msgid "VUE String testing"
 msgstr ""
 
-#: specialVueFakeDummyForL10nScript.js:23
+#: specialVueFakeDummyForL10nScript.js:105
 msgid "VUE String not"
 msgstr ""
 
 #. TRANSLATORS src/vue.vue:31
-#: specialVueFakeDummyForL10nScript.js:25
+#: specialVueFakeDummyForL10nScript.js:107
 msgid "test"
 msgstr ""
 
 #. TRANSLATORS VUE Fix for https://github.com/nextcloud/docker-ci/pull/663 - Part 2 (src/vue.vue:29)
-#: specialVueFakeDummyForL10nScript.js:27
+#: specialVueFakeDummyForL10nScript.js:109
 msgid "VUE String with followup double quotes"
 msgstr ""
 
 #. TRANSLATORS VUE plural with plain text (src/vue.vue:17)
-#: specialVueFakeDummyForL10nScript.js:29
+#: specialVueFakeDummyForL10nScript.js:111
 msgid "VUE %n Plural"
 msgid_plural "VUE %n Plurals"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS VUE plural with wrapped parameters (src/vue.vue:21)
-#: specialVueFakeDummyForL10nScript.js:33
+#: specialVueFakeDummyForL10nScript.js:115
 msgid "VUE %n Plural with wrapped %s"
 msgid_plural "VUE %n Plurals with wrapped %s"
 msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS src/vue.vue:32
-#: specialVueFakeDummyForL10nScript.js:35
+#: specialVueFakeDummyForL10nScript.js:117
 msgid "one test"
 msgid_plural "%n tests"
 msgstr[0] ""
 msgstr[1] ""
 
-#: specialVueFakeDummyForL10nScript.js:37
+#: specialVueFakeDummyForL10nScript.js:119
 msgid "String in \"setup\" script section"
 msgstr ""
 
-#: specialVueFakeDummyForL10nScript.js:44
+#: specialVueFakeDummyForL10nScript.js:126
 msgid "String in non-setup script section"
 msgstr ""
 
 #. TRANSLATORS src/zz-vue-setup.vue:7
-#: specialVueFakeDummyForL10nScript.js:50
+#: specialVueFakeDummyForL10nScript.js:132
 msgid "String in template part"
 msgstr ""
 
 #. TRANSLATORS VUE plural with parameters (src/vue.vue:19)
-#: specialVueFakeDummyForL10nScript.js:31
+#: specialVueFakeDummyForL10nScript.js:113
 msgid "VUE %n Plural with %s"
 msgid_plural "VUE %n Plurals with %s"
 msgstr[0] ""
@@ -210,3 +908,54 @@ msgid "TS %n Plural with wrapped %s"
 msgid_plural "TS %n Plurals with wrapped %s"
 msgstr[0] ""
 msgstr[1] ""
+
+#: ⁨src/with space/space.js⁩:6
+#, javascript-format
+msgid "Lint script string in a folder with a space %s"
+msgstr ""
+
+#: templates/lint.php:10
+msgid "Lint template string before an HTML comment"
+msgstr ""
+
+#: templates/lint.php:11
+msgid "Lint template string after an HTML comment"
+msgstr ""
+
+#: templates/lint.php:13
+msgid "Lint template string below an HTML comment"
+msgstr ""
+
+#: templates/lint.php:15
+msgid "Lint template string below an HTML note"
+msgstr ""
+
+#: templates/lint.php:17
+msgid "Lint template string below a link"
+msgstr ""
+
+#: templates/lint.php:19
+msgid "Lint template string below a PHP comment"
+msgstr ""
+
+#: templates/lint.php:20
+msgid "Lint template string before a PHP hint"
+msgstr ""
+
+#. TRANSLATORS Lint PHP hint before the end tag
+#: templates/lint.php:21
+msgid "Lint template string that gets the PHP hint"
+msgstr ""
+
+#: templates/lint.php:22
+msgid "Lint template string before a PHP note"
+msgstr ""
+
+#: templates/lint.php:23
+msgid "Lint template string after a PHP note"
+msgstr ""
+
+#. TRANSLATORS Lint hint in a template tag
+#: templates/lint.php:25
+msgid "Lint template string below a hint in a tag"
+msgstr ""

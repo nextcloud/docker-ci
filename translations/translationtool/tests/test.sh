@@ -40,3 +40,22 @@ if ! [[ "$CHANGED_LINES" = "0" ]]; then
 	git diff expected-check-files.txt
 	exit 1
 fi
+
+# Lint the source strings missing in the base checkout, as plain text and as GitHub annotations, then all of them
+lint() {
+	php ../src/translationtool.php lint-source-strings "$@"
+	echo "exit $?"
+}
+{
+	lint --base=../tests-base
+	lint --base=../tests-base --format=github
+	lint
+} | grep -E ': (error|warning): |^::|source strings$|^exit ' > expected-lint.txt
+
+CHANGED_LINES=$(git diff expected-lint.txt | wc -l)
+
+if ! [[ "$CHANGED_LINES" = "0" ]]; then
+	echo 'Lint result changed'
+	git diff expected-lint.txt
+	exit 1
+fi

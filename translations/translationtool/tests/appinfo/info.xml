@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<id>tests</id>
+	<name>Tests</name>
+	<summary>
+		Lint summary...
+	</summary> <!-- TRANSLATORS Lint comment that info.xml does not pass on -->
+	<description><![CDATA[Lint description of the test app
+with a second line, using 50% of the space for %name]]></description>
+	<navigations>
+		<navigation>
+			<id>tests</id>
+			<name>Lint navigation for all files at 100%</name>
+			<route>tests.page.index</route>
+		</navigation>
+	</navigations>
+</info>
